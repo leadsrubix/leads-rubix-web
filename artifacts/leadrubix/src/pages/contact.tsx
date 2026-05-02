@@ -8,43 +8,67 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Clock } from "lucide-react";
+import { useState } from "react";
+import { Link } from "wouter";
+import { useSEO } from "@/lib/useSEO";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
   email: z.string().email("Invalid email address"),
   company: z.string().min(2, "Company name is required"),
   phone: z.string().min(10, "Valid phone number is required"),
-  message: z.string().min(10, "Message is required")
+  message: z.string().min(10, "Please share a few details"),
+  website: z.string().max(0).optional(),
 });
 
 export default function Contact() {
-  const { toast } = useToast();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      company: "",
-      phone: "",
-      message: ""
-    }
+  useSEO({
+    title: "Contact — Leads Rubix | Talk to our India sales team",
+    description:
+      "Get in touch with Leads Rubix. Email hello@leadsrubix.com, write to support, or send a message — our India team typically responds within one business day.",
+    canonical: "https://leadsrubix.com/contact",
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    toast({
-      title: "Message Sent",
-      description: "We'll get back to you shortly.",
-    });
-    form.reset();
+  const { toast } = useToast();
+  const [submitting, setSubmitting] = useState(false);
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: { name: "", email: "", company: "", phone: "", message: "", website: "" },
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...values, source: "contact-page" }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      toast({
+        title: "Message received",
+        description: "Thanks for reaching out — we'll respond within one business day.",
+      });
+      form.reset();
+    } catch (err) {
+      toast({
+        title: "Couldn't send your message",
+        description: "Please email hello@leadsrubix.com directly and we'll respond shortly.",
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
     <Layout>
       <div className="py-20 bg-slate-50 border-b">
         <div className="container mx-auto px-4 text-center max-w-4xl">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Get in Touch</h1>
-          <p className="text-xl text-muted-foreground">Have questions about Leads Rubix? Our team is here to help.</p>
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Get in touch</h1>
+          <p className="text-xl text-muted-foreground">Have questions about Leads Rubix? Our India team is here to help.</p>
         </div>
       </div>
 
@@ -57,7 +81,7 @@ export default function Contact() {
                   <h2 className="text-2xl font-bold mb-6">Send us a message</h2>
                   <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                      <div className="grid grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <FormField
                           control={form.control}
                           name="name"
@@ -65,7 +89,7 @@ export default function Contact() {
                             <FormItem>
                               <FormLabel>Full Name</FormLabel>
                               <FormControl>
-                                <Input placeholder="John Doe" {...field} data-testid="input-contact-name" />
+                                <Input placeholder="Your name" autoComplete="name" {...field} data-testid="input-contact-name" />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -76,24 +100,24 @@ export default function Contact() {
                           name="email"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Email Address</FormLabel>
+                              <FormLabel>Work Email</FormLabel>
                               <FormControl>
-                                <Input placeholder="john@example.com" {...field} data-testid="input-contact-email" />
+                                <Input type="email" placeholder="you@company.com" autoComplete="email" {...field} data-testid="input-contact-email" />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
                           )}
                         />
                       </div>
-                      <div className="grid grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <FormField
                           control={form.control}
                           name="company"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Company Name</FormLabel>
+                              <FormLabel>Company / Brokerage</FormLabel>
                               <FormControl>
-                                <Input placeholder="Acme Real Estate" {...field} data-testid="input-contact-company" />
+                                <Input placeholder="Acme Real Estate" autoComplete="organization" {...field} data-testid="input-contact-company" />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -104,9 +128,9 @@ export default function Contact() {
                           name="phone"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Phone Number</FormLabel>
+                              <FormLabel>Phone (with country code)</FormLabel>
                               <FormControl>
-                                <Input placeholder="+91 98765 43210" {...field} data-testid="input-contact-phone" />
+                                <Input type="tel" placeholder="+91 ..." autoComplete="tel" {...field} data-testid="input-contact-phone" />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -118,12 +142,12 @@ export default function Contact() {
                         name="message"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>How can we help you?</FormLabel>
+                            <FormLabel>How can we help?</FormLabel>
                             <FormControl>
-                              <Textarea 
-                                placeholder="Tell us about your team size and requirements..." 
+                              <Textarea
+                                placeholder="Team size, lead sources you use, and what you'd like to solve..."
                                 className="min-h-[120px]"
-                                {...field} 
+                                {...field}
                                 data-testid="input-contact-message"
                               />
                             </FormControl>
@@ -131,8 +155,20 @@ export default function Contact() {
                           </FormItem>
                         )}
                       />
-                      <Button type="submit" size="lg" className="w-full md:w-auto" data-testid="btn-contact-submit">
-                        Send Message
+                      {/* honeypot — hidden from humans, visible to naive bots */}
+                      <div className="hidden" aria-hidden="true">
+                        <label>Website (leave blank)
+                          <input type="text" tabIndex={-1} autoComplete="off" {...form.register("website")} />
+                        </label>
+                      </div>
+
+                      <p className="text-xs text-muted-foreground">
+                        By submitting this form you agree to our{" "}
+                        <Link href="/privacy" className="underline hover:text-foreground">Privacy Policy</Link> and{" "}
+                        <Link href="/terms" className="underline hover:text-foreground">Terms</Link>. We will only use your details to respond to this enquiry.
+                      </p>
+                      <Button type="submit" size="lg" className="w-full md:w-auto" disabled={submitting} data-testid="btn-contact-submit">
+                        {submitting ? "Sending..." : "Send Message"}
                       </Button>
                     </form>
                   </Form>
@@ -144,37 +180,38 @@ export default function Contact() {
               <Card>
                 <CardContent className="p-8 space-y-8">
                   <div>
-                    <h3 className="text-lg font-bold mb-4">Contact Information</h3>
+                    <h3 className="text-lg font-bold mb-4">Reach us directly</h3>
                     <div className="space-y-4 text-muted-foreground">
                       <div className="flex items-start gap-3">
                         <Mail className="h-5 w-5 mt-0.5 text-primary" />
                         <div>
-                          <p className="font-medium text-foreground">Email</p>
+                          <p className="font-medium text-foreground">Sales</p>
                           <a href="mailto:hello@leadsrubix.com" className="hover:text-primary">hello@leadsrubix.com</a>
                         </div>
                       </div>
                       <div className="flex items-start gap-3">
-                        <Phone className="h-5 w-5 mt-0.5 text-primary" />
+                        <Mail className="h-5 w-5 mt-0.5 text-primary" />
                         <div>
-                          <p className="font-medium text-foreground">Phone</p>
-                          <p>+91 98765 43210</p>
+                          <p className="font-medium text-foreground">Support</p>
+                          <a href="mailto:support@leadsrubix.com" className="hover:text-primary">support@leadsrubix.com</a>
                         </div>
                       </div>
                       <div className="flex items-start gap-3">
                         <MapPin className="h-5 w-5 mt-0.5 text-primary" />
                         <div>
-                          <p className="font-medium text-foreground">Office</p>
-                          <p>Mumbai, Maharashtra<br />India 400001</p>
+                          <p className="font-medium text-foreground">Registered office</p>
+                          <p>Leads Rubix Technologies Pvt. Ltd.<br />Mumbai, Maharashtra, India</p>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold mb-4">Support Hours</h3>
+                    <h3 className="text-lg font-bold mb-4 flex items-center gap-2"><Clock className="h-4 w-4 text-primary" /> Support hours</h3>
                     <p className="text-muted-foreground">
-                      Monday – Friday<br />
-                      9:00 AM – 6:00 PM IST
+                      Monday – Saturday<br />
+                      10:00 AM – 7:00 PM IST
                     </p>
+                    <p className="text-muted-foreground text-sm mt-3">We typically reply within one business day.</p>
                   </div>
                 </CardContent>
               </Card>

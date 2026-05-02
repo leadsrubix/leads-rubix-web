@@ -16,6 +16,9 @@ import Solutions from "@/pages/solutions";
 import Integrations from "@/pages/integrations";
 import Security from "@/pages/security";
 import Faq from "@/pages/faq";
+import Demo from "@/pages/demo";
+import CaseStudies from "@/pages/case-studies";
+import Compare from "@/pages/compare";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +31,9 @@ function Router() {
       <Route path="/integrations" component={Integrations} />
       <Route path="/security" component={Security} />
       <Route path="/pricing" component={Pricing} />
+      <Route path="/compare" component={Compare} />
+      <Route path="/case-studies" component={CaseStudies} />
+      <Route path="/demo" component={Demo} />
       <Route path="/faq" component={Faq} />
       <Route path="/about" component={About} />
       <Route path="/contact" component={Contact} />

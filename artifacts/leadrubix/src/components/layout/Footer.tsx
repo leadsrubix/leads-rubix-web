@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Building2, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+import { Building2, Linkedin } from "lucide-react";
 
 export function Footer() {
   return (
@@ -17,11 +17,22 @@ export function Footer() {
             <p className="text-slate-400 mb-6 max-w-sm">
               The purpose-built CRM for Indian real estate sales teams. Capture, manage, and convert leads from first contact through booking.
             </p>
-            <div className="flex gap-4">
-              <a href="#" className="text-slate-400 hover:text-white transition-colors" aria-label="Facebook" data-testid="link-social-fb"><Facebook size={20} /></a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors" aria-label="Twitter" data-testid="link-social-tw"><Twitter size={20} /></a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors" aria-label="LinkedIn" data-testid="link-social-li"><Linkedin size={20} /></a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors" aria-label="Instagram" data-testid="link-social-ig"><Instagram size={20} /></a>
+            <div className="flex gap-4 mb-6">
+              <a
+                href="https://www.linkedin.com/company/leads-rubix"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-400 hover:text-white transition-colors"
+                aria-label="Leads Rubix on LinkedIn"
+                data-testid="link-social-li"
+              >
+                <Linkedin size={20} />
+              </a>
+            </div>
+            <div className="text-xs text-slate-500 space-y-1 leading-relaxed">
+              <p className="font-semibold text-slate-400">Leads Rubix Technologies Pvt. Ltd.</p>
+              <p>Registered office: Mumbai, Maharashtra, India</p>
+              <p>support@leadsrubix.com  ·  hello@leadsrubix.com</p>
             </div>
           </div>
 
@@ -44,6 +55,9 @@ export function Footer() {
             <h4 className="font-semibold text-white mb-4">Company</h4>
             <ul className="flex flex-col gap-3">
               <li><Link href="/about" className="text-slate-400 hover:text-white transition-colors" data-testid="link-footer-about">About Us</Link></li>
+              <li><Link href="/compare" className="text-slate-400 hover:text-white transition-colors" data-testid="link-footer-compare">Compare</Link></li>
+              <li><Link href="/case-studies" className="text-slate-400 hover:text-white transition-colors" data-testid="link-footer-case-studies">Case Studies</Link></li>
+              <li><Link href="/demo" className="text-slate-400 hover:text-white transition-colors" data-testid="link-footer-demo">Book a Demo</Link></li>
               <li><Link href="/contact" className="text-slate-400 hover:text-white transition-colors" data-testid="link-footer-contact">Contact</Link></li>
               <li><Link href="/faq" className="text-slate-400 hover:text-white transition-colors" data-testid="link-footer-faq">FAQ</Link></li>
             </ul>
@@ -63,10 +77,10 @@ export function Footer() {
 
         <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-slate-500 text-sm">
-            © 2026 Leads Rubix. All rights reserved.
+            © 2026 Leads Rubix Technologies Pvt. Ltd. All rights reserved.
           </p>
           <p className="text-slate-500 text-sm">
-            Built for Indian Real Estate
+            Made in India  ·  Built for Indian Real Estate
           </p>
         </div>
       </div>

@@ -1,0 +1,12 @@
+{
+  "name": "Leads Rubix — Real Estate CRM",
+  "short_name": "Leads Rubix",
+  "description": "Purpose-built real estate CRM for India.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0a4d3a",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

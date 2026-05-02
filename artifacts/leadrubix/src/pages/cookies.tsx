@@ -1,6 +1,12 @@
 import { Layout } from "@/components/layout/Layout";
+import { useSEO } from "@/lib/useSEO";
 
 export default function Cookies() {
+  useSEO({
+    title: "Cookie Policy — Leads Rubix",
+    description: "How Leads Rubix uses cookies and similar technologies, the categories of cookies we set, and how to control them.",
+    canonical: "https://leadsrubix.com/cookies",
+  });
   return (
     <Layout>
       <div className="py-20 bg-slate-50 border-b">

@@ -1,6 +1,12 @@
 import { Layout } from "@/components/layout/Layout";
+import { useSEO } from "@/lib/useSEO";
 
 export default function Privacy() {
+  useSEO({
+    title: "Privacy Policy — Leads Rubix",
+    description: "How Leads Rubix collects, uses, and protects personal data, and our DPDP Act 2023 compliance and grievance officer details.",
+    canonical: "https://leadsrubix.com/privacy",
+  });
   return (
     <Layout>
       <div className="py-20 bg-slate-50 border-b">
@@ -62,9 +68,19 @@ export default function Privacy() {
           <h2>6. Security Measures</h2>
           <p>We implement robust security measures to protect your data, including encryption in transit (HTTPS/TLS), JWT-based authentication, and strict role-based access controls (RBAC) ensuring that users only see data appropriate to their permission level.</p>
 
-          <h2>7. Contact Us</h2>
-          <p>If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at:</p>
-          <p><strong>Email:</strong> privacy@leadsrubix.com</p>
+          <h2>7. DPDP Grievance Officer</h2>
+          <p>In compliance with the Digital Personal Data Protection Act, 2023, you may contact our Grievance Officer for any data-related concerns, requests, or complaints:</p>
+          <ul>
+            <li><strong>Designation:</strong> Grievance Officer / Data Protection Officer, Leads Rubix Technologies Pvt. Ltd.</li>
+            <li><strong>Email:</strong> grievance@leadsrubix.com</li>
+            <li><strong>Postal address:</strong> Grievance Officer, Leads Rubix Technologies Pvt. Ltd., Mumbai, Maharashtra, India</li>
+            <li><strong>Acknowledgement SLA:</strong> within 3 business days</li>
+            <li><strong>Resolution SLA:</strong> within 30 days from receipt of a verifiable request, in line with the DPDP Act</li>
+          </ul>
+          <p>If you are not satisfied with our response, you may approach the Data Protection Board of India.</p>
+
+          <h2>8. Contact Us</h2>
+          <p>For general questions about this Privacy Policy or our data practices, please contact us at <strong>privacy@leadsrubix.com</strong>.</p>
         </div>
       </div>
     </Layout>

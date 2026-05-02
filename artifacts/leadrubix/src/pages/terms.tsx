@@ -1,6 +1,12 @@
 import { Layout } from "@/components/layout/Layout";
+import { useSEO } from "@/lib/useSEO";
 
 export default function Terms() {
+  useSEO({
+    title: "Terms & Conditions — Leads Rubix",
+    description: "The terms governing use of the Leads Rubix CRM platform — eligibility, billing, acceptable use, data ownership and jurisdiction.",
+    canonical: "https://leadsrubix.com/terms",
+  });
   return (
     <Layout>
       <div className="py-20 bg-slate-50 border-b">

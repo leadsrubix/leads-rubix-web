@@ -20,8 +20,15 @@ import {
   Blocks,
   FileDown
 } from "lucide-react";
+import { useSEO } from "@/lib/useSEO";
 
 export default function Integrations() {
+  useSEO({
+    title: "Integrations — Leads Rubix | Facebook, Instagram, Razorpay & more",
+    description:
+      "Native integrations with Facebook & Instagram Lead Ads, Razorpay payments, SMTP & SMS gateways, REST API, Socket.IO, and Firebase Cloud Messaging push notifications.",
+    canonical: "https://leadsrubix.com/integrations",
+  });
   const categories = [
     {
       title: "Lead Sources",

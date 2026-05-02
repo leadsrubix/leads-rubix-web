@@ -8,8 +8,15 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ArrowRight, HelpCircle } from "lucide-react";
+import { useSEO } from "@/lib/useSEO";
 
 export default function FAQ() {
+  useSEO({
+    title: "FAQ — Leads Rubix Real Estate CRM",
+    description:
+      "Answers to the most common questions about Leads Rubix — pricing, free trial, Facebook Lead Ads, custom fields, roles, security, GST, and more.",
+    canonical: "https://leadsrubix.com/faq",
+  });
   const faqCategories = [
     {
       title: "Getting Started",

@@ -11,8 +11,15 @@ import {
   CheckCircle2, 
   ArrowRight 
 } from "lucide-react";
+import { useSEO } from "@/lib/useSEO";
 
 export default function Solutions() {
+  useSEO({
+    title: "Solutions — Leads Rubix for Brokerages, Developers & Channel Partners",
+    description:
+      "Whether you're a brokerage, a property developer, a channel partner network, or a solo agent, Leads Rubix has a workflow built for you.",
+    canonical: "https://leadsrubix.com/solutions",
+  });
   const sections = [
     {
       id: "brokerages",

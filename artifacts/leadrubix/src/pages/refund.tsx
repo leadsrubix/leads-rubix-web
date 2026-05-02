@@ -1,6 +1,12 @@
 import { Layout } from "@/components/layout/Layout";
+import { useSEO } from "@/lib/useSEO";
 
 export default function Refund() {
+  useSEO({
+    title: "Refund Policy — Leads Rubix",
+    description: "Leads Rubix subscription refund terms — 7-day free trial, monthly cancel-anytime, and 30-day pro-rated refunds for annual plans.",
+    canonical: "https://leadsrubix.com/refund",
+  });
   return (
     <Layout>
       <div className="py-20 bg-slate-50 border-b">

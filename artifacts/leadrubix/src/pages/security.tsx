@@ -15,7 +15,16 @@ import {
   ArrowRight
 } from "lucide-react";
 
+import { useSEO } from "@/lib/useSEO";
+
 export default function Security() {
+  useSEO({
+    title: "Security — Leads Rubix | DPDP-compliant, encrypted, role-aware",
+    description:
+      "Leads Rubix is built on Firebase Auth, MongoDB Atlas, AWS Elastic Beanstalk, with Razorpay HMAC-SHA256 verified payments, role-based access control, and DPDP 2023 compliance.",
+    canonical: "https://leadsrubix.com/security",
+  });
+
   const sections = [
     {
       title: "Authentication & Access",

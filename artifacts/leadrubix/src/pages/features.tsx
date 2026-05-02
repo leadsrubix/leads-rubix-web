@@ -5,8 +5,16 @@ import {
   Database, CreditCard, Share2, Activity, ArrowRight
 } from "lucide-react";
 import { Link } from "wouter";
+import { useSEO } from "@/lib/useSEO";
 
 export default function Features() {
+  useSEO({
+    title: "Features — Leads Rubix Real Estate CRM",
+    description:
+      "Lead capture, automated rotation, GPS-verified calling, bookings & Razorpay payments, role-based access, multi-org support, and analytics — every feature built for Indian real estate.",
+    canonical: "https://leadsrubix.com/features",
+  });
+
   return (
     <Layout>
       {/* Hero Section */}

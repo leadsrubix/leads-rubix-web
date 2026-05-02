@@ -12,8 +12,8 @@ export function Navbar() {
     { href: "/solutions", label: "Solutions" },
     { href: "/integrations", label: "Integrations" },
     { href: "/pricing", label: "Pricing" },
+    { href: "/compare", label: "Compare" },
     { href: "/security", label: "Security" },
-    { href: "/contact", label: "Contact" },
   ];
 
   return (
