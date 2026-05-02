@@ -1,6 +1,6 @@
 kind = "web"
 previewPath = "/"
-title = "LeadRubix Landing"
+title = "Leads Rubix"
 version = "1.0.0"
 id = "artifacts/leadrubix"
 router = "path"
