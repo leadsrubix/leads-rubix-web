@@ -1,0 +1,20 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "txMRKgrSiy2z-pE3T6YGY"
+uri = "file://artifacts/leadrubix/public/hero-dashboard.png"
+type = "image"
+title = "LeadRubix dashboard command center"
+
+[[generated]]
+id = "Hs0Gf1nogua2R9E5O5Tzf"
+uri = "file://artifacts/leadrubix/public/feature-pipeline.png"
+type = "image"
+title = "Data pipeline glowing graph"
+
+[[generated]]
+id = "hWTWu9IS6aJpDLaT9aX74"
+uri = "file://artifacts/leadrubix/public/feature-target.png"
+type = "image"
+title = "Abstract target lock"
