@@ -15,8 +15,35 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useSEO } from "@/lib/useSEO";
+import { useContent } from "@/lib/useContent";
+
+interface HomeHero {
+  eyebrow: string;
+  headline: string;
+  subheadline: string;
+  primaryCtaLabel: string;
+  secondaryCtaLabel: string;
+}
+
+interface Testimonial {
+  name: string;
+  role: string;
+  company: string;
+  body: string;
+}
+
+const DEFAULT_HERO: HomeHero = {
+  eyebrow: "Purpose-built for Indian Real Estate",
+  headline: "Stop losing leads in WhatsApp. Start closing them.",
+  subheadline:
+    "Leads Rubix is the serious CRM for property developers and brokerages. Capture Facebook leads instantly, rotate them automatically, and track every call your team makes.",
+  primaryCtaLabel: "Start Free Trial",
+  secondaryCtaLabel: "Book a Demo",
+};
 
 export default function Home() {
+  const hero = useContent<HomeHero>("home_hero", DEFAULT_HERO);
+  const testimonials = useContent<Testimonial[]>("testimonials", []);
   useSEO({
     title: "Leads Rubix — Real Estate CRM for India | Capture, Rotate, Close",
     description:
@@ -30,31 +57,30 @@ export default function Home() {
       <section className="pt-20 pb-32 px-4 md:px-8 max-w-7xl mx-auto overflow-hidden">
         <div className="flex flex-col lg:flex-row items-center gap-12">
           <div className="flex-1 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 text-secondary font-medium text-sm mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 text-secondary font-medium text-sm mb-6" data-testid="hero-eyebrow">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
               </span>
-              Purpose-built for Indian Real Estate
+              {hero.eyebrow}
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-foreground mb-6 leading-tight">
-              Stop losing leads in <span className="text-primary relative whitespace-nowrap">
-                <span className="relative z-10">WhatsApp.</span>
-                <span className="absolute bottom-1 left-0 w-full h-3 bg-primary/20 -z-10 -rotate-1"></span>
-              </span><br />
-              Start closing them.
+            <h1
+              className="text-5xl md:text-6xl font-bold tracking-tight text-foreground mb-6 leading-tight"
+              data-testid="hero-headline"
+            >
+              {hero.headline}
             </h1>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto lg:mx-0">
-              Leads Rubix is the serious CRM for property developers and brokerages. Capture Facebook leads instantly, rotate them automatically, and track every call your team makes.
+            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto lg:mx-0" data-testid="hero-subheadline">
+              {hero.subheadline}
             </p>
             <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
               <Button size="lg" className="w-full sm:w-auto text-lg h-14 px-8" asChild data-testid="btn-hero-cta">
                 <a href="https://app.leadsrubix.com/" target="_blank" rel="noopener noreferrer">
-                  Start Free Trial <ArrowRight className="ml-2 h-5 w-5" />
+                  {hero.primaryCtaLabel} <ArrowRight className="ml-2 h-5 w-5" />
                 </a>
               </Button>
               <Button size="lg" variant="outline" className="w-full sm:w-auto text-lg h-14 px-8" asChild data-testid="btn-hero-demo">
-                <Link href="/demo">Book a Demo</Link>
+                <Link href="/demo">{hero.secondaryCtaLabel}</Link>
               </Button>
             </div>
             <div className="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 text-sm font-medium text-muted-foreground">
@@ -339,6 +365,24 @@ export default function Home() {
           </div>
           <p className="text-center text-xs text-muted-foreground mb-12">The scenarios below describe representative use cases. Real customer stories live on our <Link href="/case-studies" className="underline">case studies page</Link>.</p>
           
+          {testimonials.length > 0 ? (
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto" data-testid="testimonials-cms">
+              {testimonials.slice(0, 3).map((t, i) => (
+                <Card key={i} className="bg-slate-50 border-border">
+                  <CardContent className="p-8">
+                    <p className="text-lg italic mb-6">"{t.body}"</p>
+                    <div>
+                      <div className="font-bold">{t.name}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {t.role}
+                        {t.company ? ` · ${t.company}` : ""}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             <Card className="bg-slate-50 border-border">
               <CardContent className="p-8">
@@ -371,6 +415,7 @@ export default function Home() {
               </CardContent>
             </Card>
           </div>
+          )}
         </div>
       </section>
 

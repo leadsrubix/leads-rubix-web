@@ -10,20 +10,38 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Trash2 } from "lucide-react";
-import { adminApi, type Lead } from "../lib/api";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { ArrowLeft, Trash2, X, History } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { adminApi, type Lead, type LeadActivity, type AdminUser } from "../lib/api";
 
 const STATUSES = ["new", "contacted", "qualified", "won", "lost", "spam"];
+const UNASSIGNED = "__unassigned__";
 
 export default function AdminLeadDetail() {
   const [, params] = useRoute("/admin/leads/:id");
   const [, navigate] = useLocation();
+  const { toast } = useToast();
   const [lead, setLead] = useState<Lead | null>(null);
   const [status, setStatus] = useState("new");
   const [notes, setNotes] = useState("");
+  const [assignedTo, setAssignedTo] = useState<string>(UNASSIGNED);
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagDraft, setTagDraft] = useState("");
+  const [admins, setAdmins] = useState<AdminUser[]>([]);
+  const [activities, setActivities] = useState<LeadActivity[]>([]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [savedAt, setSavedAt] = useState<string | null>(null);
+
+  async function loadActivities(id: string) {
+    try {
+      const { activities } = await adminApi.getLeadActivities(id);
+      setActivities(activities);
+    } catch {
+      // ignore — activities optional
+    }
+  }
 
   useEffect(() => {
     if (!params?.id) return;
@@ -33,20 +51,46 @@ export default function AdminLeadDetail() {
         setLead(lead);
         setStatus(lead.status);
         setNotes(lead.notes ?? "");
+        setAssignedTo(lead.assignedTo ?? UNASSIGNED);
+        setTags(Array.isArray(lead.tags) ? lead.tags : []);
       })
       .catch((e) => setError(e instanceof Error ? e.message : "Failed to load"));
+    void loadActivities(params.id);
+    adminApi
+      .listUsers()
+      .then(({ users }) => setAdmins(users))
+      .catch(() => setAdmins([]));
   }, [params?.id]);
+
+  function addTag() {
+    const v = tagDraft.trim();
+    if (!v) return;
+    if (tags.includes(v)) {
+      setTagDraft("");
+      return;
+    }
+    setTags((t) => [...t, v]);
+    setTagDraft("");
+  }
 
   async function save() {
     if (!lead) return;
     setSaving(true);
     setError(null);
     try {
-      const { lead: updated } = await adminApi.updateLead(lead.id, { status, notes });
+      const { lead: updated } = await adminApi.updateLead(lead.id, {
+        status,
+        notes,
+        assignedTo: assignedTo === UNASSIGNED ? null : assignedTo,
+        tags,
+      });
       setLead(updated);
-      setSavedAt(new Date().toLocaleTimeString());
+      toast({ title: "Lead updated", description: "Changes saved." });
+      void loadActivities(updated.id);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Save failed");
+      const msg = e instanceof Error ? e.message : "Save failed";
+      setError(msg);
+      toast({ title: "Save failed", description: msg, variant: "destructive" });
     } finally {
       setSaving(false);
     }
@@ -56,10 +100,11 @@ export default function AdminLeadDetail() {
     if (!lead) return;
     if (!confirm("Delete this lead permanently?")) return;
     await adminApi.deleteLead(lead.id);
+    toast({ title: "Lead deleted" });
     navigate("/admin/leads");
   }
 
-  if (error) return <div className="text-red-600 text-sm">{error}</div>;
+  if (error && !lead) return <div className="text-red-600 text-sm">{error}</div>;
   if (!lead) return <div className="text-sm text-muted-foreground">Loading…</div>;
 
   return (
@@ -103,7 +148,7 @@ export default function AdminLeadDetail() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Status &amp; notes</CardTitle>
+            <CardTitle className="text-base">Status &amp; assignment</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
@@ -125,6 +170,66 @@ export default function AdminLeadDetail() {
             </div>
             <div>
               <label className="text-xs uppercase tracking-wide text-slate-500 mb-1 block">
+                Assignee
+              </label>
+              <Select value={assignedTo} onValueChange={setAssignedTo}>
+                <SelectTrigger data-testid="select-lead-assignee">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={UNASSIGNED}>Unassigned</SelectItem>
+                  {admins.map((u) => (
+                    <SelectItem key={u.id} value={u.id}>
+                      {u.name} · {u.email}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <label className="text-xs uppercase tracking-wide text-slate-500 mb-1 block">
+                Tags
+              </label>
+              <div className="flex flex-wrap gap-1.5 mb-2">
+                {tags.length === 0 ? (
+                  <span className="text-xs text-muted-foreground">No tags yet.</span>
+                ) : (
+                  tags.map((t) => (
+                    <Badge key={t} variant="secondary" className="gap-1" data-testid={`tag-${t}`}>
+                      {t}
+                      <button
+                        type="button"
+                        onClick={() => setTags((arr) => arr.filter((x) => x !== t))}
+                        className="hover:text-red-600"
+                        aria-label={`Remove ${t}`}
+                        data-testid={`btn-remove-tag-${t}`}
+                      >
+                        <X className="size-3" />
+                      </button>
+                    </Badge>
+                  ))
+                )}
+              </div>
+              <div className="flex gap-2">
+                <Input
+                  value={tagDraft}
+                  onChange={(e) => setTagDraft(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addTag();
+                    }
+                  }}
+                  placeholder="Add tag and press Enter"
+                  data-testid="input-tag-draft"
+                />
+                <Button type="button" variant="outline" size="sm" onClick={addTag} data-testid="btn-add-tag">
+                  Add
+                </Button>
+              </div>
+            </div>
+            <div>
+              <label className="text-xs uppercase tracking-wide text-slate-500 mb-1 block">
                 Internal notes
               </label>
               <Textarea
@@ -138,12 +243,43 @@ export default function AdminLeadDetail() {
             <Button onClick={save} disabled={saving} data-testid="btn-save-lead">
               {saving ? "Saving…" : "Save"}
             </Button>
-            {savedAt ? (
-              <p className="text-xs text-green-700">Saved at {savedAt}</p>
-            ) : null}
           </CardContent>
         </Card>
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base flex items-center gap-2">
+            <History className="size-4" /> Activity
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {activities.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No activity recorded yet.</p>
+          ) : (
+            <ul className="space-y-3">
+              {activities.map((a) => (
+                <li key={a.id} className="flex items-start gap-3 text-sm">
+                  <span className="text-xs tabular-nums text-slate-400 shrink-0 mt-0.5 w-32">
+                    {new Date(a.createdAt).toLocaleString()}
+                  </span>
+                  <span className="font-mono text-xs bg-slate-100 px-1.5 py-0.5 rounded">
+                    {a.kind}
+                  </span>
+                  <span className="text-slate-600">
+                    {a.actorName ?? a.actorEmail ?? "system"}
+                    {a.payload && Object.keys(a.payload).length > 0 ? (
+                      <span className="text-xs text-slate-500 ml-2">
+                        {JSON.stringify(a.payload)}
+                      </span>
+                    ) : null}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

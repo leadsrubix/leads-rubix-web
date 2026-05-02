@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useRoute } from "wouter";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeSanitize from "rehype-sanitize";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Select,
   SelectContent,
@@ -12,7 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, Trash2 } from "lucide-react";
+import { ArrowLeft, Trash2, X } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import { adminApi, type PostInput } from "../lib/api";
 
 function slugify(s: string): string {
@@ -27,6 +33,7 @@ function slugify(s: string): string {
 export default function AdminPostEdit() {
   const [matchEdit, paramsEdit] = useRoute("/admin/posts/:id");
   const [, navigate] = useLocation();
+  const { toast } = useToast();
   const isNew = !matchEdit || paramsEdit?.id === "new";
   const id = !isNew ? paramsEdit?.id : undefined;
 
@@ -36,8 +43,12 @@ export default function AdminPostEdit() {
     excerpt: "",
     body: "",
     coverImage: "",
+    metaDescription: "",
+    ogImage: "",
+    tags: [],
     status: "draft",
   });
+  const [tagDraft, setTagDraft] = useState("");
   const [touchedSlug, setTouchedSlug] = useState(false);
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
@@ -54,6 +65,9 @@ export default function AdminPostEdit() {
           excerpt: post.excerpt,
           body: post.body,
           coverImage: post.coverImage ?? "",
+          metaDescription: post.metaDescription ?? "",
+          ogImage: post.ogImage ?? "",
+          tags: post.tags ?? [],
           status: post.status,
         });
         setTouchedSlug(true);
@@ -72,6 +86,17 @@ export default function AdminPostEdit() {
     });
   }
 
+  function addTag() {
+    const v = tagDraft.trim();
+    if (!v) return;
+    if ((form.tags ?? []).includes(v)) {
+      setTagDraft("");
+      return;
+    }
+    update("tags", [...(form.tags ?? []), v]);
+    setTagDraft("");
+  }
+
   async function save(publishOverride?: "draft" | "published") {
     setSaving(true);
     setError(null);
@@ -80,19 +105,33 @@ export default function AdminPostEdit() {
         ...form,
         slug: form.slug.trim(),
         coverImage: form.coverImage?.trim() ? form.coverImage : null,
+        ogImage: form.ogImage?.trim() ? form.ogImage : null,
+        metaDescription: form.metaDescription?.trim() ? form.metaDescription : null,
+        tags: form.tags ?? [],
         status: publishOverride ?? form.status,
       };
       if (isNew) {
         const { post } = await adminApi.createPost(payload);
+        toast({ title: "Post created", description: post.title });
         navigate(`/admin/posts/${post.id}`, { replace: true });
       } else if (id) {
         await adminApi.updatePost(id, payload);
+        toast({
+          title:
+            publishOverride === "published"
+              ? "Post published"
+              : publishOverride === "draft"
+                ? "Saved as draft"
+                : "Post saved",
+        });
         if (publishOverride) {
           setForm((f) => ({ ...f, status: publishOverride }));
         }
       }
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Save failed");
+      const msg = e instanceof Error ? e.message : "Save failed";
+      setError(msg);
+      toast({ title: "Save failed", description: msg, variant: "destructive" });
     } finally {
       setSaving(false);
     }
@@ -102,6 +141,7 @@ export default function AdminPostEdit() {
     if (!id) return;
     if (!confirm("Delete this post permanently?")) return;
     await adminApi.deletePost(id);
+    toast({ title: "Post deleted" });
     navigate("/admin/posts");
   }
 
@@ -188,7 +228,7 @@ export default function AdminPostEdit() {
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="cover">Cover image URL (optional)</Label>
+            <Label htmlFor="cover">Featured image URL</Label>
             <Input
               id="cover"
               value={form.coverImage ?? ""}
@@ -196,17 +236,95 @@ export default function AdminPostEdit() {
               placeholder="https://…"
               data-testid="input-post-cover"
             />
+            {form.coverImage ? (
+              <img
+                src={form.coverImage}
+                alt="Cover preview"
+                className="mt-2 rounded-md border max-h-40 object-cover"
+              />
+            ) : null}
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="body">Body (plain text or simple HTML)</Label>
-            <Textarea
-              id="body"
-              rows={18}
-              value={form.body}
-              onChange={(e) => update("body", e.target.value)}
-              className="font-mono text-sm"
-              data-testid="input-post-body"
-            />
+            <Label>Body (Markdown)</Label>
+            <Tabs defaultValue="write" className="w-full">
+              <TabsList>
+                <TabsTrigger value="write" data-testid="tab-write">
+                  Write
+                </TabsTrigger>
+                <TabsTrigger value="preview" data-testid="tab-preview">
+                  Preview
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="write">
+                <Textarea
+                  id="body"
+                  rows={18}
+                  value={form.body}
+                  onChange={(e) => update("body", e.target.value)}
+                  className="font-mono text-sm"
+                  data-testid="input-post-body"
+                  placeholder="# Heading&#10;&#10;Markdown supported. **Bold**, _italic_, [links](https://example.com), lists, code blocks…"
+                />
+              </TabsContent>
+              <TabsContent value="preview">
+                <div
+                  className="prose prose-slate max-w-none border rounded-md p-4 min-h-[400px] bg-white"
+                  data-testid="post-preview"
+                >
+                  {form.body.trim().length === 0 ? (
+                    <p className="text-muted-foreground">Nothing to preview yet.</p>
+                  ) : (
+                    <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeSanitize]}>
+                      {form.body}
+                    </ReactMarkdown>
+                  )}
+                </div>
+              </TabsContent>
+            </Tabs>
+          </div>
+          <div className="space-y-1.5">
+            <Label>Tags</Label>
+            <div className="flex flex-wrap gap-1.5 mb-2">
+              {(form.tags ?? []).length === 0 ? (
+                <span className="text-xs text-muted-foreground">No tags yet.</span>
+              ) : (
+                (form.tags ?? []).map((t) => (
+                  <Badge key={t} variant="secondary" className="gap-1">
+                    {t}
+                    <button
+                      type="button"
+                      onClick={() =>
+                        update(
+                          "tags",
+                          (form.tags ?? []).filter((x) => x !== t),
+                        )
+                      }
+                      className="hover:text-red-600"
+                      aria-label={`Remove ${t}`}
+                    >
+                      <X className="size-3" />
+                    </button>
+                  </Badge>
+                ))
+              )}
+            </div>
+            <div className="flex gap-2">
+              <Input
+                value={tagDraft}
+                onChange={(e) => setTagDraft(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    addTag();
+                  }
+                }}
+                placeholder="Add tag and press Enter"
+                data-testid="input-post-tag"
+              />
+              <Button type="button" variant="outline" size="sm" onClick={addTag}>
+                Add
+              </Button>
+            </div>
           </div>
           <div className="space-y-1.5">
             <Label>Status</Label>
@@ -222,6 +340,39 @@ export default function AdminPostEdit() {
                 <SelectItem value="published">Published</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Search engine optimisation</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-1.5">
+            <Label htmlFor="meta">Meta description</Label>
+            <Textarea
+              id="meta"
+              rows={2}
+              value={form.metaDescription ?? ""}
+              onChange={(e) => update("metaDescription", e.target.value)}
+              placeholder="Short summary shown in search results (max 300 chars)."
+              maxLength={300}
+              data-testid="input-post-meta"
+            />
+            <p className="text-xs text-muted-foreground">
+              {(form.metaDescription ?? "").length} / 300
+            </p>
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="og">Open Graph image URL</Label>
+            <Input
+              id="og"
+              value={form.ogImage ?? ""}
+              onChange={(e) => update("ogImage", e.target.value)}
+              placeholder="https://… (1200×630 recommended)"
+              data-testid="input-post-og"
+            />
           </div>
         </CardContent>
       </Card>

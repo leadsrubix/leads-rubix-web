@@ -1,8 +1,40 @@
 import type { Request, Response, NextFunction } from "express";
+import { eq } from "drizzle-orm";
+import { db, adminUsersTable } from "@workspace/db";
 
 export function requireAdmin(req: Request, res: Response, next: NextFunction): void {
   if (!req.session?.adminUserId) {
     res.status(401).json({ ok: false, error: "Authentication required" });
+    return;
+  }
+  next();
+}
+
+// Once requireAdmin has accepted the session, this middleware enforces that
+// the user has cleared their forced password change. Routes mounted before
+// requirePasswordOk are accessible during the "must change" state (currently
+// only /auth/me, /auth/logout, /auth/change-password).
+export async function requirePasswordOk(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> {
+  const adminUserId = req.session?.adminUserId;
+  if (!adminUserId) {
+    res.status(401).json({ ok: false, error: "Authentication required" });
+    return;
+  }
+  const [user] = await db
+    .select({ mustChangePassword: adminUsersTable.mustChangePassword })
+    .from(adminUsersTable)
+    .where(eq(adminUsersTable.id, adminUserId))
+    .limit(1);
+  if (!user) {
+    res.status(401).json({ ok: false, error: "Authentication required" });
+    return;
+  }
+  if (user.mustChangePassword) {
+    res.status(409).json({ ok: false, error: "Password change required", code: "MUST_CHANGE_PASSWORD" });
     return;
   }
   next();
@@ -15,13 +47,11 @@ const SAFE_METHODS = new Set(["GET", "HEAD", "OPTIONS"]);
 
 function trustedOrigins(req: Request): string[] {
   const out = new Set<string>();
-  // 1. Same-host fallback derived from this very request.
   const host = req.headers.host;
   if (host) {
     out.add(`https://${host}`);
     out.add(`http://${host}`);
   }
-  // 2. Replit-provided dev/published domains.
   const replitDomains = process.env.REPLIT_DOMAINS;
   if (replitDomains) {
     for (const d of replitDomains.split(",")) {
@@ -29,7 +59,6 @@ function trustedOrigins(req: Request): string[] {
       if (trimmed) out.add(`https://${trimmed}`);
     }
   }
-  // 3. Explicit list (comma-separated full origins, e.g. https://leadsrubix.com)
   const explicit = process.env.ADMIN_TRUSTED_ORIGINS;
   if (explicit) {
     for (const o of explicit.split(",")) {
@@ -47,7 +76,6 @@ export function requireSameOrigin(req: Request, res: Response, next: NextFunctio
   }
   const origin = req.headers.origin || req.headers.referer;
   if (!origin) {
-    // No origin header on a state-changing request — refuse rather than guess.
     res.status(403).json({ ok: false, error: "Missing origin on state-changing request" });
     return;
   }

@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { jsonb, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { adminUsersTable } from "./admin-users";
 
 export const postsTable = pgTable("posts", {
@@ -8,6 +8,9 @@ export const postsTable = pgTable("posts", {
   excerpt: text("excerpt").notNull().default(""),
   body: text("body").notNull().default(""),
   coverImage: text("cover_image"),
+  metaDescription: text("meta_description"),
+  ogImage: text("og_image"),
+  tags: jsonb("tags").$type<string[]>().notNull().default([]),
   status: text("status").notNull().default("draft"),
   publishedAt: timestamp("published_at", { withTimezone: true }),
   authorId: uuid("author_id").references(() => adminUsersTable.id, { onDelete: "set null" }),

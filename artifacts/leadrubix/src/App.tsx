@@ -25,22 +25,29 @@ import BlogPost from "@/pages/blog-post";
 import { AuthProvider } from "@/admin/contexts/AuthContext";
 import RequireAuth from "@/admin/components/RequireAuth";
 import AdminLogin from "@/admin/pages/Login";
+import AdminChangePassword from "@/admin/pages/ChangePassword";
 import AdminDashboard from "@/admin/pages/Dashboard";
 import AdminLeads from "@/admin/pages/Leads";
 import AdminLeadDetail from "@/admin/pages/LeadDetail";
 import AdminContent from "@/admin/pages/Content";
 import AdminContentEdit from "@/admin/pages/ContentEdit";
+import AdminContentHistory from "@/admin/pages/ContentHistory";
 import AdminPosts from "@/admin/pages/Posts";
 import AdminPostEdit from "@/admin/pages/PostEdit";
 import AdminUsers from "@/admin/pages/Users";
+import AdminAudit from "@/admin/pages/Audit";
 
 const queryClient = new QueryClient();
 
 function Router() {
   return (
     <Switch>
-      {/* Admin routes — listed before NotFound, wrapped in AuthProvider at app level */}
       <Route path="/admin/login" component={AdminLogin} />
+      <Route path="/admin/change-password">
+        <RequireAuth bare>
+          <AdminChangePassword />
+        </RequireAuth>
+      </Route>
       <Route path="/admin">
         <RequireAuth>
           <AdminDashboard />
@@ -59,6 +66,11 @@ function Router() {
       <Route path="/admin/content">
         <RequireAuth>
           <AdminContent />
+        </RequireAuth>
+      </Route>
+      <Route path="/admin/content/:key/history">
+        <RequireAuth>
+          <AdminContentHistory />
         </RequireAuth>
       </Route>
       <Route path="/admin/content/:key">
@@ -81,8 +93,12 @@ function Router() {
           <AdminUsers />
         </RequireAuth>
       </Route>
+      <Route path="/admin/audit">
+        <RequireAuth>
+          <AdminAudit />
+        </RequireAuth>
+      </Route>
 
-      {/* Public site */}
       <Route path="/" component={Home} />
       <Route path="/features" component={Features} />
       <Route path="/solutions" component={Solutions} />

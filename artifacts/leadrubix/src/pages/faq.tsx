@@ -9,8 +9,15 @@ import {
 } from "@/components/ui/accordion";
 import { ArrowRight, HelpCircle } from "lucide-react";
 import { useSEO } from "@/lib/useSEO";
+import { useContent } from "@/lib/useContent";
+
+interface FaqItem {
+  question: string;
+  answer: string;
+}
 
 export default function FAQ() {
+  const cmsItems = useContent<FaqItem[]>("faq_items", []);
   useSEO({
     title: "FAQ — Leads Rubix Real Estate CRM",
     description:
@@ -166,6 +173,23 @@ export default function FAQ() {
       {/* FAQ Accordions */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4 max-w-4xl">
+          {cmsItems.length > 0 ? (
+            <div data-testid="faq-cms">
+              <h2 className="text-2xl font-bold mb-6">Common questions</h2>
+              <Accordion type="single" collapsible className="w-full">
+                {cmsItems.map((item, i) => (
+                  <AccordionItem key={i} value={`cms-${i}`}>
+                    <AccordionTrigger className="text-left font-semibold text-lg hover:text-primary transition-colors">
+                      {item.question}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-muted-foreground text-base leading-relaxed whitespace-pre-wrap">
+                      {item.answer}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
+          ) : (
           <div className="flex flex-col gap-16">
             {faqCategories.map((category, idx) => (
               <div key={idx}>
@@ -185,6 +209,7 @@ export default function FAQ() {
               </div>
             ))}
           </div>
+          )}
         </div>
       </section>
 

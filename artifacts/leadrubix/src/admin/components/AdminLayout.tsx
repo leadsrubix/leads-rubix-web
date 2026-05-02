@@ -6,6 +6,7 @@ import {
   FileText,
   Newspaper,
   Users,
+  ScrollText,
   LogOut,
   Menu,
   X,
@@ -20,6 +21,7 @@ const NAV = [
   { href: "/admin/content", label: "Content", icon: FileText },
   { href: "/admin/posts", label: "Blog", icon: Newspaper },
   { href: "/admin/users", label: "Admins", icon: Users },
+  { href: "/admin/audit", label: "Audit log", icon: ScrollText },
 ];
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
@@ -29,7 +31,6 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen flex bg-slate-50">
-      {/* mobile topbar */}
       <div className="md:hidden fixed top-0 inset-x-0 z-40 h-14 bg-white border-b flex items-center justify-between px-4">
         <Link href="/admin" className="font-semibold text-base" data-testid="link-admin-home">
           Leads Rubix Admin
@@ -45,7 +46,6 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         </button>
       </div>
 
-      {/* sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-30 w-64 bg-slate-950 text-slate-100 flex flex-col transform transition-transform md:translate-x-0 md:static ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
@@ -73,7 +73,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                         ? "bg-slate-800 text-white"
                         : "text-slate-300 hover:bg-slate-900 hover:text-white"
                     }`}
-                    data-testid={`link-nav-${item.label.toLowerCase()}`}
+                    data-testid={`link-nav-${item.label.toLowerCase().replace(/\s+/g, "-")}`}
                   >
                     <Icon className="size-4" />
                     {item.label}
@@ -91,6 +91,13 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           >
             <ExternalLink className="size-3.5" /> View site
           </a>
+          <Link
+            href="/admin/change-password"
+            className="block px-2 py-1 text-xs text-slate-400 hover:text-white"
+            data-testid="link-change-password"
+          >
+            Change password
+          </Link>
           <div className="px-2 text-xs text-slate-400 truncate" title={user?.email}>
             {user?.name}
             <div className="truncate text-slate-500">{user?.email}</div>

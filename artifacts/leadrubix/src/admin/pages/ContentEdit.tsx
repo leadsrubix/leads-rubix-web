@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useRoute } from "wouter";
+import { Link, useRoute } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, History, Plus, Trash2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import { adminApi } from "../lib/api";
 import { KNOWN_SECTIONS } from "../lib/contentSchemas";
 
 export default function AdminContentEdit() {
   const [, params] = useRoute("/admin/content/:key");
-  const [, navigate] = useLocation();
+  const { toast } = useToast();
   const key = params?.key ? decodeURIComponent(params.key) : "";
   const known = KNOWN_SECTIONS.find((s) => s.key === key);
 
   const [value, setValue] = useState<unknown>(null);
   const [error, setError] = useState<string | null>(null);
-  const [savedAt, setSavedAt] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -44,9 +44,11 @@ export default function AdminContentEdit() {
     setError(null);
     try {
       await adminApi.putContent(key, value);
-      setSavedAt(new Date().toLocaleTimeString());
+      toast({ title: "Content saved", description: "Changes are live on the public site." });
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Save failed");
+      const msg = e instanceof Error ? e.message : "Save failed";
+      setError(msg);
+      toast({ title: "Save failed", description: msg, variant: "destructive" });
     } finally {
       setSaving(false);
     }
@@ -70,6 +72,11 @@ export default function AdminContentEdit() {
           </div>
         </div>
         <div className="flex gap-2">
+          <Button asChild variant="outline" size="sm" data-testid="btn-content-history">
+            <Link href={`/admin/content/${encodeURIComponent(key)}/history`}>
+              <History className="size-4 mr-1.5" /> History
+            </Link>
+          </Button>
           {known ? (
             <Button
               variant="outline"
@@ -85,10 +92,6 @@ export default function AdminContentEdit() {
           </Button>
         </div>
       </div>
-
-      {savedAt ? (
-        <p className="text-xs text-green-700">Saved at {savedAt}. Changes are live.</p>
-      ) : null}
 
       <Card>
         <CardHeader>
@@ -115,7 +118,6 @@ function ValueEditor({
   if (value && typeof value === "object") {
     return <ObjectEditor value={value as Record<string, unknown>} onChange={onChange} />;
   }
-  // primitives — fall back to JSON editor
   return <JsonEditor value={value} onChange={onChange} />;
 }
 
@@ -221,7 +223,6 @@ function FieldEditor({
       </div>
     );
   }
-  // null / undefined — render as text
   return (
     <div className="space-y-1.5">
       <Label htmlFor={fieldKey}>{label}</Label>

@@ -4,6 +4,7 @@ type SEOOptions = {
   title: string;
   description?: string;
   canonical?: string;
+  ogImage?: string;
 };
 
 function setMeta(name: string, content: string, isProperty = false) {
@@ -27,7 +28,7 @@ function setCanonical(href: string) {
   link.href = href;
 }
 
-export function useSEO({ title, description, canonical }: SEOOptions) {
+export function useSEO({ title, description, canonical, ogImage }: SEOOptions) {
   useEffect(() => {
     document.title = title;
     if (description) {
@@ -41,5 +42,9 @@ export function useSEO({ title, description, canonical }: SEOOptions) {
       setCanonical(canonical);
       setMeta("og:url", canonical, true);
     }
-  }, [title, description, canonical]);
+    if (ogImage) {
+      setMeta("og:image", ogImage, true);
+      setMeta("twitter:image", ogImage);
+    }
+  }, [title, description, canonical, ogImage]);
 }

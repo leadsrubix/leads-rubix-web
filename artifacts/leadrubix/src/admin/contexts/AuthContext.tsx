@@ -7,6 +7,7 @@ type AuthState = {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   refresh: () => Promise<void>;
+  changePassword: (current: string, next: string) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthState | null>(null);
@@ -43,8 +44,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  async function changePassword(current: string, next: string) {
+    await adminApi.changePassword(current, next);
+    // Refresh self so mustChangePassword flips off in context.
+    await refresh();
+  }
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, refresh }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, refresh, changePassword }}>
       {children}
     </AuthContext.Provider>
   );

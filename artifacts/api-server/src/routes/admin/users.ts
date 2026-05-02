@@ -3,22 +3,25 @@ import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { desc, eq, sql } from "drizzle-orm";
 import { db, adminUsersTable } from "@workspace/db";
-import { requireAdmin } from "../../middlewares/auth";
+import { requirePasswordOk } from "../../middlewares/auth";
+import { writeAudit } from "../../lib/audit";
 
 const router: IRouter = Router();
-router.use(requireAdmin);
+router.use(requirePasswordOk);
 
 const CreateSchema = z.object({
   email: z.string().email().max(200),
   name: z.string().min(2).max(120),
   role: z.string().max(40).default("admin"),
   password: z.string().min(8).max(200),
+  mustChangePassword: z.boolean().default(true),
 });
 
 const PatchSchema = z.object({
   name: z.string().min(2).max(120).optional(),
   role: z.string().max(40).optional(),
   password: z.string().min(8).max(200).optional(),
+  mustChangePassword: z.boolean().optional(),
 });
 
 function shape(user: typeof adminUsersTable.$inferSelect) {
@@ -27,6 +30,8 @@ function shape(user: typeof adminUsersTable.$inferSelect) {
     email: user.email,
     name: user.name,
     role: user.role,
+    mustChangePassword: user.mustChangePassword,
+    lastPasswordChangeAt: user.lastPasswordChangeAt,
     createdAt: user.createdAt,
     updatedAt: user.updatedAt,
   };
@@ -52,8 +57,16 @@ router.post("/", async (req, res) => {
         name: parsed.data.name,
         role: parsed.data.role,
         passwordHash: hash,
+        mustChangePassword: parsed.data.mustChangePassword,
+        lastPasswordChangeAt: new Date(),
       })
       .returning();
+    await writeAudit(req, {
+      action: "user_created",
+      entityType: "admin_user",
+      entityId: row!.id,
+      payload: { email: row!.email, role: row!.role },
+    });
     res.json({ ok: true, user: shape(row) });
   } catch (err: unknown) {
     if ((err as { code?: string }).code === "23505") {
@@ -75,7 +88,16 @@ router.patch("/:id", async (req, res) => {
   };
   if (parsed.data.name) updates.name = parsed.data.name;
   if (parsed.data.role) updates.role = parsed.data.role;
-  if (parsed.data.password) updates.passwordHash = await bcrypt.hash(parsed.data.password, 10);
+  if (parsed.data.password) {
+    updates.passwordHash = await bcrypt.hash(parsed.data.password, 10);
+    updates.lastPasswordChangeAt = new Date();
+    if (parsed.data.mustChangePassword === undefined && req.params.id !== req.session.adminUserId) {
+      updates.mustChangePassword = true;
+    }
+  }
+  if (parsed.data.mustChangePassword !== undefined) {
+    updates.mustChangePassword = parsed.data.mustChangePassword;
+  }
 
   const [row] = await db
     .update(adminUsersTable)
@@ -86,6 +108,12 @@ router.patch("/:id", async (req, res) => {
     res.status(404).json({ ok: false, error: "User not found" });
     return;
   }
+  await writeAudit(req, {
+    action: "user_updated",
+    entityType: "admin_user",
+    entityId: row.id,
+    payload: { changes: Object.keys(parsed.data) },
+  });
   res.json({ ok: true, user: shape(row) });
 });
 
@@ -109,6 +137,11 @@ router.delete("/:id", async (req, res) => {
     res.status(404).json({ ok: false, error: "User not found" });
     return;
   }
+  await writeAudit(req, {
+    action: "user_deleted",
+    entityType: "admin_user",
+    entityId: req.params.id!,
+  });
   res.json({ ok: true });
 });
 

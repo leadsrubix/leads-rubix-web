@@ -3,6 +3,7 @@ import { z } from "zod";
 import { appendFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { db, leadsTable } from "@workspace/db";
+import { notifyNewLead } from "../lib/notify";
 
 const router: IRouter = Router();
 
@@ -28,10 +29,8 @@ const MAX_PER_WINDOW = 5;
 const ipBuckets = new Map<string, number[]>();
 
 function getClientIp(req: Request): string {
-  const xff = req.headers["x-forwarded-for"];
-  if (typeof xff === "string" && xff.length > 0) {
-    return xff.split(",")[0]!.trim();
-  }
+  // Trust the proxy-validated chain (req.ip) — never raw x-forwarded-for, which
+  // would let attackers spoof a fresh IP per request to bypass throttling.
   return req.ip ?? req.socket.remoteAddress ?? "unknown";
 }
 
@@ -123,6 +122,22 @@ router.post("/contact", async (req, res) => {
       ipHash,
     },
     "contact: new submission persisted",
+  );
+
+  // Fire-and-forget webhook notification — recipients can ack via Slack/etc.
+  notifyNewLead(
+    {
+      id,
+      source: data.source ?? "contact",
+      name: data.name,
+      email: data.email,
+      company: data.company,
+      phone: data.phone,
+      teamSize: data.teamSize ?? null,
+      messageLen: data.message.length,
+      createdAt: new Date().toISOString(),
+    },
+    req.log,
   );
 
   res.json({ ok: true, message: "Submission received", id });

@@ -12,11 +12,13 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Plus, Trash2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import { adminApi, type AdminUser } from "../lib/api";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function AdminUsers() {
   const { user: me } = useAuth();
+  const { toast } = useToast();
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
@@ -44,6 +46,7 @@ export default function AdminUsers() {
     setCreating(true);
     try {
       await adminApi.createUser(form);
+      toast({ title: "Admin invited", description: `${form.email} can now sign in.` });
       setForm({ email: "", name: "", role: "admin", password: "" });
       setOpen(false);
       await reload();
@@ -58,9 +61,14 @@ export default function AdminUsers() {
     if (!confirm(`Delete admin ${u.email}?`)) return;
     try {
       await adminApi.deleteUser(u.id);
+      toast({ title: "Admin deleted", description: u.email });
       await reload();
     } catch (e) {
-      alert(e instanceof Error ? e.message : "Could not delete user");
+      toast({
+        title: "Could not delete admin",
+        description: e instanceof Error ? e.message : "Unknown error",
+        variant: "destructive",
+      });
     }
   }
 

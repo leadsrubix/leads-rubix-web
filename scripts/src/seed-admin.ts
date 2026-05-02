@@ -16,10 +16,20 @@ async function main() {
 
   const hash = await bcrypt.hash(password, 10);
 
+  // If the password is the well-known default, force a change on first login.
+  const mustChangePassword = password === "ChangeMe!2026";
+
   if (existing) {
     await db
       .update(adminUsersTable)
-      .set({ passwordHash: hash, name, updatedAt: new Date() })
+      .set({
+        passwordHash: hash,
+        name,
+        mustChangePassword,
+        failedLoginAttempts: 0,
+        lockedUntil: null,
+        updatedAt: new Date(),
+      })
       .where(eq(adminUsersTable.id, existing.id));
     console.log(`[seed-admin] Updated existing admin: ${email}`);
   } else {
@@ -28,6 +38,7 @@ async function main() {
       name,
       role: "owner",
       passwordHash: hash,
+      mustChangePassword,
     });
     console.log(`[seed-admin] Created admin: ${email}`);
   }

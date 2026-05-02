@@ -4,8 +4,24 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ArrowRight, Building2, Construction, Handshake, TrendingUp, Clock, Users } from "lucide-react";
 import { useSEO } from "@/lib/useSEO";
+import { useContent } from "@/lib/useContent";
+
+interface CaseStudyMetric {
+  value: string;
+  label: string;
+}
+
+interface CaseStudyItem {
+  tag: string;
+  title: string;
+  body: string;
+  metric1?: CaseStudyMetric;
+  metric2?: CaseStudyMetric;
+  metric3?: CaseStudyMetric;
+}
 
 export default function CaseStudies() {
+  const cms = useContent<CaseStudyItem[]>("case_studies", []);
   useSEO({
     title: "Case Studies — Leads Rubix | Real estate teams winning with us",
     description:
@@ -67,7 +83,34 @@ export default function CaseStudies() {
 
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4 max-w-5xl space-y-8">
-          {stories.map((s) => (
+          {cms.length > 0
+            ? cms.map((s, i) => (
+                <Card key={i} className="border-border overflow-hidden" data-testid={`case-cms-${i}`}>
+                  <CardContent className="p-8 md:p-10 flex flex-col md:flex-row gap-8">
+                    <div className="md:w-2/3">
+                      <div className="flex items-center gap-2 mb-4">
+                        <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center">
+                          <Building2 className="h-4 w-4 text-primary" />
+                        </div>
+                        <span className="text-xs font-bold tracking-wider uppercase text-primary">{s.tag}</span>
+                      </div>
+                      <h2 className="text-2xl font-bold mb-3">{s.title}</h2>
+                      <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{s.body}</p>
+                    </div>
+                    <div className="md:w-1/3 grid grid-cols-3 md:grid-cols-1 gap-4 md:border-l md:border-border md:pl-8">
+                      {[s.metric1, s.metric2, s.metric3]
+                        .filter((m): m is CaseStudyMetric => Boolean(m && m.value))
+                        .map((m, j) => (
+                          <div key={j} className="text-center md:text-left">
+                            <div className="text-2xl font-extrabold text-primary mb-1">{m.value}</div>
+                            <div className="text-xs text-muted-foreground leading-tight">{m.label}</div>
+                          </div>
+                        ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+            : stories.map((s) => (
             <Card key={s.headline} className="border-border overflow-hidden">
               <CardContent className="p-8 md:p-10 flex flex-col md:flex-row gap-8">
                 <div className="md:w-2/3">
@@ -94,7 +137,7 @@ export default function CaseStudies() {
         </div>
       </section>
 
-      <section className="py-20 bg-slate-50 border-t text-center">
+      <section className="py-20 bg-slate-50 border-t text-center" data-testid="case-cta">
         <div className="container mx-auto px-4 max-w-2xl">
           <h2 className="text-3xl font-bold mb-4">Want a story like this for your team?</h2>
           <p className="text-lg text-muted-foreground mb-8">Book a demo and we'll show you how teams in your segment use Leads Rubix.</p>

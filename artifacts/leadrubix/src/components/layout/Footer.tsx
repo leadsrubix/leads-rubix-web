@@ -1,12 +1,30 @@
 import { Link } from "wouter";
 import { Building2, Linkedin } from "lucide-react";
+import { useContent } from "@/lib/useContent";
+
+interface FooterContact {
+  legalEntity: string;
+  addressLine: string;
+  supportEmail: string;
+  salesEmail: string;
+  hours?: string;
+}
+
+const DEFAULT_CONTACT: FooterContact = {
+  legalEntity: "Leads Rubix Technologies Pvt. Ltd.",
+  addressLine: "Registered office: Mumbai, Maharashtra, India",
+  supportEmail: "support@leadsrubix.com",
+  salesEmail: "hello@leadsrubix.com",
+  hours: "",
+};
 
 export function Footer() {
+  const contact = useContent<FooterContact>("footer_contact", DEFAULT_CONTACT);
+
   return (
     <footer className="bg-slate-950 text-slate-200 py-16 border-t border-slate-800">
       <div className="container mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
-          {/* Brand Col */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-6" data-testid="link-footer-logo">
               <div className="bg-primary text-primary-foreground p-1.5 rounded-lg">
@@ -29,14 +47,17 @@ export function Footer() {
                 <Linkedin size={20} />
               </a>
             </div>
-            <div className="text-xs text-slate-500 space-y-1 leading-relaxed">
-              <p className="font-semibold text-slate-400">Leads Rubix Technologies Pvt. Ltd.</p>
-              <p>Registered office: Mumbai, Maharashtra, India</p>
-              <p>support@leadsrubix.com  ·  hello@leadsrubix.com</p>
+            <div className="text-xs text-slate-500 space-y-1 leading-relaxed" data-testid="footer-contact">
+              <p className="font-semibold text-slate-400">{contact.legalEntity}</p>
+              <p>{contact.addressLine}</p>
+              <p>
+                {contact.supportEmail}
+                {contact.salesEmail ? `  ·  ${contact.salesEmail}` : ""}
+              </p>
+              {contact.hours ? <p>{contact.hours}</p> : null}
             </div>
           </div>
 
-          {/* Product Col */}
           <div>
             <h4 className="font-semibold text-white mb-4">Product</h4>
             <ul className="flex flex-col gap-3">
@@ -50,7 +71,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Company Col */}
           <div>
             <h4 className="font-semibold text-white mb-4">Company</h4>
             <ul className="flex flex-col gap-3">
@@ -60,10 +80,10 @@ export function Footer() {
               <li><Link href="/demo" className="text-slate-400 hover:text-white transition-colors" data-testid="link-footer-demo">Book a Demo</Link></li>
               <li><Link href="/contact" className="text-slate-400 hover:text-white transition-colors" data-testid="link-footer-contact">Contact</Link></li>
               <li><Link href="/faq" className="text-slate-400 hover:text-white transition-colors" data-testid="link-footer-faq">FAQ</Link></li>
+              <li><Link href="/blog" className="text-slate-400 hover:text-white transition-colors" data-testid="link-footer-blog">Blog</Link></li>
             </ul>
           </div>
 
-          {/* Legal Col */}
           <div>
             <h4 className="font-semibold text-white mb-4">Legal</h4>
             <ul className="flex flex-col gap-3">
@@ -77,7 +97,7 @@ export function Footer() {
 
         <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-slate-500 text-sm">
-            © 2026 Leads Rubix Technologies Pvt. Ltd. All rights reserved.
+            © 2026 {contact.legalEntity}. All rights reserved.
           </p>
           <p className="text-slate-500 text-sm">
             Made in India  ·  Built for Indian Real Estate

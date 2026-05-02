@@ -14,7 +14,13 @@ export default function AdminLogin() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    if (!loading && user) navigate("/admin", { replace: true });
+    if (!loading && user) {
+      if (user.mustChangePassword) {
+        navigate("/admin/change-password", { replace: true });
+      } else {
+        navigate("/admin", { replace: true });
+      }
+    }
   }, [loading, user, navigate]);
 
   async function onSubmit(e: React.FormEvent) {
@@ -23,7 +29,7 @@ export default function AdminLogin() {
     setSubmitting(true);
     try {
       await login(email, password);
-      navigate("/admin", { replace: true });
+      // navigation is handled by the effect once `user` updates.
     } catch (err) {
       setError(err instanceof Error ? err.message : "Sign-in failed");
     } finally {

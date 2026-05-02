@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useRoute } from "wouter";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeSanitize from "rehype-sanitize";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { ArrowLeft } from "lucide-react";
 import { useSEO } from "@/lib/useSEO";
 
@@ -12,6 +16,9 @@ interface BlogPost {
   excerpt: string;
   body: string;
   coverImage: string | null;
+  metaDescription: string | null;
+  ogImage: string | null;
+  tags: string[] | null;
   publishedAt: string | null;
 }
 
@@ -23,8 +30,9 @@ export default function BlogPostPage() {
 
   useSEO({
     title: post ? `${post.title} — Leads Rubix Blog` : "Loading…",
-    description: post?.excerpt,
+    description: post?.metaDescription || post?.excerpt,
     canonical: post ? `https://leadsrubix.com/blog/${post.slug}` : undefined,
+    ogImage: post?.ogImage || post?.coverImage || undefined,
   });
 
   useEffect(() => {
@@ -67,16 +75,25 @@ export default function BlogPostPage() {
                 />
               ) : null}
               <h1 className="text-3xl md:text-5xl font-bold tracking-tight">{post.title}</h1>
-              {post.publishedAt ? (
-                <p className="text-sm text-muted-foreground mt-3">
-                  Published {new Date(post.publishedAt).toLocaleDateString()}
-                </p>
-              ) : null}
+              <div className="flex flex-wrap gap-2 mt-3 items-center">
+                {post.publishedAt ? (
+                  <p className="text-sm text-muted-foreground">
+                    Published {new Date(post.publishedAt).toLocaleDateString()}
+                  </p>
+                ) : null}
+                {(post.tags ?? []).map((t) => (
+                  <Link key={t} href={`/blog?tag=${encodeURIComponent(t)}`}>
+                    <Badge variant="outline" className="cursor-pointer">{t}</Badge>
+                  </Link>
+                ))}
+              </div>
               <div
-                className="prose prose-slate max-w-none mt-8 whitespace-pre-wrap leading-relaxed"
+                className="prose prose-slate max-w-none mt-8 leading-relaxed"
                 data-testid="text-post-body"
               >
-                {post.body}
+                <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeSanitize]}>
+                  {post.body}
+                </ReactMarkdown>
               </div>
             </>
           )}
