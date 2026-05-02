@@ -19,12 +19,70 @@ import Faq from "@/pages/faq";
 import Demo from "@/pages/demo";
 import CaseStudies from "@/pages/case-studies";
 import Compare from "@/pages/compare";
+import Blog from "@/pages/blog";
+import BlogPost from "@/pages/blog-post";
+
+import { AuthProvider } from "@/admin/contexts/AuthContext";
+import RequireAuth from "@/admin/components/RequireAuth";
+import AdminLogin from "@/admin/pages/Login";
+import AdminDashboard from "@/admin/pages/Dashboard";
+import AdminLeads from "@/admin/pages/Leads";
+import AdminLeadDetail from "@/admin/pages/LeadDetail";
+import AdminContent from "@/admin/pages/Content";
+import AdminContentEdit from "@/admin/pages/ContentEdit";
+import AdminPosts from "@/admin/pages/Posts";
+import AdminPostEdit from "@/admin/pages/PostEdit";
+import AdminUsers from "@/admin/pages/Users";
 
 const queryClient = new QueryClient();
 
 function Router() {
   return (
     <Switch>
+      {/* Admin routes — listed before NotFound, wrapped in AuthProvider at app level */}
+      <Route path="/admin/login" component={AdminLogin} />
+      <Route path="/admin">
+        <RequireAuth>
+          <AdminDashboard />
+        </RequireAuth>
+      </Route>
+      <Route path="/admin/leads">
+        <RequireAuth>
+          <AdminLeads />
+        </RequireAuth>
+      </Route>
+      <Route path="/admin/leads/:id">
+        <RequireAuth>
+          <AdminLeadDetail />
+        </RequireAuth>
+      </Route>
+      <Route path="/admin/content">
+        <RequireAuth>
+          <AdminContent />
+        </RequireAuth>
+      </Route>
+      <Route path="/admin/content/:key">
+        <RequireAuth>
+          <AdminContentEdit />
+        </RequireAuth>
+      </Route>
+      <Route path="/admin/posts">
+        <RequireAuth>
+          <AdminPosts />
+        </RequireAuth>
+      </Route>
+      <Route path="/admin/posts/:id">
+        <RequireAuth>
+          <AdminPostEdit />
+        </RequireAuth>
+      </Route>
+      <Route path="/admin/users">
+        <RequireAuth>
+          <AdminUsers />
+        </RequireAuth>
+      </Route>
+
+      {/* Public site */}
       <Route path="/" component={Home} />
       <Route path="/features" component={Features} />
       <Route path="/solutions" component={Solutions} />
@@ -41,6 +99,8 @@ function Router() {
       <Route path="/terms" component={Terms} />
       <Route path="/refund" component={Refund} />
       <Route path="/cookies" component={Cookies} />
+      <Route path="/blog" component={Blog} />
+      <Route path="/blog/:slug" component={BlogPost} />
       <Route component={NotFound} />
     </Switch>
   );
@@ -51,7 +111,9 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <Router />
+          <AuthProvider>
+            <Router />
+          </AuthProvider>
         </WouterRouter>
         <Toaster />
       </TooltipProvider>

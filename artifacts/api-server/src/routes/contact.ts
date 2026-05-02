@@ -1,8 +1,8 @@
 import { Router, type IRouter, type Request } from "express";
 import { z } from "zod";
-import { randomUUID } from "node:crypto";
 import { appendFile, mkdir } from "node:fs/promises";
 import path from "node:path";
+import { db, leadsTable } from "@workspace/db";
 
 const router: IRouter = Router();
 
@@ -58,7 +58,6 @@ router.post("/contact", async (req, res) => {
 
   const parsed = ContactSchema.safeParse(req.body);
   if (!parsed.success) {
-    // Honeypot tripped or invalid — return generic 400 without echoing PII
     req.log.warn(
       { errorCount: parsed.error.issues.length, ipHash: hashShort(ip) },
       "contact: invalid payload",
@@ -68,38 +67,60 @@ router.post("/contact", async (req, res) => {
   }
 
   const { website, ...data } = parsed.data;
-  // Honeypot non-empty: silently accept and drop. Don't tell bots they failed.
   if (website && website.length > 0) {
     res.json({ ok: true, message: "Submission received" });
     return;
   }
 
-  const id = randomUUID();
-  const submission = {
-    id,
-    receivedAt: new Date().toISOString(),
-    ipHash: hashShort(ip),
-    ...data,
-  };
-
+  const ipHash = hashShort(ip);
+  let id: string;
   try {
-    await mkdir(path.dirname(SUBMISSIONS_FILE), { recursive: true });
-    await appendFile(SUBMISSIONS_FILE, JSON.stringify(submission) + "\n", "utf8");
+    const [row] = await db
+      .insert(leadsTable)
+      .values({
+        source: data.source ?? "contact",
+        name: data.name,
+        email: data.email,
+        company: data.company,
+        phone: data.phone,
+        teamSize: data.teamSize ?? null,
+        message: data.message,
+        ipHash,
+        messageLength: data.message.length,
+      })
+      .returning({ id: leadsTable.id });
+    id = row!.id;
   } catch (err) {
-    req.log.error({ err, id }, "contact: failed to persist submission");
+    req.log.error({ err }, "contact: failed to persist lead to DB");
     res.status(500).json({ ok: false, error: "Could not record submission. Please email us directly." });
     return;
   }
+
+  // Best-effort NDJSON backup; never block the response.
+  void (async () => {
+    try {
+      const submission = {
+        id,
+        receivedAt: new Date().toISOString(),
+        ipHash,
+        ...data,
+      };
+      await mkdir(path.dirname(SUBMISSIONS_FILE), { recursive: true });
+      await appendFile(SUBMISSIONS_FILE, JSON.stringify(submission) + "\n", "utf8");
+    } catch (err) {
+      req.log.warn({ err, id }, "contact: failed to append NDJSON backup");
+    }
+  })();
 
   // PII-minimised log: do NOT emit email/phone/message into the log stream.
   req.log.info(
     {
       id,
-      source: data.source ?? "unknown",
+      source: data.source ?? "contact",
       company: data.company,
       teamSize: data.teamSize ?? null,
       messageLen: data.message.length,
-      ipHash: hashShort(ip),
+      ipHash,
     },
     "contact: new submission persisted",
   );
@@ -108,7 +129,6 @@ router.post("/contact", async (req, res) => {
 });
 
 function hashShort(s: string): string {
-  // Non-cryptographic, fast: just enough to correlate without storing raw IPs in logs.
   let h = 0;
   for (let i = 0; i < s.length; i++) {
     h = (h * 31 + s.charCodeAt(i)) | 0;

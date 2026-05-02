@@ -1,0 +1,343 @@
+import { useEffect, useState } from "react";
+import { Link, useLocation, useRoute } from "wouter";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { ArrowLeft, Plus, Trash2 } from "lucide-react";
+import { adminApi } from "../lib/api";
+import { KNOWN_SECTIONS } from "../lib/contentSchemas";
+
+export default function AdminContentEdit() {
+  const [, params] = useRoute("/admin/content/:key");
+  const [, navigate] = useLocation();
+  const key = params?.key ? decodeURIComponent(params.key) : "";
+  const known = KNOWN_SECTIONS.find((s) => s.key === key);
+
+  const [value, setValue] = useState<unknown>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [savedAt, setSavedAt] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      try {
+        const { section } = await adminApi.getContent(key);
+        if (active) setValue(section.value);
+      } catch (e) {
+        if (e instanceof Error && (e as Error & { status?: number }).status === 404) {
+          if (active) setValue(known?.defaultValue ?? {});
+        } else if (active) {
+          setError(e instanceof Error ? e.message : "Failed to load");
+        }
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, [key, known]);
+
+  async function save() {
+    setSaving(true);
+    setError(null);
+    try {
+      await adminApi.putContent(key, value);
+      setSavedAt(new Date().toLocaleTimeString());
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Save failed");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  if (error) return <div className="text-red-600 text-sm">{error}</div>;
+  if (value === null) return <div className="text-sm text-muted-foreground">Loading…</div>;
+
+  return (
+    <div className="space-y-5">
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <div className="flex items-center gap-3">
+          <Button asChild variant="ghost" size="sm" data-testid="btn-back-content">
+            <Link href="/admin/content">
+              <ArrowLeft className="size-4 mr-1" /> Back
+            </Link>
+          </Button>
+          <div>
+            <h1 className="text-xl font-semibold">{known?.label ?? key}</h1>
+            <p className="text-xs text-muted-foreground font-mono">{key}</p>
+          </div>
+        </div>
+        <div className="flex gap-2">
+          {known ? (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setValue(known.defaultValue)}
+              data-testid="btn-reset-content"
+            >
+              Reset to default
+            </Button>
+          ) : null}
+          <Button onClick={save} disabled={saving} data-testid="btn-save-content">
+            {saving ? "Saving…" : "Save changes"}
+          </Button>
+        </div>
+      </div>
+
+      {savedAt ? (
+        <p className="text-xs text-green-700">Saved at {savedAt}. Changes are live.</p>
+      ) : null}
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Content</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ValueEditor value={value} onChange={setValue} />
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+function ValueEditor({
+  value,
+  onChange,
+}: {
+  value: unknown;
+  onChange: (v: unknown) => void;
+}) {
+  if (Array.isArray(value)) {
+    return <ArrayEditor value={value} onChange={onChange} />;
+  }
+  if (value && typeof value === "object") {
+    return <ObjectEditor value={value as Record<string, unknown>} onChange={onChange} />;
+  }
+  // primitives — fall back to JSON editor
+  return <JsonEditor value={value} onChange={onChange} />;
+}
+
+function ObjectEditor({
+  value,
+  onChange,
+}: {
+  value: Record<string, unknown>;
+  onChange: (v: Record<string, unknown>) => void;
+}) {
+  return (
+    <div className="space-y-4">
+      {Object.entries(value).map(([k, v]) => (
+        <FieldEditor
+          key={k}
+          fieldKey={k}
+          value={v}
+          onChange={(next) => onChange({ ...value, [k]: next })}
+        />
+      ))}
+    </div>
+  );
+}
+
+function FieldEditor({
+  fieldKey,
+  value,
+  onChange,
+}: {
+  fieldKey: string;
+  value: unknown;
+  onChange: (v: unknown) => void;
+}) {
+  const label = humaniseKey(fieldKey);
+
+  if (typeof value === "string") {
+    const isLong = value.length > 80 || /\n/.test(value) || /(answer|body|description)/i.test(fieldKey);
+    return (
+      <div className="space-y-1.5">
+        <Label htmlFor={fieldKey}>{label}</Label>
+        {isLong ? (
+          <Textarea
+            id={fieldKey}
+            value={value}
+            rows={4}
+            onChange={(e) => onChange(e.target.value)}
+            data-testid={`field-${fieldKey}`}
+          />
+        ) : (
+          <Input
+            id={fieldKey}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            data-testid={`field-${fieldKey}`}
+          />
+        )}
+      </div>
+    );
+  }
+  if (typeof value === "number") {
+    return (
+      <div className="space-y-1.5">
+        <Label htmlFor={fieldKey}>{label}</Label>
+        <Input
+          id={fieldKey}
+          type="number"
+          value={value}
+          onChange={(e) => onChange(Number(e.target.value))}
+          data-testid={`field-${fieldKey}`}
+        />
+      </div>
+    );
+  }
+  if (typeof value === "boolean") {
+    return (
+      <label className="flex items-center gap-2 text-sm">
+        <input
+          type="checkbox"
+          checked={value}
+          onChange={(e) => onChange(e.target.checked)}
+          data-testid={`field-${fieldKey}`}
+        />
+        {label}
+      </label>
+    );
+  }
+  if (Array.isArray(value)) {
+    return (
+      <div className="space-y-2 border-l-2 border-slate-200 pl-4">
+        <div className="text-sm font-medium">{label}</div>
+        <ArrayEditor value={value} onChange={(v) => onChange(v)} />
+      </div>
+    );
+  }
+  if (value && typeof value === "object") {
+    return (
+      <div className="space-y-2 border-l-2 border-slate-200 pl-4">
+        <div className="text-sm font-medium">{label}</div>
+        <ObjectEditor
+          value={value as Record<string, unknown>}
+          onChange={(v) => onChange(v)}
+        />
+      </div>
+    );
+  }
+  // null / undefined — render as text
+  return (
+    <div className="space-y-1.5">
+      <Label htmlFor={fieldKey}>{label}</Label>
+      <Input
+        id={fieldKey}
+        value={value === null || value === undefined ? "" : String(value)}
+        onChange={(e) => onChange(e.target.value)}
+        data-testid={`field-${fieldKey}`}
+      />
+    </div>
+  );
+}
+
+function ArrayEditor({
+  value,
+  onChange,
+}: {
+  value: unknown[];
+  onChange: (v: unknown[]) => void;
+}) {
+  function addItem() {
+    if (value.length > 0 && value[0] && typeof value[0] === "object" && !Array.isArray(value[0])) {
+      const blank: Record<string, unknown> = {};
+      Object.keys(value[0] as Record<string, unknown>).forEach((k) => {
+        const v = (value[0] as Record<string, unknown>)[k];
+        blank[k] = typeof v === "string" ? "" : typeof v === "number" ? 0 : typeof v === "boolean" ? false : Array.isArray(v) ? [] : v && typeof v === "object" ? {} : "";
+      });
+      onChange([...value, blank]);
+    } else if (value.length > 0 && typeof value[0] === "string") {
+      onChange([...value, ""]);
+    } else {
+      onChange([...value, {}]);
+    }
+  }
+
+  return (
+    <div className="space-y-3">
+      {value.map((item, i) => (
+        <div key={i} className="border rounded-md p-3 space-y-3 bg-slate-50/40">
+          <div className="flex items-center justify-between">
+            <div className="text-xs font-medium text-slate-500">Item #{i + 1}</div>
+            <Button
+              type="button"
+              size="sm"
+              variant="ghost"
+              onClick={() => onChange(value.filter((_, j) => j !== i))}
+              data-testid={`btn-remove-item-${i}`}
+            >
+              <Trash2 className="size-3.5" />
+            </Button>
+          </div>
+          <ValueEditor
+            value={item}
+            onChange={(next) => onChange(value.map((x, j) => (j === i ? next : x)))}
+          />
+        </div>
+      ))}
+      <Button
+        type="button"
+        size="sm"
+        variant="outline"
+        onClick={addItem}
+        data-testid="btn-add-item"
+      >
+        <Plus className="size-3.5 mr-1.5" /> Add item
+      </Button>
+    </div>
+  );
+}
+
+function JsonEditor({
+  value,
+  onChange,
+}: {
+  value: unknown;
+  onChange: (v: unknown) => void;
+}) {
+  const [text, setText] = useState(JSON.stringify(value, null, 2));
+  const [err, setErr] = useState<string | null>(null);
+  return (
+    <div className="space-y-2">
+      <Textarea
+        rows={14}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        className="font-mono text-xs"
+        data-testid="textarea-json-editor"
+      />
+      <div className="flex items-center gap-2">
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          onClick={() => {
+            try {
+              const parsed = JSON.parse(text);
+              setErr(null);
+              onChange(parsed);
+            } catch (e) {
+              setErr(e instanceof Error ? e.message : "Invalid JSON");
+            }
+          }}
+          data-testid="btn-apply-json"
+        >
+          Apply JSON
+        </Button>
+        {err ? <span className="text-xs text-red-600">{err}</span> : null}
+      </div>
+    </div>
+  );
+}
+
+function humaniseKey(k: string): string {
+  return k
+    .replace(/([A-Z])/g, " $1")
+    .replace(/[_-]+/g, " ")
+    .replace(/^./, (c) => c.toUpperCase())
+    .trim();
+}
