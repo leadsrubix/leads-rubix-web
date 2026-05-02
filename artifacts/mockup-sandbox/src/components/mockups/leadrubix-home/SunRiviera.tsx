@@ -33,28 +33,28 @@ export function SunRiviera() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   return (
-    <div className="min-h-screen bg-[#fdf3e9] text-[#3d2817] font-sans selection:bg-[#d97757] selection:text-white">
+    <div className="min-h-screen bg-[#fdf3e9] text-[#3d2817] font-sans selection:bg-[#FF3C00] selection:text-white">
       <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
       
       {/* 1. Top nav */}
-      <nav className="sticky top-0 z-50 bg-[#fdf3e9]/90 backdrop-blur-md border-b border-[#d97757]/20">
+      <nav className="sticky top-0 z-50 bg-[#fdf3e9]/90 backdrop-blur-md border-b border-[#FF3C00]/20">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-[#d97757] rounded-xl flex items-center justify-center shadow-lg shadow-amber-900/10">
+            <div className="w-8 h-8 bg-[#FF3C00] rounded-xl flex items-center justify-center shadow-lg shadow-amber-900/10">
               <Building2 className="w-5 h-5 text-[#fffaf2]" />
             </div>
             <span className="font-['Fraunces'] font-medium text-2xl tracking-tight">Leads Rubix</span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-[#3d2817]/70">
-            <a href="#" className="hover:text-[#d97757] transition-colors">Features</a>
-            <a href="#" className="hover:text-[#d97757] transition-colors">Pricing</a>
-            <a href="#" className="hover:text-[#d97757] transition-colors">Solutions</a>
-            <a href="#" className="hover:text-[#d97757] transition-colors">Blog</a>
-            <a href="#" className="hover:text-[#d97757] transition-colors">Contact</a>
+            <a href="#" className="hover:text-[#FF3C00] transition-colors">Features</a>
+            <a href="#" className="hover:text-[#FF3C00] transition-colors">Pricing</a>
+            <a href="#" className="hover:text-[#FF3C00] transition-colors">Solutions</a>
+            <a href="#" className="hover:text-[#FF3C00] transition-colors">Blog</a>
+            <a href="#" className="hover:text-[#FF3C00] transition-colors">Contact</a>
           </div>
           <div className="flex items-center gap-4">
-            <a href="#" className="hidden md:block text-sm font-medium text-[#3d2817]/70 hover:text-[#d97757]">Sign in</a>
-            <button className="bg-[#3d2817] text-[#fffaf2] px-6 py-2.5 rounded-full text-sm font-medium hover:bg-[#d97757] shadow-lg shadow-amber-900/5 transition-all duration-300">
+            <a href="#" className="hidden md:block text-sm font-medium text-[#3d2817]/70 hover:text-[#FF3C00]">Sign in</a>
+            <button className="bg-[#3d2817] text-[#fffaf2] px-6 py-2.5 rounded-full text-sm font-medium hover:bg-[#FF3C00] shadow-lg shadow-amber-900/5 transition-all duration-300">
               Start Free Trial
             </button>
           </div>
@@ -65,34 +65,34 @@ export function SunRiviera() {
       <section className="relative pt-24 pb-32 overflow-hidden bg-gradient-to-b from-[#fdf3e9] via-[#fbe8d3] to-[#fdf3e9]">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
           <div className="max-w-2xl relative z-10">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#fffaf2]/50 border border-[#d97757]/20 rounded-full text-xs font-semibold tracking-widest uppercase text-[#d97757] mb-8 shadow-sm">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#fffaf2]/50 border border-[#FF3C00]/20 rounded-full text-xs font-semibold tracking-widest uppercase text-[#FF3C00] mb-8 shadow-sm">
               Purpose-built for Indian Real Estate
             </div>
             <h1 className="font-['Fraunces'] text-6xl md:text-7xl leading-[1.1] mb-6 font-medium">
-              Stop losing leads in WhatsApp. <span className="text-[#d97757] italic font-light">Start closing them.</span>
+              Stop losing leads in WhatsApp. <span className="text-[#FF3C00] italic font-light">Start closing them.</span>
             </h1>
             <p className="text-lg md:text-xl text-[#3d2817]/70 mb-10 leading-relaxed max-w-xl font-medium">
               The only CRM that understands the chaos of Indian real estate. Automate lead rotation, track broker performance, and respond in seconds.
             </p>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8">
-              <button className="bg-[#d97757] text-[#fffaf2] px-8 py-4 rounded-2xl text-base font-medium hover:bg-[#c2410c] shadow-lg shadow-[#d97757]/20 transition-all duration-300 flex items-center gap-2 w-full sm:w-auto justify-center hover:-translate-y-0.5">
+              <button className="bg-[#FF3C00] text-[#fffaf2] px-8 py-4 rounded-2xl text-base font-medium hover:bg-[#CC3000] shadow-lg shadow-[#FF3C00]/20 transition-all duration-300 flex items-center gap-2 w-full sm:w-auto justify-center hover:-translate-y-0.5">
                 Start Free Trial <ArrowRight className="w-4 h-4" />
               </button>
-              <button className="bg-[#fffaf2] text-[#3d2817] border border-[#d97757]/20 px-8 py-4 rounded-2xl text-base font-medium hover:border-[#d97757]/50 hover:bg-[#fbe8d3] transition-all duration-300 w-full sm:w-auto justify-center shadow-sm">
+              <button className="bg-[#fffaf2] text-[#3d2817] border border-[#FF3C00]/20 px-8 py-4 rounded-2xl text-base font-medium hover:border-[#FF3C00]/50 hover:bg-[#fbe8d3] transition-all duration-300 w-full sm:w-auto justify-center shadow-sm">
                 Book a Demo
               </button>
             </div>
             <p className="text-sm text-[#3d2817]/50 flex items-center gap-3 font-medium">
-              7-day free trial <span className="w-1.5 h-1.5 rounded-full bg-[#d97757]/40"></span> No credit card <span className="w-1.5 h-1.5 rounded-full bg-[#d97757]/40"></span> Cancel anytime
+              7-day free trial <span className="w-1.5 h-1.5 rounded-full bg-[#FF3C00]/40"></span> No credit card <span className="w-1.5 h-1.5 rounded-full bg-[#FF3C00]/40"></span> Cancel anytime
             </p>
           </div>
 
           <div className="relative">
             {/* Abstract UI Mockup */}
-            <div className="bg-[#fffaf2] rounded-3xl border border-[#d97757]/10 p-6 shadow-2xl shadow-amber-900/10 relative z-10 transform translate-x-4 rotate-2 hover:rotate-0 transition-transform duration-700 ease-out">
-              <div className="flex items-center justify-between mb-8 border-b border-[#d97757]/10 pb-4">
+            <div className="bg-[#fffaf2] rounded-3xl border border-[#FF3C00]/10 p-6 shadow-2xl shadow-amber-900/10 relative z-10 transform translate-x-4 rotate-2 hover:rotate-0 transition-transform duration-700 ease-out">
+              <div className="flex items-center justify-between mb-8 border-b border-[#FF3C00]/10 pb-4">
                 <div className="flex gap-2.5">
-                  <div className="w-3.5 h-3.5 rounded-full bg-[#d97757]/40" />
+                  <div className="w-3.5 h-3.5 rounded-full bg-[#FF3C00]/40" />
                   <div className="w-3.5 h-3.5 rounded-full bg-[#3d2817]/20" />
                   <div className="w-3.5 h-3.5 rounded-full bg-[#3d2817]/20" />
                 </div>
@@ -101,39 +101,39 @@ export function SunRiviera() {
               
               <div className="grid grid-cols-3 gap-4 mb-6">
                 {[1, 2, 3].map(i => (
-                  <div key={i} className="bg-[#fdf3e9] p-4 rounded-2xl border border-[#d97757]/5 shadow-sm">
+                  <div key={i} className="bg-[#fdf3e9] p-4 rounded-2xl border border-[#FF3C00]/5 shadow-sm">
                     <div className="h-2.5 w-1/3 bg-[#3d2817]/10 rounded-full mb-4" />
                     <div className="h-4 w-2/3 bg-[#3d2817]/70 rounded-full mb-2.5" />
                     <div className="h-3 w-1/2 bg-[#3d2817]/30 rounded-full mb-5" />
-                    <div className="flex justify-between items-center mt-4 pt-4 border-t border-[#d97757]/10">
+                    <div className="flex justify-between items-center mt-4 pt-4 border-t border-[#FF3C00]/10">
                       <div className="w-7 h-7 rounded-full bg-[#fffaf2] shadow-sm" />
-                      <div className="text-xs text-[#d97757] font-semibold">₹{(Math.random() * 10).toFixed(1)} Cr</div>
+                      <div className="text-xs text-[#FF3C00] font-semibold">₹{(Math.random() * 10).toFixed(1)} Cr</div>
                     </div>
                   </div>
                 ))}
               </div>
               
-              <div className="bg-[#fdf3e9] p-5 rounded-2xl border border-[#d97757]/5 shadow-sm flex items-center justify-between">
+              <div className="bg-[#fdf3e9] p-5 rounded-2xl border border-[#FF3C00]/5 shadow-sm flex items-center justify-between">
                 <div>
                   <div className="text-xs text-[#3d2817]/50 font-medium mb-1.5 uppercase tracking-wide">New Lead · MagicBricks</div>
                   <div className="font-semibold text-[#3d2817]">Rahul Sharma — 3BHK Andheri</div>
                 </div>
-                <div className="bg-[#d97757]/10 text-[#d97757] px-3.5 py-1.5 rounded-full text-xs font-semibold">
+                <div className="bg-[#FF3C00]/10 text-[#FF3C00] px-3.5 py-1.5 rounded-full text-xs font-semibold">
                   Assigned to Amit
                 </div>
               </div>
             </div>
             
             {/* Background elements */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-[#d97757]/10 to-transparent rounded-full blur-3xl -z-10" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-[#FF3C00]/10 to-transparent rounded-full blur-3xl -z-10" />
           </div>
         </div>
       </section>
 
       {/* 3. Built for pill strip */}
-      <section className="border-y border-[#d97757]/20 bg-[#fffaf2] py-10">
+      <section className="border-y border-[#FF3C00]/20 bg-[#fffaf2] py-10">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-center text-xs font-bold tracking-widest uppercase text-[#d97757]/60 mb-8">Built Exclusively For</p>
+          <p className="text-center text-xs font-bold tracking-widest uppercase text-[#FF3C00]/60 mb-8">Built Exclusively For</p>
           <div className="flex flex-wrap justify-center gap-4 md:gap-6">
             {[
               { icon: Building2, text: "Property Developers" },
@@ -142,8 +142,8 @@ export function SunRiviera() {
               { icon: Network, text: "Channel Partners" },
               { icon: Users, text: "Multi-branch Sales Teams" }
             ].map((item, i) => (
-              <div key={i} className="flex items-center gap-2.5 text-[#3d2817]/80 font-medium bg-amber-50/50 px-5 py-2.5 rounded-full border border-[#d97757]/10 shadow-sm">
-                <item.icon className="w-4 h-4 text-[#d97757]" />
+              <div key={i} className="flex items-center gap-2.5 text-[#3d2817]/80 font-medium bg-amber-50/50 px-5 py-2.5 rounded-full border border-[#FF3C00]/10 shadow-sm">
+                <item.icon className="w-4 h-4 text-[#FF3C00]" />
                 <span className="text-sm">{item.text}</span>
               </div>
             ))}
@@ -152,7 +152,7 @@ export function SunRiviera() {
       </section>
 
       {/* 4. Stats band */}
-      <section className="bg-[#c2410c] text-[#fdf3e9] py-24 relative overflow-hidden">
+      <section className="bg-[#FF3C00] text-[#fdf3e9] py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-12 text-center relative z-10">
           {[
@@ -195,9 +195,9 @@ export function SunRiviera() {
                 desc: "Hot leads from 99acres or Facebook sit untouched for hours while competitors call them in minutes."
               }
             ].map((item, i) => (
-              <div key={i} className="bg-[#fffaf2] p-10 border border-[#d97757]/10 rounded-3xl shadow-sm hover:shadow-xl hover:shadow-amber-900/5 hover:-translate-y-1 transition-all duration-300 group">
-                <div className="w-14 h-14 bg-[#fdf3e9] rounded-2xl flex items-center justify-center mb-8 shadow-sm border border-[#d97757]/10 group-hover:bg-[#d97757] transition-colors duration-300">
-                  <item.icon className="w-7 h-7 text-[#d97757] group-hover:text-[#fffaf2] transition-colors duration-300" />
+              <div key={i} className="bg-[#fffaf2] p-10 border border-[#FF3C00]/10 rounded-3xl shadow-sm hover:shadow-xl hover:shadow-amber-900/5 hover:-translate-y-1 transition-all duration-300 group">
+                <div className="w-14 h-14 bg-[#fdf3e9] rounded-2xl flex items-center justify-center mb-8 shadow-sm border border-[#FF3C00]/10 group-hover:bg-[#FF3C00] transition-colors duration-300">
+                  <item.icon className="w-7 h-7 text-[#FF3C00] group-hover:text-[#fffaf2] transition-colors duration-300" />
                 </div>
                 <h3 className="text-2xl font-bold mb-4 font-['Fraunces']">{item.title}</h3>
                 <p className="text-[#3d2817]/70 leading-relaxed font-medium">{item.desc}</p>
@@ -208,7 +208,7 @@ export function SunRiviera() {
       </section>
 
       {/* 6. Pipeline visualization */}
-      <section className="py-24 bg-[#fffaf2] border-y border-[#d97757]/20 overflow-hidden">
+      <section className="py-24 bg-[#fffaf2] border-y border-[#FF3C00]/20 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="font-['Fraunces'] text-4xl mb-4 font-medium text-[#3d2817]">A Pipeline Built for Property Sales</h2>
@@ -216,13 +216,13 @@ export function SunRiviera() {
           </div>
           
           <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 md:gap-3 relative">
-            <div className="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-[#d97757]/20 -translate-y-1/2 z-0" />
+            <div className="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-[#FF3C00]/20 -translate-y-1/2 z-0" />
             
             {[
-              { name: "FRESH", color: "bg-[#fdf3e9] text-[#3d2817] border-[#d97757]/20" },
-              { name: "CALLBACK", color: "bg-[#fbe8d3] text-[#3d2817] border-[#d97757]/30" },
-              { name: "INTERESTED", color: "bg-[#f3d8c1] text-[#3d2817] border-[#d97757]/40" },
-              { name: "BOOKED", color: "bg-[#d97757] text-[#fffaf2] border-[#d97757]" },
+              { name: "FRESH", color: "bg-[#fdf3e9] text-[#3d2817] border-[#FF3C00]/20" },
+              { name: "CALLBACK", color: "bg-[#fbe8d3] text-[#3d2817] border-[#FF3C00]/30" },
+              { name: "INTERESTED", color: "bg-[#f3d8c1] text-[#3d2817] border-[#FF3C00]/40" },
+              { name: "BOOKED", color: "bg-[#FF3C00] text-[#fffaf2] border-[#FF3C00]" },
               { name: "LOST", color: "bg-[#fffaf2] text-[#3d2817]/50 border-[#3d2817]/10" }
             ].map((stage, i) => (
               <div key={i} className="relative z-10 flex-1 group">
@@ -255,8 +255,8 @@ export function SunRiviera() {
               { icon: MapPin, title: "GPS Call Tracking", desc: "Verify agent locations during site visits or outdoor meetings for better accountability." }
             ].map((item, i) => (
               <div key={i} className="flex gap-5 group">
-                <div className="flex-shrink-0 mt-1 w-12 h-12 bg-[#fffaf2] rounded-xl flex items-center justify-center border border-[#d97757]/10 shadow-sm group-hover:bg-[#d97757] group-hover:border-[#d97757] transition-all duration-300">
-                  <item.icon className="w-6 h-6 text-[#d97757] group-hover:text-[#fffaf2] transition-colors duration-300" />
+                <div className="flex-shrink-0 mt-1 w-12 h-12 bg-[#fffaf2] rounded-xl flex items-center justify-center border border-[#FF3C00]/10 shadow-sm group-hover:bg-[#FF3C00] group-hover:border-[#FF3C00] transition-all duration-300">
+                  <item.icon className="w-6 h-6 text-[#FF3C00] group-hover:text-[#fffaf2] transition-colors duration-300" />
                 </div>
                 <div>
                   <h3 className="font-bold mb-2.5 text-lg font-['Fraunces'] tracking-wide">{item.title}</h3>
@@ -269,13 +269,13 @@ export function SunRiviera() {
       </section>
 
       {/* Thin horizontal rule */}
-      <hr className="border-[#d97757]/20" />
+      <hr className="border-[#FF3C00]/20" />
 
       {/* 8. Lead Rotation Deep Dive */}
       <section className="py-32 bg-[#3d2817] text-[#fffaf2]">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#d97757]/20 rounded-full text-xs font-semibold tracking-widest uppercase text-[#fbe8d3] mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#FF3C00]/20 rounded-full text-xs font-semibold tracking-widest uppercase text-[#fbe8d3] mb-6">
               Core Technology
             </div>
             <h2 className="font-['Fraunces'] text-4xl md:text-5xl mb-8 font-medium">Never let a lead go cold again.</h2>
@@ -289,7 +289,7 @@ export function SunRiviera() {
                 { step: "04", title: "Schedule Aware", desc: "Rotation rules respect agent working hours and leaves." }
               ].map((item, i) => (
                 <div key={i} className="flex gap-6 group">
-                  <div className="text-[#d97757] font-['Fraunces'] text-3xl italic group-hover:scale-110 transition-transform">{item.step}</div>
+                  <div className="text-[#FF3C00] font-['Fraunces'] text-3xl italic group-hover:scale-110 transition-transform">{item.step}</div>
                   <div>
                     <h4 className="font-bold text-lg mb-1.5 tracking-wide text-[#fdf3e9]">{item.title}</h4>
                     <p className="text-[#fffaf2]/50 text-sm font-medium">{item.desc}</p>
@@ -305,13 +305,13 @@ export function SunRiviera() {
                   <div className="text-sm font-semibold mb-1 text-[#fdf3e9]">Incoming: Facebook Ads</div>
                   <div className="text-xs text-[#fdf3e9]/60 font-medium">Project: Horizon Towers</div>
                 </div>
-                <div className="text-xs bg-[#d97757] text-[#fffaf2] px-3 py-1.5 rounded-full font-semibold shadow-sm">Just Now</div>
+                <div className="text-xs bg-[#FF3C00] text-[#fffaf2] px-3 py-1.5 rounded-full font-semibold shadow-sm">Just Now</div>
               </div>
               <div className="flex justify-center my-3">
-                <ArrowRight className="w-6 h-6 text-[#d97757] rotate-90 opacity-80" />
+                <ArrowRight className="w-6 h-6 text-[#FF3C00] rotate-90 opacity-80" />
               </div>
               <div className="bg-[#fffaf2] text-[#3d2817] p-5 rounded-2xl border border-[#fffaf2]/20 flex items-center gap-4 shadow-lg">
-                <div className="w-12 h-12 rounded-xl bg-[#fdf3e9] flex items-center justify-center font-bold text-[#d97757] border border-[#d97757]/20 shadow-sm">AS</div>
+                <div className="w-12 h-12 rounded-xl bg-[#fdf3e9] flex items-center justify-center font-bold text-[#FF3C00] border border-[#FF3C00]/20 shadow-sm">AS</div>
                 <div>
                   <div className="text-sm font-bold tracking-wide">Assigned to Amit Singh</div>
                   <div className="text-xs text-[#3d2817]/60 font-medium mt-1 flex items-center gap-1.5">
@@ -341,9 +341,9 @@ export function SunRiviera() {
               "Lead Manager",
               "Sales Agent"
             ].map((role, i) => (
-              <div key={i} className="bg-[#fdf3e9] p-8 border border-[#d97757]/10 rounded-3xl shadow-sm hover:shadow-lg hover:shadow-amber-900/5 transition-all duration-300 group">
-                <div className="w-12 h-12 rounded-xl bg-[#fffaf2] flex items-center justify-center mb-6 shadow-sm border border-[#d97757]/5 group-hover:bg-[#d97757] transition-colors duration-300">
-                  <Shield className="w-6 h-6 text-[#d97757] group-hover:text-[#fffaf2] transition-colors duration-300" />
+              <div key={i} className="bg-[#fdf3e9] p-8 border border-[#FF3C00]/10 rounded-3xl shadow-sm hover:shadow-lg hover:shadow-amber-900/5 transition-all duration-300 group">
+                <div className="w-12 h-12 rounded-xl bg-[#fffaf2] flex items-center justify-center mb-6 shadow-sm border border-[#FF3C00]/5 group-hover:bg-[#FF3C00] transition-colors duration-300">
+                  <Shield className="w-6 h-6 text-[#FF3C00] group-hover:text-[#fffaf2] transition-colors duration-300" />
                 </div>
                 <h3 className="font-bold mb-3 text-xl font-['Fraunces']">{role}</h3>
                 <p className="text-sm text-[#3d2817]/60 font-medium leading-relaxed">Customized dashboard and permission set designed specifically for this function.</p>
@@ -354,18 +354,18 @@ export function SunRiviera() {
       </section>
 
       {/* 10. Integrations strip */}
-      <section className="py-20 border-y border-[#d97757]/20 bg-[#fdf3e9] overflow-hidden relative">
+      <section className="py-20 border-y border-[#FF3C00]/20 bg-[#fdf3e9] overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-6 text-center mb-10">
-          <p className="text-xs font-bold tracking-widest uppercase text-[#d97757]">Integrates with your stack</p>
+          <p className="text-xs font-bold tracking-widest uppercase text-[#FF3C00]">Integrates with your stack</p>
         </div>
         <div className="flex gap-16 items-center justify-center flex-wrap max-w-6xl mx-auto text-[#3d2817]/60">
-          <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#d97757] transition-colors"><Facebook className="w-7 h-7" /> Facebook</div>
-          <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#d97757] transition-colors"><Instagram className="w-7 h-7" /> Instagram</div>
-          <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#d97757] transition-colors"><MessageCircle className="w-7 h-7" /> WhatsApp</div>
-          <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#d97757] transition-colors"><CreditCard className="w-7 h-7" /> Razorpay</div>
-          <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#d97757] transition-colors"><Mail className="w-7 h-7" /> SMTP</div>
-          <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#d97757] transition-colors"><MessageSquare className="w-7 h-7" /> SMS</div>
-          <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#d97757] transition-colors"><Database className="w-7 h-7" /> REST API</div>
+          <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><Facebook className="w-7 h-7" /> Facebook</div>
+          <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><Instagram className="w-7 h-7" /> Instagram</div>
+          <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><MessageCircle className="w-7 h-7" /> WhatsApp</div>
+          <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><CreditCard className="w-7 h-7" /> Razorpay</div>
+          <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><Mail className="w-7 h-7" /> SMTP</div>
+          <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><MessageSquare className="w-7 h-7" /> SMS</div>
+          <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><Database className="w-7 h-7" /> REST API</div>
         </div>
       </section>
 
@@ -392,11 +392,11 @@ export function SunRiviera() {
                 role: "Director, Prime Properties"
               }
             ].map((item, i) => (
-              <div key={i} className="bg-[#fdf3e9] p-10 rounded-3xl border border-[#d97757]/10 shadow-sm relative group hover:-translate-y-1 transition-transform duration-300">
-                <div className="text-[#d97757] font-['Fraunces'] text-7xl absolute top-4 left-6 opacity-20 italic">"</div>
+              <div key={i} className="bg-[#fdf3e9] p-10 rounded-3xl border border-[#FF3C00]/10 shadow-sm relative group hover:-translate-y-1 transition-transform duration-300">
+                <div className="text-[#FF3C00] font-['Fraunces'] text-7xl absolute top-4 left-6 opacity-20 italic">"</div>
                 <p className="relative z-10 text-lg leading-relaxed mb-8 italic font-medium text-[#3d2817]/80">"{item.quote}"</p>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-[#fbe8d3] border border-[#d97757]/20 flex items-center justify-center font-['Fraunces'] font-bold text-[#d97757]">
+                  <div className="w-12 h-12 rounded-full bg-[#fbe8d3] border border-[#FF3C00]/20 flex items-center justify-center font-['Fraunces'] font-bold text-[#FF3C00]">
                     {item.author.charAt(0)}
                   </div>
                   <div>
@@ -411,7 +411,7 @@ export function SunRiviera() {
       </section>
 
       {/* 12. Pricing */}
-      <section className="py-32 bg-[#fdf3e9] border-t border-[#d97757]/20">
+      <section className="py-32 bg-[#fdf3e9] border-t border-[#FF3C00]/20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
             <h2 className="font-['Fraunces'] text-4xl md:text-5xl mb-6 font-medium text-[#3d2817]">Transparent Pricing</h2>
@@ -420,7 +420,7 @@ export function SunRiviera() {
 
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto items-center">
             {/* Starter */}
-            <div className="bg-[#fffaf2] p-10 rounded-3xl border border-[#d97757]/10 shadow-sm hover:shadow-lg transition-shadow">
+            <div className="bg-[#fffaf2] p-10 rounded-3xl border border-[#FF3C00]/10 shadow-sm hover:shadow-lg transition-shadow">
               <h3 className="font-bold text-2xl mb-2 font-['Fraunces']">Starter</h3>
               <p className="text-[#3d2817]/60 text-sm mb-8 font-medium">For small brokerages</p>
               <div className="mb-10">
@@ -428,51 +428,51 @@ export function SunRiviera() {
                 <span className="text-[#3d2817]/50 text-sm font-medium">/user/mo</span>
               </div>
               <ul className="space-y-5 mb-10 text-sm font-medium text-[#3d2817]/80">
-                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#d97757] shrink-0" /> Up to 5 users</li>
-                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#d97757] shrink-0" /> Basic Lead Management</li>
-                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#d97757] shrink-0" /> Standard Reports</li>
+                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Up to 5 users</li>
+                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Basic Lead Management</li>
+                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Standard Reports</li>
               </ul>
-              <button className="w-full py-4 rounded-2xl border-2 border-[#d97757]/50 text-[#d97757] font-bold hover:bg-[#d97757] hover:text-[#fffaf2] transition-colors">
+              <button className="w-full py-4 rounded-2xl border-2 border-[#FF3C00]/50 text-[#FF3C00] font-bold hover:bg-[#FF3C00] hover:text-[#fffaf2] transition-colors">
                 Start Trial
               </button>
             </div>
 
             {/* Growth */}
-            <div className="bg-[#3d2817] text-[#fffaf2] p-10 rounded-3xl border border-[#d97757]/30 relative transform md:-translate-y-4 shadow-2xl shadow-amber-900/20">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#d97757] text-[#fffaf2] text-xs font-bold uppercase tracking-widest px-5 py-2 rounded-full shadow-md">
+            <div className="bg-[#3d2817] text-[#fffaf2] p-10 rounded-3xl border border-[#FF3C00]/30 relative transform md:-translate-y-4 shadow-2xl shadow-amber-900/20">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#FF3C00] text-[#fffaf2] text-xs font-bold uppercase tracking-widest px-5 py-2 rounded-full shadow-md">
                 Most Popular
               </div>
               <h3 className="font-bold text-2xl mb-2 font-['Fraunces'] text-[#fdf3e9]">Growth</h3>
               <p className="text-[#fffaf2]/60 text-sm mb-8 font-medium">For growing developer teams</p>
               <div className="mb-10">
-                <span className="text-4xl font-['Fraunces'] text-[#d97757] italic font-medium">₹1,499</span>
+                <span className="text-4xl font-['Fraunces'] text-[#FF3C00] italic font-medium">₹1,499</span>
                 <span className="text-[#fffaf2]/50 text-sm font-medium">/user/mo</span>
               </div>
               <ul className="space-y-5 mb-10 text-sm font-medium text-[#fffaf2]/80">
-                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#d97757] shrink-0" /> Unlimited users</li>
-                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#d97757] shrink-0" /> Auto Lead Rotation</li>
-                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#d97757] shrink-0" /> Call Tracking Integration</li>
-                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#d97757] shrink-0" /> WhatsApp API</li>
+                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Unlimited users</li>
+                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Auto Lead Rotation</li>
+                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Call Tracking Integration</li>
+                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> WhatsApp API</li>
               </ul>
-              <button className="w-full py-4 rounded-2xl bg-[#d97757] text-[#fffaf2] font-bold hover:bg-[#c2410c] shadow-lg shadow-[#d97757]/20 transition-colors">
+              <button className="w-full py-4 rounded-2xl bg-[#FF3C00] text-[#fffaf2] font-bold hover:bg-[#CC3000] shadow-lg shadow-[#FF3C00]/20 transition-colors">
                 Start Free Trial
               </button>
             </div>
 
             {/* Enterprise */}
-            <div className="bg-[#fffaf2] p-10 rounded-3xl border border-[#d97757]/10 shadow-sm hover:shadow-lg transition-shadow">
+            <div className="bg-[#fffaf2] p-10 rounded-3xl border border-[#FF3C00]/10 shadow-sm hover:shadow-lg transition-shadow">
               <h3 className="font-bold text-2xl mb-2 font-['Fraunces']">Enterprise</h3>
               <p className="text-[#3d2817]/60 text-sm mb-8 font-medium">For massive scale</p>
               <div className="mb-10">
                 <span className="text-4xl font-['Fraunces'] italic font-medium">Custom</span>
               </div>
               <ul className="space-y-5 mb-10 text-sm font-medium text-[#3d2817]/80">
-                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#d97757] shrink-0" /> Dedicated Account Manager</li>
-                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#d97757] shrink-0" /> Custom Integrations</li>
-                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#d97757] shrink-0" /> White-labelling</li>
-                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#d97757] shrink-0" /> On-premise deployment</li>
+                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Dedicated Account Manager</li>
+                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Custom Integrations</li>
+                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> White-labelling</li>
+                <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> On-premise deployment</li>
               </ul>
-              <button className="w-full py-4 rounded-2xl border-2 border-[#d97757]/50 text-[#d97757] font-bold hover:bg-[#d97757] hover:text-[#fffaf2] transition-colors">
+              <button className="w-full py-4 rounded-2xl border-2 border-[#FF3C00]/50 text-[#FF3C00] font-bold hover:bg-[#FF3C00] hover:text-[#fffaf2] transition-colors">
                 Contact Sales
               </button>
             </div>
@@ -481,7 +481,7 @@ export function SunRiviera() {
       </section>
 
       {/* 13. FAQ */}
-      <section className="py-32 bg-[#fffaf2] border-t border-[#d97757]/10">
+      <section className="py-32 bg-[#fffaf2] border-t border-[#FF3C00]/10">
         <div className="max-w-3xl mx-auto px-6">
           <h2 className="font-['Fraunces'] text-4xl md:text-5xl text-center mb-16 font-medium text-[#3d2817]">Frequently Asked Questions</h2>
           
@@ -494,13 +494,13 @@ export function SunRiviera() {
               { q: "Who owns my data?", a: "You do. We provide easy export tools so you can download your leads and data at any time." },
               { q: "What kind of support do you offer?", a: "We offer email support for all plans, priority chat support for Growth, and a dedicated manager for Enterprise." }
             ].map((faq, i) => (
-              <div key={i} className="border border-[#d97757]/10 bg-[#fdf3e9] rounded-2xl overflow-hidden shadow-sm">
+              <div key={i} className="border border-[#FF3C00]/10 bg-[#fdf3e9] rounded-2xl overflow-hidden shadow-sm">
                 <button 
                   className="w-full text-left px-8 py-6 font-semibold flex justify-between items-center hover:bg-[#fbe8d3]/50 transition-colors"
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 >
                   <span className="text-[15px]">{faq.q}</span>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${openFaq === i ? 'bg-[#d97757] text-[#fffaf2]' : 'bg-[#fffaf2] text-[#d97757] border border-[#d97757]/20'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${openFaq === i ? 'bg-[#FF3C00] text-[#fffaf2]' : 'bg-[#fffaf2] text-[#FF3C00] border border-[#FF3C00]/20'}`}>
                     {openFaq === i ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                   </div>
                 </button>
@@ -516,7 +516,7 @@ export function SunRiviera() {
       </section>
 
       {/* 14. Final CTA */}
-      <section className="py-32 bg-[#d97757] text-[#fffaf2] text-center relative overflow-hidden">
+      <section className="py-32 bg-[#FF3C00] text-[#fffaf2] text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
         <div className="max-w-4xl mx-auto px-6 relative z-10">
           <h2 className="font-['Fraunces'] text-5xl md:text-6xl mb-6 font-medium italic">Ready to close more deals?</h2>
@@ -532,7 +532,7 @@ export function SunRiviera() {
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-12 mb-20">
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-3 mb-8">
-              <div className="w-8 h-8 bg-[#d97757] rounded-xl flex items-center justify-center shadow-lg">
+              <div className="w-8 h-8 bg-[#FF3C00] rounded-xl flex items-center justify-center shadow-lg">
                 <Building2 className="w-4 h-4 text-[#fffaf2]" />
               </div>
               <span className="font-['Fraunces'] font-medium text-2xl text-[#fdf3e9]">Leads Rubix</span>
@@ -542,27 +542,27 @@ export function SunRiviera() {
           <div>
             <h4 className="text-[#fdf3e9] font-bold mb-6 uppercase tracking-widest text-xs">Product</h4>
             <ul className="space-y-4 text-sm font-medium">
-              <li><a href="#" className="hover:text-[#d97757] transition-colors">Features</a></li>
-              <li><a href="#" className="hover:text-[#d97757] transition-colors">Pricing</a></li>
-              <li><a href="#" className="hover:text-[#d97757] transition-colors">Integrations</a></li>
-              <li><a href="#" className="hover:text-[#d97757] transition-colors">Changelog</a></li>
+              <li><a href="#" className="hover:text-[#FF3C00] transition-colors">Features</a></li>
+              <li><a href="#" className="hover:text-[#FF3C00] transition-colors">Pricing</a></li>
+              <li><a href="#" className="hover:text-[#FF3C00] transition-colors">Integrations</a></li>
+              <li><a href="#" className="hover:text-[#FF3C00] transition-colors">Changelog</a></li>
             </ul>
           </div>
           <div>
             <h4 className="text-[#fdf3e9] font-bold mb-6 uppercase tracking-widest text-xs">Company</h4>
             <ul className="space-y-4 text-sm font-medium">
-              <li><a href="#" className="hover:text-[#d97757] transition-colors">About Us</a></li>
-              <li><a href="#" className="hover:text-[#d97757] transition-colors">Careers</a></li>
-              <li><a href="#" className="hover:text-[#d97757] transition-colors">Contact</a></li>
-              <li><a href="#" className="hover:text-[#d97757] transition-colors">Partners</a></li>
+              <li><a href="#" className="hover:text-[#FF3C00] transition-colors">About Us</a></li>
+              <li><a href="#" className="hover:text-[#FF3C00] transition-colors">Careers</a></li>
+              <li><a href="#" className="hover:text-[#FF3C00] transition-colors">Contact</a></li>
+              <li><a href="#" className="hover:text-[#FF3C00] transition-colors">Partners</a></li>
             </ul>
           </div>
           <div>
             <h4 className="text-[#fdf3e9] font-bold mb-6 uppercase tracking-widest text-xs">Legal</h4>
             <ul className="space-y-4 text-sm font-medium">
-              <li><a href="#" className="hover:text-[#d97757] transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-[#d97757] transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="hover:text-[#d97757] transition-colors">Refund Policy</a></li>
+              <li><a href="#" className="hover:text-[#FF3C00] transition-colors">Privacy Policy</a></li>
+              <li><a href="#" className="hover:text-[#FF3C00] transition-colors">Terms of Service</a></li>
+              <li><a href="#" className="hover:text-[#FF3C00] transition-colors">Refund Policy</a></li>
             </ul>
           </div>
         </div>
