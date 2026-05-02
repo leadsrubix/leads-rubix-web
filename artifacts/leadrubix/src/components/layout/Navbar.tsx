@@ -17,13 +17,13 @@ export function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-[#FF3C00]/20 bg-[#fdf3e9]/90 backdrop-blur-md">
       <div className="container mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2" data-testid="link-logo">
-          <div className="bg-primary text-primary-foreground p-1.5 rounded-lg">
+          <div className="bg-[#FF3C00] text-[#fffaf2] p-1.5 rounded-lg">
             <Building2 size={24} />
           </div>
-          <span className="font-bold text-xl tracking-tight text-primary">Leads Rubix</span>
+          <span className="font-['Fraunces'] font-medium text-2xl tracking-tight text-[#3d2817]">Leads Rubix</span>
         </Link>
 
         {/* Desktop Nav */}
@@ -32,7 +32,7 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm font-medium text-[#3d2817]/70 hover:text-[#FF3C00] transition-colors"
               data-testid={`link-nav-${link.label.toLowerCase()}`}
             >
               {link.label}
@@ -42,48 +42,66 @@ export function Navbar() {
 
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-4">
-          <a href="https://app.leadsrubix.com/" target="_blank" rel="noopener noreferrer" className="text-sm font-medium hover:text-primary transition-colors" data-testid="link-signin">
+          <a
+            href="https://app.leadsrubix.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-medium text-[#3d2817]/70 hover:text-[#FF3C00] transition-colors"
+            data-testid="link-signin"
+          >
             Sign In
           </a>
-          <Button asChild data-testid="btn-freetrial">
-            <a href="https://app.leadsrubix.com/" target="_blank" rel="noopener noreferrer">
-              Start Free Trial
-            </a>
-          </Button>
+          <a
+            href="https://app.leadsrubix.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#3d2817] text-[#fffaf2] px-6 py-2.5 rounded-full text-sm font-medium hover:bg-[#FF3C00] shadow-lg shadow-amber-900/5 transition-all duration-300"
+            data-testid="btn-freetrial"
+          >
+            Start Free Trial
+          </a>
         </div>
 
         {/* Mobile Nav */}
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild className="md:hidden">
-            <Button variant="ghost" size="icon" className="md:hidden" data-testid="btn-mobile-menu">
+            <Button variant="ghost" size="icon" className="md:hidden text-[#3d2817] hover:text-[#FF3C00]" data-testid="btn-mobile-menu">
               <Menu className="h-6 w-6" />
               <span className="sr-only">Toggle menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+          <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-[#fdf3e9] border-l border-[#FF3C00]/20">
             <nav className="flex flex-col gap-4 mt-8">
               {links.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="block px-2 py-1 text-lg font-medium hover:text-primary transition-colors"
+                  className="block px-2 py-1 text-lg font-medium text-[#3d2817]/80 hover:text-[#FF3C00] transition-colors"
                   onClick={() => setIsOpen(false)}
                   data-testid={`link-mobile-${link.label.toLowerCase()}`}
                 >
                   {link.label}
                 </Link>
               ))}
-              <div className="flex flex-col gap-2 mt-4 pt-4 border-t">
-                <Button variant="outline" asChild className="w-full justify-center" data-testid="btn-mobile-signin">
-                  <a href="https://app.leadsrubix.com/" target="_blank" rel="noopener noreferrer">
-                    Sign In
-                  </a>
-                </Button>
-                <Button asChild className="w-full justify-center" data-testid="btn-mobile-freetrial">
-                  <a href="https://app.leadsrubix.com/" target="_blank" rel="noopener noreferrer">
-                    Start Free Trial
-                  </a>
-                </Button>
+              <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-[#FF3C00]/20">
+                <a
+                  href="https://app.leadsrubix.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full text-center px-6 py-2.5 rounded-full text-sm font-medium border border-[#FF3C00]/30 text-[#3d2817] hover:bg-[#fbe8d3] transition-colors"
+                  data-testid="btn-mobile-signin"
+                >
+                  Sign In
+                </a>
+                <a
+                  href="https://app.leadsrubix.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full text-center bg-[#3d2817] text-[#fffaf2] px-6 py-2.5 rounded-full text-sm font-medium hover:bg-[#FF3C00] transition-colors"
+                  data-testid="btn-mobile-freetrial"
+                >
+                  Start Free Trial
+                </a>
               </div>
             </nav>
           </SheetContent>

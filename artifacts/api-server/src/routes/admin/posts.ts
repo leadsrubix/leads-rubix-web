@@ -10,7 +10,16 @@ router.use(requirePasswordOk);
 
 const slugRegex = /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
 
-const optionalUrl = z.string().url().max(500).nullable().optional();
+// Accept either a full URL (https://…) or a relative server-side path
+// (e.g. "/api/objects/uploads/<uuid>" produced by adminApi.uploadFile).
+const optionalUrl = z
+  .string()
+  .max(500)
+  .refine((v) => /^https?:\/\//i.test(v) || v.startsWith("/"), {
+    message: "Must be a full URL or a server-relative path",
+  })
+  .nullable()
+  .optional();
 const TagsSchema = z.array(z.string().min(1).max(40)).max(20);
 
 const UpsertSchema = z.object({

@@ -166,6 +166,31 @@ export const adminApi = {
       rows: AuditEvent[];
     }>(`/admin/audit?${q.toString()}`);
   },
+
+  requestUpload: (meta: { name: string; size: number; contentType: string }) =>
+    api<{ ok: true; uploadURL: string; objectPath: string; url: string }>(
+      "/admin/uploads",
+      { method: "POST", body: JSON.stringify(meta) },
+    ),
+
+  // Upload helper: requests a presigned URL, PUTs the file directly to GCS,
+  // returns the server-side path (e.g. /api/objects/uploads/<id>) suitable
+  // for storing in posts.coverImage.
+  uploadFile: async (file: File): Promise<string> => {
+    const { uploadURL, objectPath } = await adminApi.requestUpload({
+      name: file.name,
+      size: file.size,
+      contentType: file.type || "application/octet-stream",
+    });
+    const put = await fetch(uploadURL, {
+      method: "PUT",
+      headers: { "Content-Type": file.type || "application/octet-stream" },
+      body: file,
+    });
+    if (!put.ok) throw new Error(`Upload failed (${put.status})`);
+    // objectPath is "/objects/uploads/<id>"; serve via "/api/objects/uploads/<id>"
+    return `/api${objectPath}`;
+  },
 };
 
 export interface AdminUser {

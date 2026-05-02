@@ -1,19 +1,34 @@
+import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { 
-  ArrowRight, CheckCircle2, BarChart3, Users, PhoneCall, Building, 
-  Lock, Calendar, Share2, Smartphone, CreditCard, XCircle, Clock, 
-  AlertCircle, ChevronRight, Facebook, Instagram, Mail, MessageSquare, Database,
-  Briefcase, Home as HomeIcon, MapPin
+import {
+  Building2,
+  Home as HomeIcon,
+  Briefcase,
+  Network,
+  Users,
+  Check,
+  ArrowRight,
+  Database,
+  UserX,
+  Clock,
+  RefreshCw,
+  PhoneCall,
+  BarChart3,
+  CreditCard,
+  Shield,
+  Search,
+  CheckSquare,
+  Globe,
+  MapPin,
+  Facebook,
+  Instagram,
+  MessageCircle,
+  Mail,
+  MessageSquare,
+  Plus,
+  Minus,
 } from "lucide-react";
 import { Link } from "wouter";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { useSEO } from "@/lib/useSEO";
 import { useContent } from "@/lib/useContent";
 
@@ -36,14 +51,51 @@ const DEFAULT_HERO: HomeHero = {
   eyebrow: "Purpose-built for Indian Real Estate",
   headline: "Stop losing leads in WhatsApp. Start closing them.",
   subheadline:
-    "Leads Rubix is the serious CRM for property developers and brokerages. Capture Facebook leads instantly, rotate them automatically, and track every call your team makes.",
+    "The only CRM that understands the chaos of Indian real estate. Automate lead rotation, track broker performance, and respond in seconds.",
   primaryCtaLabel: "Start Free Trial",
   secondaryCtaLabel: "Book a Demo",
 };
 
+const DEFAULT_TESTIMONIALS: Testimonial[] = [
+  {
+    name: "Rajeev K.",
+    role: "VP Sales",
+    company: "Horizon Developers",
+    body: "Before Leads Rubix, we were losing 30% of our Facebook leads just because agents didn't check the sheet in time. Now, every lead is called within 5 minutes. Our site visits have doubled.",
+  },
+  {
+    name: "Sneha P.",
+    role: "Operations Head",
+    company: "Metro Realty",
+    body: "The role-based access is a game-changer. Our channel partners can only see their own leads, while my central team has full visibility. It eliminated all the daily friction.",
+  },
+  {
+    name: "Amitab S.",
+    role: "Director",
+    company: "Prime Properties",
+    body: "Finally, a CRM that understands Indian real estate. The ability to track WhatsApp conversations and token payments in the same timeline has streamlined our entire closing process.",
+  },
+];
+
+function splitHeadline(headline: string): { lead: string; accent: string | null } {
+  const idx = headline.lastIndexOf(". ");
+  if (idx === -1) return { lead: headline, accent: null };
+  return {
+    lead: headline.slice(0, idx + 1).trim(),
+    accent: headline.slice(idx + 2).trim(),
+  };
+}
+
+const DASHBOARD_VALUES = [7.3, 0.5, 3.6];
+const PIPELINE_COUNTS = [12, 8, 24, 6, 3];
+
 export default function Home() {
   const hero = useContent<HomeHero>("home_hero", DEFAULT_HERO);
-  const testimonials = useContent<Testimonial[]>("testimonials", []);
+  const testimonialsCms = useContent<Testimonial[]>("testimonials", []);
+  const testimonials = testimonialsCms.length > 0 ? testimonialsCms : DEFAULT_TESTIMONIALS;
+  const usingCmsTestimonials = testimonialsCms.length > 0;
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+
   useSEO({
     title: "Leads Rubix — Real Estate CRM for India | Capture, Rotate, Close",
     description:
@@ -51,428 +103,552 @@ export default function Home() {
     canonical: "https://leadsrubix.com/",
   });
 
+  const { lead: headlineLead, accent: headlineAccent } = splitHeadline(hero.headline);
+
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="pt-20 pb-32 px-4 md:px-8 max-w-7xl mx-auto overflow-hidden">
-        <div className="flex flex-col lg:flex-row items-center gap-12">
-          <div className="flex-1 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 text-secondary font-medium text-sm mb-6" data-testid="hero-eyebrow">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
-              </span>
-              {hero.eyebrow}
-            </div>
-            <h1
-              className="text-5xl md:text-6xl font-bold tracking-tight text-foreground mb-6 leading-tight"
-              data-testid="hero-headline"
-            >
-              {hero.headline}
-            </h1>
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto lg:mx-0" data-testid="hero-subheadline">
-              {hero.subheadline}
-            </p>
-            <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-              <Button size="lg" className="w-full sm:w-auto text-lg h-14 px-8" asChild data-testid="btn-hero-cta">
-                <a href="https://app.leadsrubix.com/" target="_blank" rel="noopener noreferrer">
-                  {hero.primaryCtaLabel} <ArrowRight className="ml-2 h-5 w-5" />
-                </a>
-              </Button>
-              <Button size="lg" variant="outline" className="w-full sm:w-auto text-lg h-14 px-8" asChild data-testid="btn-hero-demo">
-                <Link href="/demo">{hero.secondaryCtaLabel}</Link>
-              </Button>
-            </div>
-            <div className="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 text-sm font-medium text-muted-foreground">
-              <div className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-secondary" /> 7-day free trial</div>
-              <div className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-secondary" /> No credit card required</div>
-              <div className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-secondary" /> Cancel anytime</div>
-            </div>
-          </div>
-          <div className="flex-1 relative w-full max-w-2xl">
-            <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-secondary/20 rounded-[2rem] blur-3xl opacity-50"></div>
-            <img src="/hero-dashboard.png" alt="Leads Rubix dashboard preview showing pipeline stages and lead cards" loading="eager" className="relative rounded-[2rem] shadow-2xl border border-border bg-card w-full object-cover" />
-          </div>
-        </div>
-      </section>
-
-      {/* Built-for strip */}
-      <section className="py-12 border-y bg-slate-50/50">
-        <div className="container mx-auto px-4 text-center">
-          <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-6">Built for the people who actually sell property in India</p>
-          <div className="flex flex-wrap justify-center gap-4 md:gap-6">
-            {[
-              { icon: Building, label: "Property Developers" },
-              { icon: HomeIcon, label: "Residential Brokerages" },
-              { icon: Briefcase, label: "Commercial Real Estate" },
-              { icon: MapPin, label: "Channel Partners" },
-              { icon: Users, label: "Multi-branch Sales Teams" },
-            ].map((item) => (
-              <div key={item.label} className="flex items-center gap-2 px-4 py-2 bg-white border border-border rounded-full text-sm font-medium text-slate-700">
-                <item.icon className="h-4 w-4 text-primary" />
-                {item.label}
+      <div className="bg-[#fdf3e9] text-[#3d2817] font-sans selection:bg-[#FF3C00] selection:text-white">
+        {/* Hero */}
+        <section className="relative pt-24 pb-32 overflow-hidden bg-gradient-to-b from-[#fdf3e9] via-[#fbe8d3] to-[#fdf3e9]">
+          <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+            <div className="max-w-2xl relative z-10">
+              <div
+                className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#fffaf2]/50 border border-[#FF3C00]/20 rounded-full text-xs font-semibold tracking-widest uppercase text-[#FF3C00] mb-8 shadow-sm"
+                data-testid="hero-eyebrow"
+              >
+                {hero.eyebrow}
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Band - product-honest numbers */}
-      <section className="py-20 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-4xl md:text-5xl font-extrabold mb-2">50+</div>
-              <div className="text-primary-foreground/80 font-medium">Lead fields captured</div>
-            </div>
-            <div>
-              <div className="text-4xl md:text-5xl font-extrabold mb-2">6</div>
-              <div className="text-primary-foreground/80 font-medium">Roles, one pipeline</div>
-            </div>
-            <div>
-              <div className="text-4xl md:text-5xl font-extrabold mb-2">&lt;1s</div>
-              <div className="text-primary-foreground/80 font-medium">Webhook capture latency</div>
-            </div>
-            <div>
-              <div className="text-4xl md:text-5xl font-extrabold mb-2">24/7</div>
-              <div className="text-primary-foreground/80 font-medium">Lead capture & rotation</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* The Problem */}
-      <section className="py-24 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Why traditional sales floors leak revenue</h2>
-            <p className="text-lg text-muted-foreground">The Indian real estate market moves fast. If your process is slow, you lose the booking.</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <Card className="border-destructive/20 bg-destructive/5 shadow-none">
-              <CardContent className="p-6 text-center">
-                <div className="mx-auto w-12 h-12 bg-destructive/10 rounded-full flex items-center justify-center mb-4">
-                  <XCircle className="h-6 w-6 text-destructive" />
-                </div>
-                <h3 className="font-bold text-lg mb-2">Data Chaos</h3>
-                <p className="text-muted-foreground">Leads scattered across WhatsApp, Excel sheets, and Facebook inboxes. No single source of truth.</p>
-              </CardContent>
-            </Card>
-            <Card className="border-destructive/20 bg-destructive/5 shadow-none">
-              <CardContent className="p-6 text-center">
-                <div className="mx-auto w-12 h-12 bg-destructive/10 rounded-full flex items-center justify-center mb-4">
-                  <AlertCircle className="h-6 w-6 text-destructive" />
-                </div>
-                <h3 className="font-bold text-lg mb-2">Zero Accountability</h3>
-                <p className="text-muted-foreground">Sales managers can't see who's actually following up, leading to dropped balls and lost deals.</p>
-              </CardContent>
-            </Card>
-            <Card className="border-destructive/20 bg-destructive/5 shadow-none">
-              <CardContent className="p-6 text-center">
-                <div className="mx-auto w-12 h-12 bg-destructive/10 rounded-full flex items-center justify-center mb-4">
-                  <Clock className="h-6 w-6 text-destructive" />
-                </div>
-                <h3 className="font-bold text-lg mb-2">Slow Response Times</h3>
-                <p className="text-muted-foreground">Unattended leads go cold within hours while agents manually assign and distribute data.</p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* The Pipeline Visualization */}
-      <section className="py-24 bg-slate-50 border-y overflow-hidden">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">The ultimate real estate pipeline</h2>
-            <p className="text-lg text-muted-foreground">Drive every prospect through a configurable flow designed specifically for property sales.</p>
-          </div>
-          
-          <div className="flex flex-col lg:flex-row items-center justify-center gap-4 max-w-6xl mx-auto relative">
-            <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-1 bg-border -translate-y-1/2 z-0"></div>
-            
-            {[
-              { stage: "FRESH", desc: "New lead captured. Auto-assigned to next available agent." },
-              { stage: "CALLBACK", desc: "Agent reached prospect, needs follow-up at a specific time." },
-              { stage: "INTERESTED", desc: "Prospect engaged. Site visits and meetings scheduled." },
-              { stage: "BOOKED", desc: "Property booked. Payment captured, invoice generated." },
-              { stage: "LOST", desc: "Lead disqualified with exact reason logged for analysis." }
-            ].map((item, i) => (
-              <div key={item.stage} className="relative z-10 w-full lg:w-1/5 flex flex-col items-center">
-                <div className="w-full bg-card border border-border shadow-sm rounded-xl p-5 text-center transition-all hover:-translate-y-1 hover:shadow-md">
-                  <div className="text-xs font-bold tracking-widest text-primary/60 mb-2">STAGE 0{i+1}</div>
-                  <h3 className="font-bold text-lg mb-2">{item.stage}</h3>
-                  <p className="text-sm text-muted-foreground leading-snug">{item.desc}</p>
-                </div>
-                {i < 4 && (
-                  <div className="lg:hidden my-4 text-border">
-                    <ArrowRight className="h-6 w-6 rotate-90" />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Features Grid */}
-      <section className="py-24 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Everything you need to run a high-performance sales floor</h2>
-            <p className="text-lg text-muted-foreground">We built Leads Rubix specifically for the chaos of Indian real estate sales. No generic features, just tools that drive bookings.</p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { icon: Users, title: "Automated Lead Rotation", desc: "Round-robin assignment ensures no lead is left unattended. Assign instantly to the next available agent." },
-              { icon: PhoneCall, title: "Call Log Tracking", desc: "Every outbound call is logged automatically with duration, timestamp, and current stage." },
-              { icon: BarChart3, title: "Real-time Analytics", desc: "Dashboards for stage distribution, calling reports, and sales category breakdowns." },
-              { icon: CreditCard, title: "Bookings & Payments", desc: "Capture property bookings, integrate Razorpay, and generate professional PDF invoices." },
-              { icon: Lock, title: "Role-Based Access", desc: "Six tailored roles from Super Admin to Sales Agent to maintain data privacy and hierarchy." },
-              { icon: Share2, title: "Multi-Source Capture", desc: "Facebook & Instagram Lead Ads webhooks, bulk CSV import, and manual entry in one place." },
-              { icon: Calendar, title: "Task Management", desc: "Schedule calls, meetings, and site visits with calendar views and overdue detection." },
-              { icon: Building, title: "Multi-Org Support", desc: "Manage multiple developer projects or brokerage branches under one Super Admin." },
-              { icon: Smartphone, title: "GPS Call Tracking", desc: "Verify agent location during calls with precise GPS coordinate logging." }
-            ].map((feature, i) => (
-              <Card key={i} className="border-border hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                <CardContent className="p-6">
-                  <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-6">
-                    <feature.icon className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                  <p className="text-muted-foreground">{feature.desc}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Automated Lead Rotation Deep-dive */}
-      <section className="py-24 bg-slate-900 text-slate-50 overflow-hidden">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row items-center gap-16">
-            <div className="flex-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/20 text-secondary font-medium text-sm mb-6">
-                Key Differentiator
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">Automated Lead Rotation</h2>
-              <p className="text-xl text-slate-400 mb-8">
-                Never let a lead go cold. Our Bull & Redis-backed job queue automatically reassigns untouched leads based on your strict rules.
+              <h1
+                className="font-['Fraunces'] text-6xl md:text-7xl leading-[1.1] mb-6 font-medium"
+                data-testid="hero-headline"
+              >
+                {headlineLead}
+                {headlineAccent ? (
+                  <>
+                    {" "}
+                    <span className="text-[#FF3C00] italic font-light">{headlineAccent}</span>
+                  </>
+                ) : null}
+              </h1>
+              <p
+                className="text-lg md:text-xl text-[#3d2817]/70 mb-10 leading-relaxed max-w-xl font-medium"
+                data-testid="hero-subheadline"
+              >
+                {hero.subheadline}
               </p>
-              
-              <div className="space-y-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8">
+                <a
+                  href="https://app.leadsrubix.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#FF3C00] text-[#fffaf2] px-8 py-4 rounded-2xl text-base font-medium hover:bg-[#CC3000] shadow-lg shadow-[#FF3C00]/20 transition-all duration-300 flex items-center gap-2 w-full sm:w-auto justify-center hover:-translate-y-0.5"
+                  data-testid="btn-hero-cta"
+                >
+                  {hero.primaryCtaLabel} <ArrowRight className="w-4 h-4" />
+                </a>
+                <Link
+                  href="/demo"
+                  className="bg-[#fffaf2] text-[#3d2817] border border-[#FF3C00]/20 px-8 py-4 rounded-2xl text-base font-medium hover:border-[#FF3C00]/50 hover:bg-[#fbe8d3] transition-all duration-300 w-full sm:w-auto text-center shadow-sm"
+                  data-testid="btn-hero-demo"
+                >
+                  {hero.secondaryCtaLabel}
+                </Link>
+              </div>
+              <p className="text-sm text-[#3d2817]/50 flex items-center gap-3 font-medium">
+                7-day free trial <span className="w-1.5 h-1.5 rounded-full bg-[#FF3C00]/40"></span> No credit card{" "}
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FF3C00]/40"></span> Cancel anytime
+              </p>
+            </div>
+
+            <div className="relative">
+              <div className="bg-[#fffaf2] rounded-3xl border border-[#FF3C00]/10 p-6 shadow-2xl shadow-amber-900/10 relative z-10 transform translate-x-4 rotate-2 hover:rotate-0 transition-transform duration-700 ease-out">
+                <div className="flex items-center justify-between mb-8 border-b border-[#FF3C00]/10 pb-4">
+                  <div className="flex gap-2.5">
+                    <div className="w-3.5 h-3.5 rounded-full bg-[#FF3C00]/40" />
+                    <div className="w-3.5 h-3.5 rounded-full bg-[#3d2817]/20" />
+                    <div className="w-3.5 h-3.5 rounded-full bg-[#3d2817]/20" />
+                  </div>
+                  <div className="text-xs font-semibold text-[#3d2817]/40 tracking-widest uppercase">Pipeline</div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-4 mb-6">
+                  {DASHBOARD_VALUES.map((v, i) => (
+                    <div key={i} className="bg-[#fdf3e9] p-4 rounded-2xl border border-[#FF3C00]/5 shadow-sm">
+                      <div className="h-2.5 w-1/3 bg-[#3d2817]/10 rounded-full mb-4" />
+                      <div className="h-4 w-2/3 bg-[#3d2817]/70 rounded-full mb-2.5" />
+                      <div className="h-3 w-1/2 bg-[#3d2817]/30 rounded-full mb-5" />
+                      <div className="flex justify-between items-center mt-4 pt-4 border-t border-[#FF3C00]/10">
+                        <div className="w-7 h-7 rounded-full bg-[#fffaf2] shadow-sm" />
+                        <div className="text-xs text-[#FF3C00] font-semibold">₹{v.toFixed(1)} Cr</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="bg-[#fdf3e9] p-5 rounded-2xl border border-[#FF3C00]/5 shadow-sm flex items-center justify-between">
+                  <div>
+                    <div className="text-xs text-[#3d2817]/50 font-medium mb-1.5 uppercase tracking-wide">
+                      New Lead · MagicBricks
+                    </div>
+                    <div className="font-semibold text-[#3d2817]">Rahul Sharma — 3BHK Andheri</div>
+                  </div>
+                  <div className="bg-[#FF3C00]/10 text-[#FF3C00] px-3.5 py-1.5 rounded-full text-xs font-semibold">
+                    Assigned to Amit
+                  </div>
+                </div>
+              </div>
+
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-[#FF3C00]/10 to-transparent rounded-full blur-3xl -z-10" />
+            </div>
+          </div>
+        </section>
+
+        {/* Built-for pill strip */}
+        <section className="border-y border-[#FF3C00]/20 bg-[#fffaf2] py-10">
+          <div className="max-w-7xl mx-auto px-6">
+            <p className="text-center text-xs font-bold tracking-widest uppercase text-[#FF3C00]/60 mb-8">
+              Built Exclusively For
+            </p>
+            <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+              {[
+                { icon: Building2, text: "Property Developers" },
+                { icon: HomeIcon, text: "Residential Brokerages" },
+                { icon: Briefcase, text: "Commercial Real Estate" },
+                { icon: Network, text: "Channel Partners" },
+                { icon: Users, text: "Multi-branch Sales Teams" },
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-2.5 text-[#3d2817]/80 font-medium bg-amber-50/50 px-5 py-2.5 rounded-full border border-[#FF3C00]/10 shadow-sm"
+                >
+                  <item.icon className="w-4 h-4 text-[#FF3C00]" />
+                  <span className="text-sm">{item.text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Stats band */}
+        <section className="bg-[#FF3C00] text-[#fdf3e9] py-24 relative overflow-hidden">
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
+          <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-12 text-center relative z-10">
+            {[
+              { label: "Lead Fields Tracked", value: "50+" },
+              { label: "Distinct Org Roles", value: "6" },
+              { label: "Capture Latency", value: "<1s" },
+              { label: "Automated Capture", value: "24/7" },
+            ].map((stat, i) => (
+              <div key={i} className="group">
+                <div className="font-['Fraunces'] text-5xl md:text-6xl text-[#fffaf2] mb-3 group-hover:scale-105 transition-transform duration-300 font-light italic">
+                  {stat.value}
+                </div>
+                <div className="text-sm tracking-widest uppercase opacity-80 font-medium">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* The problem */}
+        <section className="py-32 bg-[#fdf3e9]">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center max-w-3xl mx-auto mb-20">
+              <h2 className="font-['Fraunces'] text-4xl md:text-5xl mb-6 font-medium text-[#3d2817]">
+                Why legacy CRMs fail in Indian Real Estate.
+              </h2>
+              <p className="text-lg text-[#3d2817]/70 font-medium">
+                Generic tools weren't built for the scale of site visits, broker networks, and WhatsApp negotiations.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                {
+                  icon: Database,
+                  title: "Data Chaos",
+                  desc: "Leads scattered across Excel sheets, WhatsApp chats, and notebooks. No single source of truth for a buyer's journey.",
+                },
+                {
+                  icon: UserX,
+                  title: "Zero Accountability",
+                  desc: "Agents cherry-pick leads. No visibility into who called whom, when, and what was discussed.",
+                },
+                {
+                  icon: Clock,
+                  title: "Slow Response Times",
+                  desc: "Hot leads from 99acres or Facebook sit untouched for hours while competitors call them in minutes.",
+                },
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  className="bg-[#fffaf2] p-10 border border-[#FF3C00]/10 rounded-3xl shadow-sm hover:shadow-xl hover:shadow-amber-900/5 hover:-translate-y-1 transition-all duration-300 group"
+                >
+                  <div className="w-14 h-14 bg-[#fdf3e9] rounded-2xl flex items-center justify-center mb-8 shadow-sm border border-[#FF3C00]/10 group-hover:bg-[#FF3C00] transition-colors duration-300">
+                    <item.icon className="w-7 h-7 text-[#FF3C00] group-hover:text-[#fffaf2] transition-colors duration-300" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 font-['Fraunces']">{item.title}</h3>
+                  <p className="text-[#3d2817]/70 leading-relaxed font-medium">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Pipeline visualization */}
+        <section className="py-24 bg-[#fffaf2] border-y border-[#FF3C00]/20 overflow-hidden">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-16">
+              <h2 className="font-['Fraunces'] text-4xl mb-4 font-medium text-[#3d2817]">
+                A Pipeline Built for Property Sales
+              </h2>
+              <p className="text-[#3d2817]/70 font-medium">Standardized stages that map to how real estate is actually sold.</p>
+            </div>
+
+            <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 md:gap-3 relative">
+              <div className="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-[#FF3C00]/20 -translate-y-1/2 z-0" />
+
+              {[
+                { name: "FRESH", color: "bg-[#fdf3e9] text-[#3d2817] border-[#FF3C00]/20" },
+                { name: "CALLBACK", color: "bg-[#fbe8d3] text-[#3d2817] border-[#FF3C00]/30" },
+                { name: "INTERESTED", color: "bg-[#f3d8c1] text-[#3d2817] border-[#FF3C00]/40" },
+                { name: "BOOKED", color: "bg-[#FF3C00] text-[#fffaf2] border-[#FF3C00]" },
+                { name: "LOST", color: "bg-[#fffaf2] text-[#3d2817]/50 border-[#3d2817]/10" },
+              ].map((stage, i) => (
+                <div key={i} className="relative z-10 flex-1 group">
+                  <div
+                    className={`border p-5 rounded-2xl shadow-sm group-hover:-translate-y-1 transition-transform duration-300 ${stage.color}`}
+                  >
+                    <div className="text-xs font-bold tracking-widest mb-3">{stage.name}</div>
+                    <div className="text-3xl font-['Fraunces'] opacity-90 italic">{PIPELINE_COUNTS[i]}</div>
+                    <div className="text-[10px] uppercase tracking-widest opacity-70 mt-1 font-semibold">Leads</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Features grid */}
+        <section className="py-32 bg-[#fdf3e9]">
+          <div className="max-w-7xl mx-auto px-6">
+            <h2 className="font-['Fraunces'] text-4xl md:text-5xl text-center mb-24 font-medium text-[#3d2817]">
+              Everything you need to close more deals.
+            </h2>
+
+            <div className="grid md:grid-cols-3 gap-x-12 gap-y-20">
+              {[
+                { icon: RefreshCw, title: "Automated Lead Rotation", desc: "Distribute incoming leads instantly based on rules, availability, and performance." },
+                { icon: PhoneCall, title: "Call Log Tracking", desc: "Native integration with telephony providers to log every call duration and recording." },
+                { icon: BarChart3, title: "Real-time Analytics", desc: "Dashboards tracking site visits, source ROI, and agent conversion rates." },
+                { icon: CreditCard, title: "Bookings & Payments", desc: "Generate payment links and track token amounts directly within the deal record." },
+                { icon: Shield, title: "Role-Based Access", desc: "Granular permissions ensuring agents only see their leads, while admins see everything." },
+                { icon: Search, title: "Multi-Source Capture", desc: "Ingest leads from Facebook, Google, 99acres, MagicBricks, and your website seamlessly." },
+                { icon: CheckSquare, title: "Task Management", desc: "Automated follow-up reminders so a hot lead never slips through the cracks." },
+                { icon: Globe, title: "Multi-Org Support", desc: "Manage multiple projects, branches, or channel partners from a single master dashboard." },
+                { icon: MapPin, title: "GPS Call Tracking", desc: "Verify agent locations during site visits or outdoor meetings for better accountability." },
+              ].map((item, i) => (
+                <div key={i} className="flex gap-5 group">
+                  <div className="flex-shrink-0 mt-1 w-12 h-12 bg-[#fffaf2] rounded-xl flex items-center justify-center border border-[#FF3C00]/10 shadow-sm group-hover:bg-[#FF3C00] group-hover:border-[#FF3C00] transition-all duration-300">
+                    <item.icon className="w-6 h-6 text-[#FF3C00] group-hover:text-[#fffaf2] transition-colors duration-300" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold mb-2.5 text-lg font-['Fraunces'] tracking-wide">{item.title}</h3>
+                    <p className="text-[#3d2817]/70 text-sm leading-relaxed font-medium">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <hr className="border-[#FF3C00]/20" />
+
+        {/* Lead Rotation Deep Dive */}
+        <section className="py-32 bg-[#3d2817] text-[#fffaf2]">
+          <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#FF3C00]/20 rounded-full text-xs font-semibold tracking-widest uppercase text-[#fbe8d3] mb-6">
+                Core Technology
+              </div>
+              <h2 className="font-['Fraunces'] text-4xl md:text-5xl mb-8 font-medium">Never let a lead go cold again.</h2>
+              <p className="text-[#fffaf2]/70 text-lg mb-12 font-medium leading-relaxed">
+                Our proprietary lead rotation engine ensures every inquiry gets a response within minutes, automatically reassigning leads if an agent is unavailable.
+              </p>
+
+              <div className="space-y-10">
                 {[
-                  { title: "Lead Arrives", desc: "Instantly captured via webhook or import." },
-                  { title: "Response Window", desc: "Agent has configurable minutes to respond." },
-                  { title: "Auto-Reassignment", desc: "If untouched, round-robin routes to the next agent." },
-                  { title: "Schedule Aware", desc: "Respects working hours and holiday calendars." }
-                ].map((step, i) => (
-                  <div key={i} className="flex gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-secondary text-secondary-foreground font-bold flex items-center justify-center">
-                      {i + 1}
+                  { step: "01", title: "Lead Arrives", desc: "Captured instantly from any source via API or Webhook." },
+                  { step: "02", title: "Response Window", desc: "Agent has 15 minutes (customizable) to action the lead." },
+                  { step: "03", title: "Auto-Reassignment", desc: "If untouched, the lead rotates to the next available agent." },
+                  { step: "04", title: "Schedule Aware", desc: "Rotation rules respect agent working hours and leaves." },
+                ].map((item, i) => (
+                  <div key={i} className="flex gap-6 group">
+                    <div className="text-[#FF3C00] font-['Fraunces'] text-3xl italic group-hover:scale-110 transition-transform">
+                      {item.step}
                     </div>
                     <div>
-                      <h4 className="font-bold text-lg">{step.title}</h4>
-                      <p className="text-slate-400">{step.desc}</p>
+                      <h4 className="font-bold text-lg mb-1.5 tracking-wide text-[#fdf3e9]">{item.title}</h4>
+                      <p className="text-[#fffaf2]/50 text-sm font-medium">{item.desc}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="flex-1 w-full relative">
-              <div className="absolute inset-0 bg-gradient-to-tr from-secondary/20 to-primary/20 rounded-2xl blur-3xl opacity-50"></div>
-              <img 
-                src="/lead-rotation.png" 
-                alt="Diagram showing how Leads Rubix automatically rotates untouched leads to the next available agent"
-                loading="lazy"
-                className="relative rounded-2xl border border-slate-700 shadow-2xl w-full"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Six Roles */}
-      <section className="py-24 bg-background border-y">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Six roles for real teams</h2>
-            <p className="text-lg text-muted-foreground">Rigid, hierarchical access control matching how Indian brokerages actually operate.</p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {[
-              { role: "Super Admin", desc: "Full access across all organizations, manages system configuration" },
-              { role: "Organization Admin", desc: "Admin for a single organization, manages users and settings" },
-              { role: "Operation Manager", desc: "Cross-team visibility within an organization" },
-              { role: "Team Lead", desc: "Sees own leads plus leads of all agents reporting to them" },
-              { role: "Lead Manager", desc: "Manages a subset of agents with a dedicated panel" },
-              { role: "Sales Agent", desc: "Sees and actions only leads assigned to them" }
-            ].map((item, i) => (
-              <Card key={i} className="bg-slate-50 border-border">
-                <CardContent className="p-6">
-                  <h3 className="font-bold text-lg mb-2 text-primary">{item.role}</h3>
-                  <p className="text-sm text-muted-foreground">{item.desc}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Integrations */}
-      <section className="py-20 bg-slate-50">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-10">Connects with your stack</h2>
-          <div className="flex flex-wrap justify-center items-center gap-6 md:gap-10 max-w-4xl mx-auto mb-8">
-            <div className="flex items-center gap-2 px-6 py-3 bg-white border rounded-xl shadow-sm font-semibold text-slate-700">
-              <Facebook className="text-blue-600 h-5 w-5" /> Facebook
-            </div>
-            <div className="flex items-center gap-2 px-6 py-3 bg-white border rounded-xl shadow-sm font-semibold text-slate-700">
-              <Instagram className="text-pink-600 h-5 w-5" /> Instagram
-            </div>
-            <div className="flex items-center gap-2 px-6 py-3 bg-white border rounded-xl shadow-sm font-semibold text-slate-700">
-              <MessageSquare className="text-green-500 h-5 w-5" /> WhatsApp
-            </div>
-            <div className="flex items-center gap-2 px-6 py-3 bg-white border rounded-xl shadow-sm font-semibold text-slate-700">
-              <CreditCard className="text-blue-800 h-5 w-5" /> Razorpay
-            </div>
-            <div className="flex items-center gap-2 px-6 py-3 bg-white border rounded-xl shadow-sm font-semibold text-slate-700">
-              <Mail className="text-slate-600 h-5 w-5" /> SMTP
-            </div>
-            <div className="flex items-center gap-2 px-6 py-3 bg-white border rounded-xl shadow-sm font-semibold text-slate-700">
-              <Smartphone className="text-slate-600 h-5 w-5" /> SMS &amp; FCM
-            </div>
-            <div className="flex items-center gap-2 px-6 py-3 bg-white border rounded-xl shadow-sm font-semibold text-slate-700">
-              <Database className="text-slate-600 h-5 w-5" /> REST API
-            </div>
-          </div>
-          <Link href="/integrations" className="inline-flex items-center gap-2 text-primary font-medium hover:underline">
-            See all integrations <ChevronRight className="h-4 w-4" />
-          </Link>
-        </div>
-      </section>
-
-      {/* Outcomes — illustrative scenarios */}
-      <section className="py-24 bg-background border-y">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-4">
-            <div className="inline-block text-xs font-semibold tracking-wider uppercase text-primary mb-3">What teams use Leads Rubix for</div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Built for outcomes like these</h2>
-            <p className="text-lg text-muted-foreground">Common scenarios our customers solve in their first month on the platform.</p>
-          </div>
-          <p className="text-center text-xs text-muted-foreground mb-12">The scenarios below describe representative use cases. Real customer stories live on our <Link href="/case-studies" className="underline">case studies page</Link>.</p>
-          
-          {testimonials.length > 0 ? (
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto" data-testid="testimonials-cms">
-              {testimonials.slice(0, 3).map((t, i) => (
-                <Card key={i} className="bg-slate-50 border-border">
-                  <CardContent className="p-8">
-                    <p className="text-lg italic mb-6">"{t.body}"</p>
-                    <div>
-                      <div className="font-bold">{t.name}</div>
-                      <div className="text-sm text-muted-foreground">
-                        {t.role}
-                        {t.company ? ` · ${t.company}` : ""}
-                      </div>
+            <div className="bg-[#fdf3e9]/5 rounded-3xl border border-[#fdf3e9]/10 p-8 shadow-2xl backdrop-blur-sm">
+              <div className="space-y-5">
+                <div className="bg-[#fdf3e9]/10 p-5 rounded-2xl border border-[#fdf3e9]/20 flex justify-between items-center shadow-inner">
+                  <div>
+                    <div className="text-sm font-semibold mb-1 text-[#fdf3e9]">Incoming: Facebook Ads</div>
+                    <div className="text-xs text-[#fdf3e9]/60 font-medium">Project: Horizon Towers</div>
+                  </div>
+                  <div className="text-xs bg-[#FF3C00] text-[#fffaf2] px-3 py-1.5 rounded-full font-semibold shadow-sm">Just Now</div>
+                </div>
+                <div className="flex justify-center my-3">
+                  <ArrowRight className="w-6 h-6 text-[#FF3C00] rotate-90 opacity-80" />
+                </div>
+                <div className="bg-[#fffaf2] text-[#3d2817] p-5 rounded-2xl border border-[#fffaf2]/20 flex items-center gap-4 shadow-lg">
+                  <div className="w-12 h-12 rounded-xl bg-[#fdf3e9] flex items-center justify-center font-bold text-[#FF3C00] border border-[#FF3C00]/20 shadow-sm">
+                    AS
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold tracking-wide">Assigned to Amit Singh</div>
+                    <div className="text-xs text-[#3d2817]/60 font-medium mt-1 flex items-center gap-1.5">
+                      <Clock className="w-3 h-3" /> 15:00 countdown started
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Six roles */}
+        <section className="py-32 bg-[#fffaf2]">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-20">
+              <h2 className="font-['Fraunces'] text-4xl md:text-5xl mb-6 font-medium text-[#3d2817]">
+                Built for the entire organization
+              </h2>
+              <p className="text-[#3d2817]/70 font-medium text-lg">Specific views and permissions for every role in your company.</p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[
+                "Super Admin",
+                "Organization Admin",
+                "Operation Manager",
+                "Team Lead",
+                "Lead Manager",
+                "Sales Agent",
+              ].map((role, i) => (
+                <div
+                  key={i}
+                  className="bg-[#fdf3e9] p-8 border border-[#FF3C00]/10 rounded-3xl shadow-sm hover:shadow-lg hover:shadow-amber-900/5 transition-all duration-300 group"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-[#fffaf2] flex items-center justify-center mb-6 shadow-sm border border-[#FF3C00]/5 group-hover:bg-[#FF3C00] transition-colors duration-300">
+                    <Shield className="w-6 h-6 text-[#FF3C00] group-hover:text-[#fffaf2] transition-colors duration-300" />
+                  </div>
+                  <h3 className="font-bold mb-3 text-xl font-['Fraunces']">{role}</h3>
+                  <p className="text-sm text-[#3d2817]/60 font-medium leading-relaxed">
+                    Customized dashboard and permission set designed specifically for this function.
+                  </p>
+                </div>
               ))}
             </div>
-          ) : (
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <Card className="bg-slate-50 border-border">
-              <CardContent className="p-8">
-                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-primary/10 text-primary text-xs font-semibold mb-4">Lead Response</div>
-                <p className="text-lg italic mb-6">"Facebook leads used to sit in a sheet for hours. With auto-rotation, the next available agent gets pinged in seconds — first-touch time dropped from hours to minutes."</p>
-                <div>
-                  <div className="font-bold">Sales Head</div>
-                  <div className="text-sm text-muted-foreground">Mumbai brokerage, illustrative scenario</div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="bg-slate-50 border-border">
-              <CardContent className="p-8">
-                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-primary/10 text-primary text-xs font-semibold mb-4">Accountability</div>
-                <p className="text-lg italic mb-6">"Every outbound call is logged automatically with GPS coordinates. We finally know exactly which agents are actually visiting sites versus claiming they did."</p>
-                <div>
-                  <div className="font-bold">Operations Manager</div>
-                  <div className="text-sm text-muted-foreground">Pune developer, illustrative scenario</div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="bg-slate-50 border-border">
-              <CardContent className="p-8">
-                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-primary/10 text-primary text-xs font-semibold mb-4">Bookings &amp; Cash</div>
-                <p className="text-lg italic mb-6">"Capturing Razorpay payments and generating invoices inside the lead's profile saves hours of reconciliation each week. One audit trail, one system of record."</p>
-                <div>
-                  <div className="font-bold">Director, Channel Sales</div>
-                  <div className="text-sm text-muted-foreground">Bengaluru channel partner, illustrative scenario</div>
-                </div>
-              </CardContent>
-            </Card>
           </div>
-          )}
-        </div>
-      </section>
+        </section>
 
-      {/* FAQ Teaser */}
-      <section className="py-24 bg-slate-50">
-        <div className="container mx-auto px-4 max-w-3xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
+        {/* Integrations strip */}
+        <section className="py-20 border-y border-[#FF3C00]/20 bg-[#fdf3e9] overflow-hidden relative">
+          <div className="max-w-7xl mx-auto px-6 text-center mb-10">
+            <p className="text-xs font-bold tracking-widest uppercase text-[#FF3C00]">Integrates with your stack</p>
           </div>
-          
-          <Accordion type="single" collapsible className="mb-8 bg-card border rounded-xl overflow-hidden shadow-sm">
-            <AccordionItem value="item-1" className="px-6">
-              <AccordionTrigger className="text-left font-bold text-lg hover:no-underline py-4">Is there a free trial?</AccordionTrigger>
-              <AccordionContent className="text-muted-foreground pb-4">
-                Yes, we offer a 7-day free trial with full feature access. It's auto-enforced and you'll be prompted to upgrade once it expires, with a brief grace period to ensure no data is lost.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-2" className="px-6">
-              <AccordionTrigger className="text-left font-bold text-lg hover:no-underline py-4">Does it integrate with Facebook Lead Ads?</AccordionTrigger>
-              <AccordionContent className="text-muted-foreground pb-4">
-                Yes, Leads Rubix features zero-latency webhook endpoints that connect directly to your Facebook and Instagram campaigns to capture leads the second they are submitted.
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3" className="px-6">
-              <AccordionTrigger className="text-left font-bold text-lg hover:no-underline py-4">Can I manage multiple projects or branches?</AccordionTrigger>
-              <AccordionContent className="text-muted-foreground pb-4">
-                Absolutely. Our multi-tenant structure allows a single Super Admin to oversee multiple organizations or branches, while strictly segmenting data visibility for operations managers and agents.
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-          
-          <div className="text-center">
-            <Link href="/faq" className="text-primary font-medium hover:underline inline-flex items-center gap-2">
-              See all FAQs <ChevronRight className="h-4 w-4" />
-            </Link>
+          <div className="flex gap-16 items-center justify-center flex-wrap max-w-6xl mx-auto text-[#3d2817]/60">
+            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><Facebook className="w-7 h-7" /> Facebook</div>
+            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><Instagram className="w-7 h-7" /> Instagram</div>
+            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><MessageCircle className="w-7 h-7" /> WhatsApp</div>
+            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><CreditCard className="w-7 h-7" /> Razorpay</div>
+            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><Mail className="w-7 h-7" /> SMTP</div>
+            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><MessageSquare className="w-7 h-7" /> SMS</div>
+            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><Database className="w-7 h-7" /> REST API</div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Final CTA */}
-      <section className="py-24 bg-primary text-primary-foreground relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">Ready to organize your pipeline?</h2>
-          <p className="text-xl mb-10 max-w-2xl mx-auto opacity-90">Start a 7-day free trial — no credit card required — or book a guided demo with our India team.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="h-14 px-8 text-lg font-bold" asChild data-testid="btn-bottom-cta">
-              <a href="https://app.leadsrubix.com/" target="_blank" rel="noopener noreferrer">
-                Start Free Trial
-              </a>
-            </Button>
-            <Button size="lg" variant="outline" className="h-14 px-8 text-lg font-bold bg-transparent border-white text-white hover:bg-white hover:text-primary" asChild data-testid="btn-bottom-demo">
-              <Link href="/demo">Book a Demo</Link>
-            </Button>
+        {/* Testimonials */}
+        <section className="py-32 bg-[#fffaf2]">
+          <div className="max-w-7xl mx-auto px-6">
+            <h2 className="font-['Fraunces'] text-4xl md:text-5xl text-center mb-20 font-medium text-[#3d2817]">
+              Trusted by top developers
+            </h2>
+
+            <div
+              className="grid md:grid-cols-3 gap-10"
+              {...(usingCmsTestimonials ? { "data-testid": "testimonials-cms" } : {})}
+            >
+              {testimonials.slice(0, 3).map((t, i) => {
+                const roleLine = t.company ? `${t.role}, ${t.company}` : t.role;
+                return (
+                  <div
+                    key={i}
+                    className="bg-[#fdf3e9] p-10 rounded-3xl border border-[#FF3C00]/10 shadow-sm relative group hover:-translate-y-1 transition-transform duration-300"
+                  >
+                    <div className="text-[#FF3C00] font-['Fraunces'] text-7xl absolute top-4 left-6 opacity-20 italic">"</div>
+                    <p className="relative z-10 text-lg leading-relaxed mb-8 italic font-medium font-['Fraunces'] text-[#3d2817]/80">
+                      "{t.body}"
+                    </p>
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-full bg-[#fbe8d3] border border-[#FF3C00]/20 flex items-center justify-center font-['Fraunces'] font-bold text-[#FF3C00]">
+                        {t.name.charAt(0)}
+                      </div>
+                      <div>
+                        <div className="font-bold tracking-wide text-[#3d2817]">{t.name}</div>
+                        <div className="text-sm text-[#3d2817]/60 font-medium">{roleLine}</div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* Pricing */}
+        <section className="py-32 bg-[#fdf3e9] border-t border-[#FF3C00]/20">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-20">
+              <h2 className="font-['Fraunces'] text-4xl md:text-5xl mb-6 font-medium text-[#3d2817]">Transparent Pricing</h2>
+              <p className="text-[#3d2817]/70 text-lg font-medium">No hidden fees. Scale as you grow.</p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto items-center">
+              <div className="bg-[#fffaf2] p-10 rounded-3xl border border-[#FF3C00]/10 shadow-sm hover:shadow-lg transition-shadow">
+                <h3 className="font-bold text-2xl mb-2 font-['Fraunces']">Starter</h3>
+                <p className="text-[#3d2817]/60 text-sm mb-8 font-medium">For small brokerages</p>
+                <div className="mb-10">
+                  <span className="text-4xl font-['Fraunces'] italic font-medium">₹999</span>
+                  <span className="text-[#3d2817]/50 text-sm font-medium">/user/mo</span>
+                </div>
+                <ul className="space-y-5 mb-10 text-sm font-medium text-[#3d2817]/80">
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Up to 5 users</li>
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Basic Lead Management</li>
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Standard Reports</li>
+                </ul>
+                <a
+                  href="https://app.leadsrubix.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full py-4 rounded-2xl border-2 border-[#FF3C00]/50 text-[#FF3C00] font-bold hover:bg-[#FF3C00] hover:text-[#fffaf2] transition-colors text-center"
+                >
+                  Start Trial
+                </a>
+              </div>
+
+              <div className="bg-[#3d2817] text-[#fffaf2] p-10 rounded-3xl border border-[#FF3C00]/30 relative transform md:-translate-y-4 shadow-2xl shadow-amber-900/20">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#FF3C00] text-[#fffaf2] text-xs font-bold uppercase tracking-widest px-5 py-2 rounded-full shadow-md">
+                  Most Popular
+                </div>
+                <h3 className="font-bold text-2xl mb-2 font-['Fraunces'] text-[#fdf3e9]">Growth</h3>
+                <p className="text-[#fffaf2]/60 text-sm mb-8 font-medium">For growing developer teams</p>
+                <div className="mb-10">
+                  <span className="text-4xl font-['Fraunces'] text-[#FF3C00] italic font-medium">₹1,499</span>
+                  <span className="text-[#fffaf2]/50 text-sm font-medium">/user/mo</span>
+                </div>
+                <ul className="space-y-5 mb-10 text-sm font-medium text-[#fffaf2]/80">
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Unlimited users</li>
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Auto Lead Rotation</li>
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Call Tracking Integration</li>
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> WhatsApp API</li>
+                </ul>
+                <a
+                  href="https://app.leadsrubix.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full py-4 rounded-2xl bg-[#FF3C00] text-[#fffaf2] font-bold hover:bg-[#CC3000] shadow-lg shadow-[#FF3C00]/20 transition-colors text-center"
+                >
+                  Start Free Trial
+                </a>
+              </div>
+
+              <div className="bg-[#fffaf2] p-10 rounded-3xl border border-[#FF3C00]/10 shadow-sm hover:shadow-lg transition-shadow">
+                <h3 className="font-bold text-2xl mb-2 font-['Fraunces']">Enterprise</h3>
+                <p className="text-[#3d2817]/60 text-sm mb-8 font-medium">For massive scale</p>
+                <div className="mb-10">
+                  <span className="text-4xl font-['Fraunces'] italic font-medium">Custom</span>
+                </div>
+                <ul className="space-y-5 mb-10 text-sm font-medium text-[#3d2817]/80">
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Dedicated Account Manager</li>
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Custom Integrations</li>
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> White-labelling</li>
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> On-premise deployment</li>
+                </ul>
+                <Link
+                  href="/contact"
+                  className="block w-full py-4 rounded-2xl border-2 border-[#FF3C00]/50 text-[#FF3C00] font-bold hover:bg-[#FF3C00] hover:text-[#fffaf2] transition-colors text-center"
+                >
+                  Contact Sales
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section className="py-32 bg-[#fffaf2] border-t border-[#FF3C00]/10">
+          <div className="max-w-3xl mx-auto px-6">
+            <h2 className="font-['Fraunces'] text-4xl md:text-5xl text-center mb-16 font-medium text-[#3d2817]">
+              Frequently Asked Questions
+            </h2>
+
+            <div className="space-y-4">
+              {[
+                { q: "How long is the free trial?", a: "We offer a 7-day full-featured free trial. No credit card is required to sign up." },
+                { q: "Can I cancel anytime?", a: "Yes, our subscriptions are month-to-month. You can cancel at any time without penalty." },
+                { q: "Do you offer white-labelling?", a: "Yes, white-labelling is available on our Enterprise plan. You can use your own domain and branding." },
+                { q: "Is GST included in the pricing?", a: "No, the prices listed are exclusive of 18% GST." },
+                { q: "Who owns my data?", a: "You do. We provide easy export tools so you can download your leads and data at any time." },
+                { q: "What kind of support do you offer?", a: "We offer email support for all plans, priority chat support for Growth, and a dedicated manager for Enterprise." },
+              ].map((faq, i) => (
+                <div key={i} className="border border-[#FF3C00]/10 bg-[#fdf3e9] rounded-2xl overflow-hidden shadow-sm">
+                  <button
+                    type="button"
+                    className="w-full text-left px-8 py-6 font-semibold flex justify-between items-center hover:bg-[#fbe8d3]/50 transition-colors"
+                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  >
+                    <span className="text-[15px]">{faq.q}</span>
+                    <div
+                      className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${openFaq === i ? "bg-[#FF3C00] text-[#fffaf2]" : "bg-[#fffaf2] text-[#FF3C00] border border-[#FF3C00]/20"}`}
+                    >
+                      {openFaq === i ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                    </div>
+                  </button>
+                  {openFaq === i && (
+                    <div className="px-8 pb-6 text-[#3d2817]/70 text-[15px] leading-relaxed font-medium">{faq.a}</div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Final CTA */}
+        <section className="py-32 bg-[#FF3C00] text-[#fffaf2] text-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
+          <div className="max-w-4xl mx-auto px-6 relative z-10">
+            <h2 className="font-['Fraunces'] text-5xl md:text-6xl mb-6 font-medium italic">Ready to close more deals?</h2>
+            <p className="text-xl md:text-2xl text-[#fffaf2]/80 mb-12 font-medium max-w-2xl mx-auto leading-relaxed">
+              Join top Indian developers managing their pipeline on Leads Rubix.
+            </p>
+            <a
+              href="https://app.leadsrubix.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-[#3d2817] text-[#fffaf2] px-10 py-5 rounded-full text-lg font-bold hover:bg-[#fffaf2] hover:text-[#3d2817] shadow-xl shadow-amber-900/20 hover:-translate-y-1 transition-all duration-300"
+            >
+              Start Your Free Trial
+            </a>
+          </div>
+        </section>
+      </div>
     </Layout>
   );
 }

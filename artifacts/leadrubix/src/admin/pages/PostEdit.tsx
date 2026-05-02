@@ -112,7 +112,13 @@ export default function AdminPostEdit() {
       };
       if (isNew) {
         const { post } = await adminApi.createPost(payload);
-        toast({ title: "Post created", description: post.title });
+        toast({
+          title:
+            publishOverride === "published"
+              ? "Post published"
+              : "Post created",
+          description: post.title,
+        });
         navigate(`/admin/posts/${post.id}`, { replace: true });
       } else if (id) {
         await adminApi.updatePost(id, payload);
@@ -228,14 +234,47 @@ export default function AdminPostEdit() {
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="cover">Featured image URL</Label>
-            <Input
-              id="cover"
-              value={form.coverImage ?? ""}
-              onChange={(e) => update("coverImage", e.target.value)}
-              placeholder="https://…"
-              data-testid="input-post-cover"
-            />
+            <Label htmlFor="cover">Featured image</Label>
+            <div className="flex gap-2">
+              <Input
+                id="cover"
+                value={form.coverImage ?? ""}
+                onChange={(e) => update("coverImage", e.target.value)}
+                placeholder="Paste URL or upload below"
+                data-testid="input-post-cover"
+              />
+              <input
+                type="file"
+                accept="image/*"
+                id="cover-upload"
+                className="hidden"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  e.target.value = "";
+                  if (!file) return;
+                  try {
+                    const url = await adminApi.uploadFile(file);
+                    update("coverImage", url);
+                    toast({ title: "Image uploaded" });
+                  } catch (err) {
+                    toast({
+                      title: "Upload failed",
+                      description: err instanceof Error ? err.message : "Try again",
+                      variant: "destructive",
+                    });
+                  }
+                }}
+                data-testid="input-cover-file"
+              />
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => document.getElementById("cover-upload")?.click()}
+                data-testid="btn-upload-cover"
+              >
+                Upload
+              </Button>
+            </div>
             {form.coverImage ? (
               <img
                 src={form.coverImage}

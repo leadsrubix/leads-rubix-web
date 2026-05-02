@@ -35,7 +35,7 @@ export function SharpModernist() {
   return (
     <div className="min-h-screen bg-white text-[#0a0a0a] font-sans selection:bg-[#e63946] selection:text-white">
       <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-      <style dangerouslySetInlineStyle={{__html: `
+      <style dangerouslySetInnerHTML={{__html: `
         .font-tight { font-family: 'Inter Tight', sans-serif; }
         .font-sans { font-family: 'Inter', sans-serif; }
       `}} />

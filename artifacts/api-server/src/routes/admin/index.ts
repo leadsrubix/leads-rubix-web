@@ -7,6 +7,7 @@ import postsRouter from "./posts";
 import usersRouter from "./users";
 import analyticsRouter from "./analytics";
 import auditRouter from "./audit";
+import uploadsRouter from "./uploads";
 
 const router: IRouter = Router();
 
@@ -26,5 +27,6 @@ router.use("/posts", postsRouter);
 router.use("/users", usersRouter);
 router.use("/analytics", analyticsRouter);
 router.use("/audit", auditRouter);
+router.use("/uploads", uploadsRouter);
 
 export default router;
