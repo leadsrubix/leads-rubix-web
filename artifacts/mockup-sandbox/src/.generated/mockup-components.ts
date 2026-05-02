@@ -3,5 +3,8 @@ type ModuleMap = Record<string, () => Promise<Record<string, unknown>>>;
 export const modules: ModuleMap = {
   "./components/mockups/leadrubix-home/EditorialWhite.tsx": () => import("../components/mockups/leadrubix-home/EditorialWhite.tsx"),
   "./components/mockups/leadrubix-home/PremiumIndigo.tsx": () => import("../components/mockups/leadrubix-home/PremiumIndigo.tsx"),
-  "./components/mockups/leadrubix-home/RealEstateEarth.tsx": () => import("../components/mockups/leadrubix-home/RealEstateEarth.tsx")
+  "./components/mockups/leadrubix-home/QuietLibrary.tsx": () => import("../components/mockups/leadrubix-home/QuietLibrary.tsx"),
+  "./components/mockups/leadrubix-home/RealEstateEarth.tsx": () => import("../components/mockups/leadrubix-home/RealEstateEarth.tsx"),
+  "./components/mockups/leadrubix-home/SharpModernist.tsx": () => import("../components/mockups/leadrubix-home/SharpModernist.tsx"),
+  "./components/mockups/leadrubix-home/SunRiviera.tsx": () => import("../components/mockups/leadrubix-home/SunRiviera.tsx")
 };
