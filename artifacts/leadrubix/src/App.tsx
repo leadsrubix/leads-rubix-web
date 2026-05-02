@@ -53,6 +53,16 @@ function Router() {
           <AdminDashboard />
         </RequireAuth>
       </Route>
+      <Route path="/admin/dashboard">
+        <RequireAuth>
+          <AdminDashboard />
+        </RequireAuth>
+      </Route>
+      <Route path="/admin/analytics">
+        <RequireAuth>
+          <AdminDashboard />
+        </RequireAuth>
+      </Route>
       <Route path="/admin/leads">
         <RequireAuth>
           <AdminLeads />
