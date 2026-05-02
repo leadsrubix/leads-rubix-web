@@ -1,6 +1,7 @@
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2 } from "lucide-react";
+import { Link } from "wouter";
 
 export default function Pricing() {
   const plans = [
@@ -98,7 +99,7 @@ export default function Pricing() {
                   {plan.href.startsWith('http') ? (
                     <a href={plan.href} target="_blank" rel="noopener noreferrer">{plan.cta}</a>
                   ) : (
-                    <a href={plan.href}>{plan.cta}</a>
+                    <Link href={plan.href}>{plan.cta}</Link>
                   )}
                 </Button>
               </div>

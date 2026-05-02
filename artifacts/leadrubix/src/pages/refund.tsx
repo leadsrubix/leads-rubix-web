@@ -18,7 +18,7 @@ export default function Refund() {
 
           <h2>1. Free Trial Period</h2>
           <p>
-            Leads Rubix offers a 14-day free trial for new customers. No credit card is required to begin the trial. This allows you to fully evaluate the platform before making a financial commitment.
+            Leads Rubix offers a 7-day free trial for new customers. No credit card is required to begin the trial. This allows you to fully evaluate the platform before making a financial commitment.
           </p>
 
           <h2>2. Monthly Subscriptions</h2>

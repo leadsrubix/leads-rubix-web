@@ -30,7 +30,10 @@ export function Footer() {
             <h4 className="font-semibold text-white mb-4">Product</h4>
             <ul className="flex flex-col gap-3">
               <li><Link href="/features" className="text-slate-400 hover:text-white transition-colors" data-testid="link-footer-features">Features</Link></li>
+              <li><Link href="/solutions" className="text-slate-400 hover:text-white transition-colors" data-testid="link-footer-solutions">Solutions</Link></li>
+              <li><Link href="/integrations" className="text-slate-400 hover:text-white transition-colors" data-testid="link-footer-integrations">Integrations</Link></li>
               <li><Link href="/pricing" className="text-slate-400 hover:text-white transition-colors" data-testid="link-footer-pricing">Pricing</Link></li>
+              <li><Link href="/security" className="text-slate-400 hover:text-white transition-colors" data-testid="link-footer-security">Security</Link></li>
               <li><a href="https://app.leadsrubix.com/" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors" data-testid="link-footer-login">Login</a></li>
               <li><a href="https://app.leadsrubix.com/" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors" data-testid="link-footer-signup">Start Free Trial</a></li>
             </ul>
@@ -42,6 +45,7 @@ export function Footer() {
             <ul className="flex flex-col gap-3">
               <li><Link href="/about" className="text-slate-400 hover:text-white transition-colors" data-testid="link-footer-about">About Us</Link></li>
               <li><Link href="/contact" className="text-slate-400 hover:text-white transition-colors" data-testid="link-footer-contact">Contact</Link></li>
+              <li><Link href="/faq" className="text-slate-400 hover:text-white transition-colors" data-testid="link-footer-faq">FAQ</Link></li>
             </ul>
           </div>
 
@@ -61,9 +65,8 @@ export function Footer() {
           <p className="text-slate-500 text-sm">
             © 2026 Leads Rubix. All rights reserved.
           </p>
-          <p className="text-slate-500 text-sm flex items-center gap-2">
-            <span>Built for Indian Real Estate</span>
-            <span className="text-orange-500">🇮🇳</span>
+          <p className="text-slate-500 text-sm">
+            Built for Indian Real Estate
           </p>
         </div>
       </div>

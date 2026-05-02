@@ -12,6 +12,10 @@ import Privacy from "@/pages/privacy";
 import Terms from "@/pages/terms";
 import Refund from "@/pages/refund";
 import Cookies from "@/pages/cookies";
+import Solutions from "@/pages/solutions";
+import Integrations from "@/pages/integrations";
+import Security from "@/pages/security";
+import Faq from "@/pages/faq";
 
 const queryClient = new QueryClient();
 
@@ -19,8 +23,12 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
-      <Route path="/pricing" component={Pricing} />
       <Route path="/features" component={Features} />
+      <Route path="/solutions" component={Solutions} />
+      <Route path="/integrations" component={Integrations} />
+      <Route path="/security" component={Security} />
+      <Route path="/pricing" component={Pricing} />
+      <Route path="/faq" component={Faq} />
       <Route path="/about" component={About} />
       <Route path="/contact" component={Contact} />
       <Route path="/privacy" component={Privacy} />

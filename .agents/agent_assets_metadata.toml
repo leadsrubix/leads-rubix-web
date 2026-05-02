@@ -18,3 +18,51 @@ id = "hWTWu9IS6aJpDLaT9aX74"
 uri = "file://artifacts/leadrubix/public/feature-target.png"
 type = "image"
 title = "Abstract target lock"
+
+[[generated]]
+id = "8dafihFqkyBkDpDSCI5Gl"
+uri = "file://artifacts/leadrubix/public/solutions-brokerage.png"
+type = "image"
+title = "Brokerage lead pipeline dashboard"
+
+[[generated]]
+id = "6ZSYL04F8SSH43xiVw405"
+uri = "file://artifacts/leadrubix/public/solutions-developer.png"
+type = "image"
+title = "Developer project dashboard"
+
+[[generated]]
+id = "VF0Lu4hhjcBEFDSd82WhE"
+uri = "file://artifacts/leadrubix/public/solutions-channel.png"
+type = "image"
+title = "Channel partner analytics"
+
+[[generated]]
+id = "K1g3tXWEsmxhhKasDbAx6"
+uri = "file://artifacts/leadrubix/public/solutions-agent.png"
+type = "image"
+title = "Agent mobile app mockup"
+
+[[generated]]
+id = "DTN-aIjOUbGjnClvwttby"
+uri = "file://artifacts/leadrubix/public/lead-rotation.png"
+type = "image"
+title = "lead rotation flow diagram"
+
+[[generated]]
+id = "iIUTNHyLqcPtxcQC0Ur3E"
+uri = "file://artifacts/leadrubix/public/feature-pipeline-view.png"
+type = "image"
+title = "pipeline view dashboard"
+
+[[generated]]
+id = "Kd80j9WW164BhUpXvzgKR"
+uri = "file://artifacts/leadrubix/public/feature-tasks-calendar.png"
+type = "image"
+title = "task and calendar dashboard"
+
+[[generated]]
+id = "k0E01kBboTY7ghogasBqk"
+uri = "file://artifacts/leadrubix/public/feature-analytics.png"
+type = "image"
+title = "analytics and reporting dashboard"

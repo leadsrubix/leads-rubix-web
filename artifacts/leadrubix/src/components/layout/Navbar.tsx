@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Building2 } from "lucide-react";
+import { Menu, Building2 } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
@@ -9,8 +9,10 @@ export function Navbar() {
 
   const links = [
     { href: "/features", label: "Features" },
+    { href: "/solutions", label: "Solutions" },
+    { href: "/integrations", label: "Integrations" },
     { href: "/pricing", label: "Pricing" },
-    { href: "/about", label: "About" },
+    { href: "/security", label: "Security" },
     { href: "/contact", label: "Contact" },
   ];
 
