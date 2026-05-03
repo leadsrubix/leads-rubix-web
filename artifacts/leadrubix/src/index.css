@@ -334,28 +334,107 @@
   }
 }
 /* === Dark mode overrides for hardcoded light-only brand classes === */
-/* The marketing pages use hardcoded brand colors (#F1F1F9, #252140, slate-50, etc.).
-   These rules remap them to semantic tokens when .dark is on the html element. */
+/* Marketing pages use hardcoded brand colors (#252140 navy, #F1F1F9 lavender,
+   #FAF2EE cream, #E8EAF5 mist, #E4E4EF lavender-grey, #16142B near-black,
+   #B8B8D4 mid-grey, plus white). These rules remap them to semantic tokens
+   when .dark is on the html element. The brand CTA `bg-[#252140]` is left
+   unchanged because #252140 (~hsl 247 33% 19%) is lighter than our dark-mode
+   --background (hsl 222 47% 5%), so the dark-navy button still stands out. */
+
+/* --- Background remaps --- */
 .dark .bg-\[\#F1F1F9\] { background-color: hsl(var(--background)); }
+.dark .bg-\[\#F1F1F9\]\/5 { background-color: hsl(var(--muted) / 0.15); }
+.dark .bg-\[\#F1F1F9\]\/10 { background-color: hsl(var(--muted) / 0.25); }
+.dark .bg-\[\#16142B\] { background-color: hsl(var(--background)); }
+.dark .bg-\[\#252140\]\/5 { background-color: hsl(var(--primary) / 0.08); }
+.dark .bg-\[\#252140\]\/10 { background-color: hsl(var(--primary) / 0.12); }
+.dark .bg-\[\#252140\]\/20 { background-color: hsl(var(--primary) / 0.18); }
+.dark .bg-\[\#252140\]\/40 { background-color: hsl(var(--primary) / 0.28); }
+.dark .bg-\[\#E4E4EF\] { background-color: hsl(var(--muted)); }
+.dark .bg-\[\#E4E4EF\]\/50 { background-color: hsl(var(--muted) / 0.5); }
+.dark .bg-\[\#E8EAF5\] { background-color: hsl(var(--muted) / 0.6); }
+.dark .bg-\[\#FAF2EE\] { background-color: hsl(var(--muted) / 0.5); }
+.dark .bg-\[\#B8B8D4\] { background-color: hsl(var(--muted-foreground) / 0.4); }
+.dark .bg-\[\#FFFFFF\] { background-color: hsl(var(--card)); color: hsl(var(--card-foreground)); }
+.dark .bg-\[\#FFFFFF\]\/50 { background-color: hsl(var(--card) / 0.5); }
 .dark .bg-slate-50 { background-color: hsl(var(--muted) / 0.4); }
 .dark .bg-slate-50\/50 { background-color: hsl(var(--muted) / 0.25); }
+.dark .bg-slate-100 { background-color: hsl(var(--muted) / 0.5); }
+.dark .bg-gray-50 { background-color: hsl(var(--muted) / 0.4); }
 .dark .bg-white { background-color: hsl(var(--card)); color: hsl(var(--card-foreground)); }
 .dark .bg-white\/85 { background-color: hsl(var(--background) / 0.85); }
+.dark .bg-white\/50 { background-color: hsl(var(--card) / 0.5); }
+.dark .bg-white\/10 { background-color: hsl(var(--muted) / 0.4); }
+.dark .bg-white\/5 { background-color: hsl(var(--muted) / 0.25); }
+
+/* --- Text remaps --- */
 .dark .text-\[\#252140\] { color: hsl(var(--foreground)); }
+.dark .text-\[\#252140\]\/40 { color: hsl(var(--muted-foreground) / 0.7); }
+.dark .text-\[\#252140\]\/50 { color: hsl(var(--muted-foreground) / 0.85); }
+.dark .text-\[\#252140\]\/60 { color: hsl(var(--muted-foreground)); }
 .dark .text-\[\#252140\]\/70 { color: hsl(var(--muted-foreground)); }
 .dark .text-\[\#252140\]\/80 { color: hsl(var(--foreground) / 0.85); }
 .dark .text-\[\#252140\]\/90 { color: hsl(var(--foreground) / 0.95); }
+.dark .text-\[\#F1F1F9\] { color: hsl(var(--foreground)); }
+.dark .text-\[\#F1F1F9\]\/60 { color: hsl(var(--muted-foreground)); }
+.dark .text-gray-900 { color: hsl(var(--foreground)); }
+.dark .text-gray-600 { color: hsl(var(--muted-foreground)); }
+.dark .text-slate-900 { color: hsl(var(--foreground)); }
+.dark .text-slate-700 { color: hsl(var(--muted-foreground)); }
+.dark .text-slate-600 { color: hsl(var(--muted-foreground)); }
+.dark .text-slate-500 { color: hsl(var(--muted-foreground) / 0.85); }
+
+/* --- Border remaps --- */
+.dark .border-\[\#252140\] { border-color: hsl(var(--border)); }
+.dark .border-\[\#252140\]\/5 { border-color: hsl(var(--border) / 0.5); }
 .dark .border-\[\#252140\]\/10 { border-color: hsl(var(--border)); }
 .dark .border-\[\#252140\]\/15 { border-color: hsl(var(--border)); }
 .dark .border-\[\#252140\]\/20 { border-color: hsl(var(--border)); }
+.dark .border-\[\#252140\]\/25 { border-color: hsl(var(--border)); }
 .dark .border-\[\#252140\]\/30 { border-color: hsl(var(--border)); }
+.dark .border-\[\#252140\]\/40 { border-color: hsl(var(--border)); }
+.dark .border-\[\#252140\]\/50 { border-color: hsl(var(--border)); }
+.dark .border-\[\#F1F1F9\]\/10 { border-color: hsl(var(--border) / 0.5); }
+.dark .border-\[\#F1F1F9\]\/20 { border-color: hsl(var(--border)); }
+.dark .border-\[\#FFFFFF\]\/20 { border-color: hsl(var(--border)); }
+
+/* --- Hover remaps --- */
 .dark .hover\:bg-\[\#E4E4EF\]:hover { background-color: hsl(var(--muted)); }
 .dark .hover\:text-\[\#252140\]:hover { color: hsl(var(--foreground)); }
+.dark .hover\:bg-\[\#F1F1F9\]:hover { background-color: hsl(var(--muted)); }
+
+/* --- Gradient stops --- */
 .dark .from-\[\#FAF2EE\] { --tw-gradient-from: hsl(var(--background)); }
+.dark .from-\[\#252140\] { --tw-gradient-from: hsl(var(--primary)); }
+.dark .from-\[\#252140\]\/10 { --tw-gradient-from: hsl(var(--primary) / 0.15); }
 .dark .via-\[\#F1F1F9\] { --tw-gradient-via: hsl(var(--background)); }
 .dark .to-\[\#E8EAF5\] { --tw-gradient-to: hsl(var(--muted) / 0.3); }
+.dark .to-\[\#16142B\] { --tw-gradient-to: hsl(var(--background)); }
+/* Tailwind named gradient stops used in hero sections (e.g. industry-detail) */
+.dark .from-slate-50 { --tw-gradient-from: hsl(var(--background)); }
+.dark .from-slate-100 { --tw-gradient-from: hsl(var(--muted) / 0.4); }
+.dark .from-white { --tw-gradient-from: hsl(var(--background)); }
+.dark .from-gray-50 { --tw-gradient-from: hsl(var(--background)); }
+.dark .via-white { --tw-gradient-via: hsl(var(--background)); }
+.dark .via-slate-50 { --tw-gradient-via: hsl(var(--background)); }
+.dark .to-white { --tw-gradient-to: hsl(var(--background)); }
+.dark .to-slate-50 { --tw-gradient-to: hsl(var(--background)); }
+.dark .to-slate-100 { --tw-gradient-to: hsl(var(--muted) / 0.4); }
+.dark .to-gray-50 { --tw-gradient-to: hsl(var(--background)); }
 .dark .bg-gradient-to-br.from-\[\#FAF2EE\] {
   background-image: linear-gradient(to bottom right, hsl(var(--background)), hsl(var(--background)), hsl(var(--muted) / 0.4));
+}
+
+/* --- Shadow softening (light-mode shadows are too harsh on a dark bg) --- */
+.dark .shadow-lg,
+.dark .shadow-xl,
+.dark .shadow-2xl {
+  --tw-shadow-color: rgba(0, 0, 0, 0.6);
+}
+/* Brand-tinted button shadows (navy glow) become invisible/wrong on dark bg */
+.dark .shadow-\[\#252140\]\/20,
+.dark .shadow-\[\#252140\]\/30 {
+  --tw-shadow-color: rgba(0, 0, 0, 0.5);
 }
 
 /* === Reduced motion preferences === */

@@ -14,6 +14,13 @@ I prefer to work iteratively. Please ask before making major changes. I value cl
 
 The project is structured as a pnpm workspace monorepo, with each package managing its own dependencies. Key packages include `@workspace/api-server` for the backend, `@workspace/leadrubix` for the frontend, and shared libraries.
 
+## Recent updates (v2.9 — May 2026, dark-mode polish)
+
+- **Comprehensive dark-mode override block** — `src/index.css` now remaps every hardcoded brand color used across the marketing pages (`#252140`, `#F1F1F9`, `#FAF2EE`, `#E8EAF5`, `#E4E4EF`, `#16142B`, `#B8B8D4`, `#FFFFFF`, plus all opacity variants `/5 /10 /20 /25 /30 /40 /50 /60 /70 /80 /90`) to semantic tokens when `.dark` is on `<html>`. Also covers Tailwind named utilities (`bg-gray-50`, `bg-slate-50/100`, `bg-white`, `text-gray-600/900`, `text-slate-500/600/700/900`) and gradient stops (`from-slate-50`, `to-white`, `from-white`, etc.) so hero sections like `/industries/:slug` (which uses `bg-gradient-to-b from-slate-50 to-white`) flip correctly.
+- **Brand CTA preserved** — `bg-[#252140]` on the primary CTA button is intentionally left unmapped because `#252140` (~hsl 247 33% 19%) is lighter than `--background` (hsl 222 47% 5%) in dark mode, so the dark-navy button still stands out. White text on it remains legible.
+- **Shadow softening** — `.dark .shadow-lg/xl/2xl` now uses `rgba(0,0,0,0.6)` so light-mode shadows aren't too harsh on the dark background.
+- **`?theme=light|dark` URL override** — `useTheme.tsx` now reads a `theme` query param before falling back to `localStorage`/system preference. Useful for sharing direct light/dark links and for QA screenshots.
+
 ## Recent updates (v2.8 — May 2026, SEO / AEO / GEO batch)
 
 - **Per-page locale + geo meta** — `useSEO` now also sets `<html lang="en-IN">` and emits `geo.region` (`IN-MH`), `geo.placename` (`Mumbai`), `geo.position`, `ICBM`, and `og:locale=en_IN` meta tags on every page. We deliberately do **not** emit self-referential `hreflang` link tags — per Google's guidance, hreflang is only valid when ≥ 2 language/region versions exist, and we are a single-locale (en-IN) site.

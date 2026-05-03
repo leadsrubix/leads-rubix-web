@@ -14,6 +14,14 @@ const STORAGE_KEY = "leadsrubix-theme";
 
 function getInitialTheme(): Theme {
   if (typeof window === "undefined") return "light";
+  // URL override: `?theme=dark` or `?theme=light` wins over saved/system preference.
+  // Useful for sharing direct light/dark links and for QA screenshots.
+  try {
+    const param = new URLSearchParams(window.location.search).get("theme");
+    if (param === "light" || param === "dark") return param;
+  } catch {
+    /* ignore */
+  }
   try {
     const saved = window.localStorage.getItem(STORAGE_KEY);
     if (saved === "light" || saved === "dark") return saved;
