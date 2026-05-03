@@ -107,13 +107,13 @@ export default function Home() {
 
   return (
     <Layout>
-      <div className="bg-[#fdf3e9] text-[#3d2817] font-sans selection:bg-[#FF3C00] selection:text-white">
+      <div className="bg-[#FAFAFD] text-[#252140] font-sans selection:bg-[#252140] selection:text-white">
         {/* Hero */}
-        <section className="relative pt-24 pb-32 overflow-hidden bg-gradient-to-b from-[#fdf3e9] via-[#fbe8d3] to-[#fdf3e9]">
+        <section className="relative pt-24 pb-32 overflow-hidden bg-gradient-to-b from-[#FAFAFD] via-[#F0F0F7] to-[#FAFAFD]">
           <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
             <div className="max-w-2xl relative z-10">
               <div
-                className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#fffaf2]/50 border border-[#FF3C00]/20 rounded-full text-xs font-semibold tracking-widest uppercase text-[#FF3C00] mb-8 shadow-sm"
+                className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#FFFFFF]/50 border border-[#252140]/20 rounded-full text-xs font-semibold tracking-widest uppercase text-[#252140] mb-8 shadow-sm"
                 data-testid="hero-eyebrow"
               >
                 {hero.eyebrow}
@@ -126,12 +126,12 @@ export default function Home() {
                 {headlineAccent ? (
                   <>
                     {" "}
-                    <span className="text-[#FF3C00] italic font-light">{headlineAccent}</span>
+                    <span className="text-[#252140] italic font-light">{headlineAccent}</span>
                   </>
                 ) : null}
               </h1>
               <p
-                className="text-lg md:text-xl text-[#3d2817]/70 mb-10 leading-relaxed max-w-xl font-medium"
+                className="text-lg md:text-xl text-[#252140]/70 mb-10 leading-relaxed max-w-xl font-medium"
                 data-testid="hero-subheadline"
               >
                 {hero.subheadline}
@@ -141,72 +141,97 @@ export default function Home() {
                   href="https://app.leadsrubix.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-[#FF3C00] text-[#fffaf2] px-8 py-4 rounded-2xl text-base font-medium hover:bg-[#CC3000] shadow-lg shadow-[#FF3C00]/20 transition-all duration-300 flex items-center gap-2 w-full sm:w-auto justify-center hover:-translate-y-0.5"
+                  className="bg-[#252140] text-[#FFFFFF] px-8 py-4 rounded-2xl text-base font-medium hover:bg-[#16142B] shadow-lg shadow-[#252140]/20 transition-all duration-300 flex items-center gap-2 w-full sm:w-auto justify-center hover:-translate-y-0.5"
                   data-testid="btn-hero-cta"
                 >
                   {hero.primaryCtaLabel} <ArrowRight className="w-4 h-4" />
                 </a>
                 <Link
                   href="/demo"
-                  className="bg-[#fffaf2] text-[#3d2817] border border-[#FF3C00]/20 px-8 py-4 rounded-2xl text-base font-medium hover:border-[#FF3C00]/50 hover:bg-[#fbe8d3] transition-all duration-300 w-full sm:w-auto text-center shadow-sm"
+                  className="bg-[#FFFFFF] text-[#252140] border border-[#252140]/20 px-8 py-4 rounded-2xl text-base font-medium hover:border-[#252140]/50 hover:bg-[#F0F0F7] transition-all duration-300 w-full sm:w-auto text-center shadow-sm"
                   data-testid="btn-hero-demo"
                 >
                   {hero.secondaryCtaLabel}
                 </Link>
               </div>
-              <p className="text-sm text-[#3d2817]/50 flex items-center gap-3 font-medium">
-                7-day free trial <span className="w-1.5 h-1.5 rounded-full bg-[#FF3C00]/40"></span> No credit card{" "}
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FF3C00]/40"></span> Cancel anytime
+              <p className="text-sm text-[#252140]/50 flex items-center gap-3 font-medium">
+                7-day free trial <span className="w-1.5 h-1.5 rounded-full bg-[#252140]/40"></span> No credit card{" "}
+                <span className="w-1.5 h-1.5 rounded-full bg-[#252140]/40"></span> Cancel anytime
               </p>
             </div>
 
             <div className="relative">
-              <div className="bg-[#fffaf2] rounded-3xl border border-[#FF3C00]/10 p-6 shadow-2xl shadow-amber-900/10 relative z-10 transform translate-x-4 rotate-2 hover:rotate-0 transition-transform duration-700 ease-out">
-                <div className="flex items-center justify-between mb-8 border-b border-[#FF3C00]/10 pb-4">
-                  <div className="flex gap-2.5">
-                    <div className="w-3.5 h-3.5 rounded-full bg-[#FF3C00]/40" />
-                    <div className="w-3.5 h-3.5 rounded-full bg-[#3d2817]/20" />
-                    <div className="w-3.5 h-3.5 rounded-full bg-[#3d2817]/20" />
+              <div className="bg-[#FFFFFF] rounded-3xl border border-[#252140]/10 p-6 shadow-2xl shadow-slate-900/10 relative z-10 transform translate-x-4 rotate-2 hover:rotate-0 transition-transform duration-700 ease-out">
+                <div className="flex items-center justify-between mb-6 border-b border-[#252140]/10 pb-4">
+                  <div className="flex gap-2">
+                    <div className="w-3 h-3 rounded-full bg-red-400/70" />
+                    <div className="w-3 h-3 rounded-full bg-amber-400/70" />
+                    <div className="w-3 h-3 rounded-full bg-emerald-400/70" />
                   </div>
-                  <div className="text-xs font-semibold text-[#3d2817]/40 tracking-widest uppercase">Pipeline</div>
+                  <div className="text-[11px] font-semibold text-[#252140]/50 tracking-widest uppercase">app.leadsrubix.com</div>
+                  <div className="w-8" />
                 </div>
 
-                <div className="grid grid-cols-3 gap-4 mb-6">
-                  {DASHBOARD_VALUES.map((v, i) => (
-                    <div key={i} className="bg-[#fdf3e9] p-4 rounded-2xl border border-[#FF3C00]/5 shadow-sm">
-                      <div className="h-2.5 w-1/3 bg-[#3d2817]/10 rounded-full mb-4" />
-                      <div className="h-4 w-2/3 bg-[#3d2817]/70 rounded-full mb-2.5" />
-                      <div className="h-3 w-1/2 bg-[#3d2817]/30 rounded-full mb-5" />
-                      <div className="flex justify-between items-center mt-4 pt-4 border-t border-[#FF3C00]/10">
-                        <div className="w-7 h-7 rounded-full bg-[#fffaf2] shadow-sm" />
-                        <div className="text-xs text-[#FF3C00] font-semibold">₹{v.toFixed(1)} Cr</div>
-                      </div>
+                <div className="grid grid-cols-3 gap-3 mb-5">
+                  {[
+                    { label: "Today's Leads", value: "47", trend: "+12%", positive: true },
+                    { label: "Avg Response", value: "2m 14s", trend: "−38%", positive: true },
+                    { label: "Site Visits", value: "12", trend: "+5", positive: true },
+                  ].map((kpi, i) => (
+                    <div key={i} className="bg-[#FAFAFD] p-3.5 rounded-xl border border-[#252140]/5">
+                      <div className="text-[10px] uppercase tracking-wider font-semibold text-[#252140]/50 mb-1.5">{kpi.label}</div>
+                      <div className="font-['Fraunces'] text-2xl text-[#252140] leading-none mb-1.5">{kpi.value}</div>
+                      <div className="text-[11px] font-semibold text-emerald-600">{kpi.trend}</div>
                     </div>
                   ))}
                 </div>
 
-                <div className="bg-[#fdf3e9] p-5 rounded-2xl border border-[#FF3C00]/5 shadow-sm flex items-center justify-between">
-                  <div>
-                    <div className="text-xs text-[#3d2817]/50 font-medium mb-1.5 uppercase tracking-wide">
-                      New Lead · MagicBricks
+                <div className="bg-[#FAFAFD] rounded-xl border border-[#252140]/5 p-4 mb-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-[10px] uppercase tracking-wider font-semibold text-[#252140]/60">This Week's Funnel</span>
+                    <span className="text-[10px] text-[#252140]/40 font-medium">Updated 2m ago</span>
+                  </div>
+                  <div className="space-y-2">
+                    {[
+                      { stage: "FRESH", count: 184, width: "100%" },
+                      { stage: "CALLBACK", count: 96, width: "62%" },
+                      { stage: "INTERESTED", count: 41, width: "32%" },
+                      { stage: "BOOKED", count: 14, width: "12%" },
+                    ].map((s, i) => (
+                      <div key={i} className="flex items-center gap-3">
+                        <div className="text-[10px] font-bold tracking-widest text-[#252140]/60 w-20">{s.stage}</div>
+                        <div className="flex-1 h-2 bg-[#252140]/5 rounded-full overflow-hidden">
+                          <div className="h-full bg-[#252140] rounded-full transition-all" style={{ width: s.width }} />
+                        </div>
+                        <div className="text-xs font-semibold text-[#252140] w-8 text-right tabular-nums">{s.count}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-[#FAFAFD] p-4 rounded-xl border border-[#252140]/5 flex items-center justify-between">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-9 h-9 rounded-lg bg-[#252140]/5 flex items-center justify-center shrink-0">
+                      <Facebook className="w-4 h-4 text-[#252140]" />
                     </div>
-                    <div className="font-semibold text-[#3d2817]">Rahul Sharma — 3BHK Andheri</div>
+                    <div className="min-w-0">
+                      <div className="text-[11px] text-[#252140]/50 font-medium uppercase tracking-wide">New lead · Facebook Lead Ads</div>
+                      <div className="text-sm font-semibold text-[#252140] truncate">Routed via round-robin</div>
+                    </div>
                   </div>
-                  <div className="bg-[#FF3C00]/10 text-[#FF3C00] px-3.5 py-1.5 rounded-full text-xs font-semibold">
-                    Assigned to Amit
-                  </div>
+                  <div className="bg-[#252140] text-white px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider shrink-0">JUST NOW</div>
                 </div>
               </div>
 
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-[#FF3C00]/10 to-transparent rounded-full blur-3xl -z-10" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-[#252140]/10 to-transparent rounded-full blur-3xl -z-10" />
             </div>
           </div>
         </section>
 
         {/* Built-for pill strip */}
-        <section className="border-y border-[#FF3C00]/20 bg-[#fffaf2] py-10">
+        <section className="border-y border-[#252140]/20 bg-[#FFFFFF] py-10">
           <div className="max-w-7xl mx-auto px-6">
-            <p className="text-center text-xs font-bold tracking-widest uppercase text-[#FF3C00]/60 mb-8">
+            <p className="text-center text-xs font-bold tracking-widest uppercase text-[#252140]/60 mb-8">
               Built Exclusively For
             </p>
             <div className="flex flex-wrap justify-center gap-4 md:gap-6">
@@ -219,9 +244,9 @@ export default function Home() {
               ].map((item, i) => (
                 <div
                   key={i}
-                  className="flex items-center gap-2.5 text-[#3d2817]/80 font-medium bg-amber-50/50 px-5 py-2.5 rounded-full border border-[#FF3C00]/10 shadow-sm"
+                  className="flex items-center gap-2.5 text-[#252140]/80 font-medium bg-slate-50/50 px-5 py-2.5 rounded-full border border-[#252140]/10 shadow-sm"
                 >
-                  <item.icon className="w-4 h-4 text-[#FF3C00]" />
+                  <item.icon className="w-4 h-4 text-[#252140]" />
                   <span className="text-sm">{item.text}</span>
                 </div>
               ))}
@@ -230,7 +255,7 @@ export default function Home() {
         </section>
 
         {/* Stats band */}
-        <section className="bg-[#FF3C00] text-[#fdf3e9] py-24 relative overflow-hidden">
+        <section className="bg-[#252140] text-[#FAFAFD] py-24 relative overflow-hidden">
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-12 text-center relative z-10">
             {[
@@ -240,7 +265,7 @@ export default function Home() {
               { label: "Automated Capture", value: "24/7" },
             ].map((stat, i) => (
               <div key={i} className="group">
-                <div className="font-['Fraunces'] text-5xl md:text-6xl text-[#fffaf2] mb-3 group-hover:scale-105 transition-transform duration-300 font-light italic">
+                <div className="font-['Fraunces'] text-5xl md:text-6xl text-[#FFFFFF] mb-3 group-hover:scale-105 transition-transform duration-300 font-light italic">
                   {stat.value}
                 </div>
                 <div className="text-sm tracking-widest uppercase opacity-80 font-medium">{stat.label}</div>
@@ -250,13 +275,13 @@ export default function Home() {
         </section>
 
         {/* The problem */}
-        <section className="py-32 bg-[#fdf3e9]">
+        <section className="py-32 bg-[#FAFAFD]">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center max-w-3xl mx-auto mb-20">
-              <h2 className="font-['Fraunces'] text-4xl md:text-5xl mb-6 font-medium text-[#3d2817]">
+              <h2 className="font-['Fraunces'] text-4xl md:text-5xl mb-6 font-medium text-[#252140]">
                 Why legacy CRMs fail in Indian Real Estate.
               </h2>
-              <p className="text-lg text-[#3d2817]/70 font-medium">
+              <p className="text-lg text-[#252140]/70 font-medium">
                 Generic tools weren't built for the scale of site visits, broker networks, and WhatsApp negotiations.
               </p>
             </div>
@@ -281,13 +306,13 @@ export default function Home() {
               ].map((item, i) => (
                 <div
                   key={i}
-                  className="bg-[#fffaf2] p-10 border border-[#FF3C00]/10 rounded-3xl shadow-sm hover:shadow-xl hover:shadow-amber-900/5 hover:-translate-y-1 transition-all duration-300 group"
+                  className="bg-[#FFFFFF] p-10 border border-[#252140]/10 rounded-3xl shadow-sm hover:shadow-xl hover:shadow-slate-900/5 hover:-translate-y-1 transition-all duration-300 group"
                 >
-                  <div className="w-14 h-14 bg-[#fdf3e9] rounded-2xl flex items-center justify-center mb-8 shadow-sm border border-[#FF3C00]/10 group-hover:bg-[#FF3C00] transition-colors duration-300">
-                    <item.icon className="w-7 h-7 text-[#FF3C00] group-hover:text-[#fffaf2] transition-colors duration-300" />
+                  <div className="w-14 h-14 bg-[#FAFAFD] rounded-2xl flex items-center justify-center mb-8 shadow-sm border border-[#252140]/10 group-hover:bg-[#252140] transition-colors duration-300">
+                    <item.icon className="w-7 h-7 text-[#252140] group-hover:text-[#FFFFFF] transition-colors duration-300" />
                   </div>
                   <h3 className="text-2xl font-bold mb-4 font-['Fraunces']">{item.title}</h3>
-                  <p className="text-[#3d2817]/70 leading-relaxed font-medium">{item.desc}</p>
+                  <p className="text-[#252140]/70 leading-relaxed font-medium">{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -295,24 +320,24 @@ export default function Home() {
         </section>
 
         {/* Pipeline visualization */}
-        <section className="py-24 bg-[#fffaf2] border-y border-[#FF3C00]/20 overflow-hidden">
+        <section className="py-24 bg-[#FFFFFF] border-y border-[#252140]/20 overflow-hidden">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="font-['Fraunces'] text-4xl mb-4 font-medium text-[#3d2817]">
+              <h2 className="font-['Fraunces'] text-4xl mb-4 font-medium text-[#252140]">
                 A Pipeline Built for Property Sales
               </h2>
-              <p className="text-[#3d2817]/70 font-medium">Standardized stages that map to how real estate is actually sold.</p>
+              <p className="text-[#252140]/70 font-medium">Standardized stages that map to how real estate is actually sold.</p>
             </div>
 
             <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 md:gap-3 relative">
-              <div className="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-[#FF3C00]/20 -translate-y-1/2 z-0" />
+              <div className="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-[#252140]/20 -translate-y-1/2 z-0" />
 
               {[
-                { name: "FRESH", color: "bg-[#fdf3e9] text-[#3d2817] border-[#FF3C00]/20" },
-                { name: "CALLBACK", color: "bg-[#fbe8d3] text-[#3d2817] border-[#FF3C00]/30" },
-                { name: "INTERESTED", color: "bg-[#f3d8c1] text-[#3d2817] border-[#FF3C00]/40" },
-                { name: "BOOKED", color: "bg-[#FF3C00] text-[#fffaf2] border-[#FF3C00]" },
-                { name: "LOST", color: "bg-[#fffaf2] text-[#3d2817]/50 border-[#3d2817]/10" },
+                { name: "FRESH", color: "bg-[#FAFAFD] text-[#252140] border-[#252140]/20" },
+                { name: "CALLBACK", color: "bg-[#F0F0F7] text-[#252140] border-[#252140]/30" },
+                { name: "INTERESTED", color: "bg-[#E5E5F0] text-[#252140] border-[#252140]/40" },
+                { name: "BOOKED", color: "bg-[#252140] text-[#FFFFFF] border-[#252140]" },
+                { name: "LOST", color: "bg-[#FFFFFF] text-[#252140]/50 border-[#252140]/10" },
               ].map((stage, i) => (
                 <div key={i} className="relative z-10 flex-1 group">
                   <div
@@ -329,9 +354,9 @@ export default function Home() {
         </section>
 
         {/* Features grid */}
-        <section className="py-32 bg-[#fdf3e9]">
+        <section className="py-32 bg-[#FAFAFD]">
           <div className="max-w-7xl mx-auto px-6">
-            <h2 className="font-['Fraunces'] text-4xl md:text-5xl text-center mb-24 font-medium text-[#3d2817]">
+            <h2 className="font-['Fraunces'] text-4xl md:text-5xl text-center mb-24 font-medium text-[#252140]">
               Everything you need to close more deals.
             </h2>
 
@@ -348,12 +373,12 @@ export default function Home() {
                 { icon: MapPin, title: "GPS Call Tracking", desc: "Verify agent locations during site visits or outdoor meetings for better accountability." },
               ].map((item, i) => (
                 <div key={i} className="flex gap-5 group">
-                  <div className="flex-shrink-0 mt-1 w-12 h-12 bg-[#fffaf2] rounded-xl flex items-center justify-center border border-[#FF3C00]/10 shadow-sm group-hover:bg-[#FF3C00] group-hover:border-[#FF3C00] transition-all duration-300">
-                    <item.icon className="w-6 h-6 text-[#FF3C00] group-hover:text-[#fffaf2] transition-colors duration-300" />
+                  <div className="flex-shrink-0 mt-1 w-12 h-12 bg-[#FFFFFF] rounded-xl flex items-center justify-center border border-[#252140]/10 shadow-sm group-hover:bg-[#252140] group-hover:border-[#252140] transition-all duration-300">
+                    <item.icon className="w-6 h-6 text-[#252140] group-hover:text-[#FFFFFF] transition-colors duration-300" />
                   </div>
                   <div>
                     <h3 className="font-bold mb-2.5 text-lg font-['Fraunces'] tracking-wide">{item.title}</h3>
-                    <p className="text-[#3d2817]/70 text-sm leading-relaxed font-medium">{item.desc}</p>
+                    <p className="text-[#252140]/70 text-sm leading-relaxed font-medium">{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -361,17 +386,17 @@ export default function Home() {
           </div>
         </section>
 
-        <hr className="border-[#FF3C00]/20" />
+        <hr className="border-[#252140]/20" />
 
         {/* Lead Rotation Deep Dive */}
-        <section className="py-32 bg-[#3d2817] text-[#fffaf2]">
+        <section className="py-32 bg-[#252140] text-[#FFFFFF]">
           <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#FF3C00]/20 rounded-full text-xs font-semibold tracking-widest uppercase text-[#fbe8d3] mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#252140]/20 rounded-full text-xs font-semibold tracking-widest uppercase text-[#F0F0F7] mb-6">
                 Core Technology
               </div>
               <h2 className="font-['Fraunces'] text-4xl md:text-5xl mb-8 font-medium">Never let a lead go cold again.</h2>
-              <p className="text-[#fffaf2]/70 text-lg mb-12 font-medium leading-relaxed">
+              <p className="text-[#FFFFFF]/70 text-lg mb-12 font-medium leading-relaxed">
                 Our proprietary lead rotation engine ensures every inquiry gets a response within minutes, automatically reassigning leads if an agent is unavailable.
               </p>
 
@@ -383,37 +408,37 @@ export default function Home() {
                   { step: "04", title: "Schedule Aware", desc: "Rotation rules respect agent working hours and leaves." },
                 ].map((item, i) => (
                   <div key={i} className="flex gap-6 group">
-                    <div className="text-[#FF3C00] font-['Fraunces'] text-3xl italic group-hover:scale-110 transition-transform">
+                    <div className="text-[#252140] font-['Fraunces'] text-3xl italic group-hover:scale-110 transition-transform">
                       {item.step}
                     </div>
                     <div>
-                      <h4 className="font-bold text-lg mb-1.5 tracking-wide text-[#fdf3e9]">{item.title}</h4>
-                      <p className="text-[#fffaf2]/50 text-sm font-medium">{item.desc}</p>
+                      <h4 className="font-bold text-lg mb-1.5 tracking-wide text-[#FAFAFD]">{item.title}</h4>
+                      <p className="text-[#FFFFFF]/50 text-sm font-medium">{item.desc}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="bg-[#fdf3e9]/5 rounded-3xl border border-[#fdf3e9]/10 p-8 shadow-2xl backdrop-blur-sm">
+            <div className="bg-[#FAFAFD]/5 rounded-3xl border border-[#FAFAFD]/10 p-8 shadow-2xl backdrop-blur-sm">
               <div className="space-y-5">
-                <div className="bg-[#fdf3e9]/10 p-5 rounded-2xl border border-[#fdf3e9]/20 flex justify-between items-center shadow-inner">
+                <div className="bg-[#FAFAFD]/10 p-5 rounded-2xl border border-[#FAFAFD]/20 flex justify-between items-center shadow-inner">
                   <div>
-                    <div className="text-sm font-semibold mb-1 text-[#fdf3e9]">Incoming: Facebook Ads</div>
-                    <div className="text-xs text-[#fdf3e9]/60 font-medium">Project: Horizon Towers</div>
+                    <div className="text-sm font-semibold mb-1 text-[#FAFAFD]">Incoming: Facebook Ads</div>
+                    <div className="text-xs text-[#FAFAFD]/60 font-medium">Project: Horizon Towers</div>
                   </div>
-                  <div className="text-xs bg-[#FF3C00] text-[#fffaf2] px-3 py-1.5 rounded-full font-semibold shadow-sm">Just Now</div>
+                  <div className="text-xs bg-[#252140] text-[#FFFFFF] px-3 py-1.5 rounded-full font-semibold shadow-sm">Just Now</div>
                 </div>
                 <div className="flex justify-center my-3">
-                  <ArrowRight className="w-6 h-6 text-[#FF3C00] rotate-90 opacity-80" />
+                  <ArrowRight className="w-6 h-6 text-[#252140] rotate-90 opacity-80" />
                 </div>
-                <div className="bg-[#fffaf2] text-[#3d2817] p-5 rounded-2xl border border-[#fffaf2]/20 flex items-center gap-4 shadow-lg">
-                  <div className="w-12 h-12 rounded-xl bg-[#fdf3e9] flex items-center justify-center font-bold text-[#FF3C00] border border-[#FF3C00]/20 shadow-sm">
-                    AS
+                <div className="bg-[#FFFFFF] text-[#252140] p-5 rounded-2xl border border-[#FFFFFF]/20 flex items-center gap-4 shadow-lg">
+                  <div className="w-12 h-12 rounded-xl bg-[#FAFAFD] flex items-center justify-center text-[#252140] border border-[#252140]/20 shadow-sm">
+                    <Users className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-sm font-bold tracking-wide">Assigned to Amit Singh</div>
-                    <div className="text-xs text-[#3d2817]/60 font-medium mt-1 flex items-center gap-1.5">
-                      <Clock className="w-3 h-3" /> 15:00 countdown started
+                    <div className="text-sm font-bold tracking-wide">Routed to next available agent</div>
+                    <div className="text-xs text-[#252140]/60 font-medium mt-1 flex items-center gap-1.5">
+                      <Clock className="w-3 h-3" /> 15:00 response window started
                     </div>
                   </div>
                 </div>
@@ -423,13 +448,13 @@ export default function Home() {
         </section>
 
         {/* Six roles */}
-        <section className="py-32 bg-[#fffaf2]">
+        <section className="py-32 bg-[#FFFFFF]">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-20">
-              <h2 className="font-['Fraunces'] text-4xl md:text-5xl mb-6 font-medium text-[#3d2817]">
+              <h2 className="font-['Fraunces'] text-4xl md:text-5xl mb-6 font-medium text-[#252140]">
                 Built for the entire organization
               </h2>
-              <p className="text-[#3d2817]/70 font-medium text-lg">Specific views and permissions for every role in your company.</p>
+              <p className="text-[#252140]/70 font-medium text-lg">Specific views and permissions for every role in your company.</p>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -443,13 +468,13 @@ export default function Home() {
               ].map((role, i) => (
                 <div
                   key={i}
-                  className="bg-[#fdf3e9] p-8 border border-[#FF3C00]/10 rounded-3xl shadow-sm hover:shadow-lg hover:shadow-amber-900/5 transition-all duration-300 group"
+                  className="bg-[#FAFAFD] p-8 border border-[#252140]/10 rounded-3xl shadow-sm hover:shadow-lg hover:shadow-slate-900/5 transition-all duration-300 group"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-[#fffaf2] flex items-center justify-center mb-6 shadow-sm border border-[#FF3C00]/5 group-hover:bg-[#FF3C00] transition-colors duration-300">
-                    <Shield className="w-6 h-6 text-[#FF3C00] group-hover:text-[#fffaf2] transition-colors duration-300" />
+                  <div className="w-12 h-12 rounded-xl bg-[#FFFFFF] flex items-center justify-center mb-6 shadow-sm border border-[#252140]/5 group-hover:bg-[#252140] transition-colors duration-300">
+                    <Shield className="w-6 h-6 text-[#252140] group-hover:text-[#FFFFFF] transition-colors duration-300" />
                   </div>
                   <h3 className="font-bold mb-3 text-xl font-['Fraunces']">{role}</h3>
-                  <p className="text-sm text-[#3d2817]/60 font-medium leading-relaxed">
+                  <p className="text-sm text-[#252140]/60 font-medium leading-relaxed">
                     Customized dashboard and permission set designed specifically for this function.
                   </p>
                 </div>
@@ -459,25 +484,25 @@ export default function Home() {
         </section>
 
         {/* Integrations strip */}
-        <section className="py-20 border-y border-[#FF3C00]/20 bg-[#fdf3e9] overflow-hidden relative">
+        <section className="py-20 border-y border-[#252140]/20 bg-[#FAFAFD] overflow-hidden relative">
           <div className="max-w-7xl mx-auto px-6 text-center mb-10">
-            <p className="text-xs font-bold tracking-widest uppercase text-[#FF3C00]">Integrates with your stack</p>
+            <p className="text-xs font-bold tracking-widest uppercase text-[#252140]">Integrates with your stack</p>
           </div>
-          <div className="flex gap-16 items-center justify-center flex-wrap max-w-6xl mx-auto text-[#3d2817]/60">
-            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><Facebook className="w-7 h-7" /> Facebook</div>
-            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><Instagram className="w-7 h-7" /> Instagram</div>
-            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><MessageCircle className="w-7 h-7" /> WhatsApp</div>
-            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><CreditCard className="w-7 h-7" /> Razorpay</div>
-            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><Mail className="w-7 h-7" /> SMTP</div>
-            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><MessageSquare className="w-7 h-7" /> SMS</div>
-            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#FF3C00] transition-colors"><Database className="w-7 h-7" /> REST API</div>
+          <div className="flex gap-16 items-center justify-center flex-wrap max-w-6xl mx-auto text-[#252140]/60">
+            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#252140] transition-colors"><Facebook className="w-7 h-7" /> Facebook</div>
+            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#252140] transition-colors"><Instagram className="w-7 h-7" /> Instagram</div>
+            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#252140] transition-colors"><MessageCircle className="w-7 h-7" /> WhatsApp</div>
+            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#252140] transition-colors"><CreditCard className="w-7 h-7" /> Razorpay</div>
+            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#252140] transition-colors"><Mail className="w-7 h-7" /> SMTP</div>
+            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#252140] transition-colors"><MessageSquare className="w-7 h-7" /> SMS</div>
+            <div className="flex items-center gap-3 font-semibold text-lg hover:text-[#252140] transition-colors"><Database className="w-7 h-7" /> REST API</div>
           </div>
         </section>
 
         {/* Testimonials */}
-        <section className="py-32 bg-[#fffaf2]">
+        <section className="py-32 bg-[#FFFFFF]">
           <div className="max-w-7xl mx-auto px-6">
-            <h2 className="font-['Fraunces'] text-4xl md:text-5xl text-center mb-20 font-medium text-[#3d2817]">
+            <h2 className="font-['Fraunces'] text-4xl md:text-5xl text-center mb-20 font-medium text-[#252140]">
               Trusted by top developers
             </h2>
 
@@ -490,19 +515,19 @@ export default function Home() {
                 return (
                   <div
                     key={i}
-                    className="bg-[#fdf3e9] p-10 rounded-3xl border border-[#FF3C00]/10 shadow-sm relative group hover:-translate-y-1 transition-transform duration-300"
+                    className="bg-[#FAFAFD] p-10 rounded-3xl border border-[#252140]/10 shadow-sm relative group hover:-translate-y-1 transition-transform duration-300"
                   >
-                    <div className="text-[#FF3C00] font-['Fraunces'] text-7xl absolute top-4 left-6 opacity-20 italic">"</div>
-                    <p className="relative z-10 text-lg leading-relaxed mb-8 italic font-medium font-['Fraunces'] text-[#3d2817]/80">
+                    <div className="text-[#252140] font-['Fraunces'] text-7xl absolute top-4 left-6 opacity-20 italic">"</div>
+                    <p className="relative z-10 text-lg leading-relaxed mb-8 italic font-medium font-['Fraunces'] text-[#252140]/80">
                       "{t.body}"
                     </p>
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full bg-[#fbe8d3] border border-[#FF3C00]/20 flex items-center justify-center font-['Fraunces'] font-bold text-[#FF3C00]">
+                      <div className="w-12 h-12 rounded-full bg-[#F0F0F7] border border-[#252140]/20 flex items-center justify-center font-['Fraunces'] font-bold text-[#252140]">
                         {t.name.charAt(0)}
                       </div>
                       <div>
-                        <div className="font-bold tracking-wide text-[#3d2817]">{t.name}</div>
-                        <div className="text-sm text-[#3d2817]/60 font-medium">{roleLine}</div>
+                        <div className="font-bold tracking-wide text-[#252140]">{t.name}</div>
+                        <div className="text-sm text-[#252140]/60 font-medium">{roleLine}</div>
                       </div>
                     </div>
                   </div>
@@ -513,77 +538,77 @@ export default function Home() {
         </section>
 
         {/* Pricing */}
-        <section className="py-32 bg-[#fdf3e9] border-t border-[#FF3C00]/20">
+        <section className="py-32 bg-[#FAFAFD] border-t border-[#252140]/20">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-20">
-              <h2 className="font-['Fraunces'] text-4xl md:text-5xl mb-6 font-medium text-[#3d2817]">Transparent Pricing</h2>
-              <p className="text-[#3d2817]/70 text-lg font-medium">No hidden fees. Scale as you grow.</p>
+              <h2 className="font-['Fraunces'] text-4xl md:text-5xl mb-6 font-medium text-[#252140]">Transparent Pricing</h2>
+              <p className="text-[#252140]/70 text-lg font-medium">No hidden fees. Scale as you grow.</p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto items-center">
-              <div className="bg-[#fffaf2] p-10 rounded-3xl border border-[#FF3C00]/10 shadow-sm hover:shadow-lg transition-shadow">
+              <div className="bg-[#FFFFFF] p-10 rounded-3xl border border-[#252140]/10 shadow-sm hover:shadow-lg transition-shadow">
                 <h3 className="font-bold text-2xl mb-2 font-['Fraunces']">Starter</h3>
-                <p className="text-[#3d2817]/60 text-sm mb-8 font-medium">For small brokerages</p>
+                <p className="text-[#252140]/60 text-sm mb-8 font-medium">For small brokerages</p>
                 <div className="mb-10">
                   <span className="text-4xl font-['Fraunces'] italic font-medium">₹999</span>
-                  <span className="text-[#3d2817]/50 text-sm font-medium">/user/mo</span>
+                  <span className="text-[#252140]/50 text-sm font-medium">/user/mo</span>
                 </div>
-                <ul className="space-y-5 mb-10 text-sm font-medium text-[#3d2817]/80">
-                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Up to 5 users</li>
-                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Basic Lead Management</li>
-                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Standard Reports</li>
+                <ul className="space-y-5 mb-10 text-sm font-medium text-[#252140]/80">
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#252140] shrink-0" /> Up to 5 users</li>
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#252140] shrink-0" /> Basic Lead Management</li>
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#252140] shrink-0" /> Standard Reports</li>
                 </ul>
                 <a
                   href="https://app.leadsrubix.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full py-4 rounded-2xl border-2 border-[#FF3C00]/50 text-[#FF3C00] font-bold hover:bg-[#FF3C00] hover:text-[#fffaf2] transition-colors text-center"
+                  className="block w-full py-4 rounded-2xl border-2 border-[#252140]/50 text-[#252140] font-bold hover:bg-[#252140] hover:text-[#FFFFFF] transition-colors text-center"
                 >
                   Start Trial
                 </a>
               </div>
 
-              <div className="bg-[#3d2817] text-[#fffaf2] p-10 rounded-3xl border border-[#FF3C00]/30 relative transform md:-translate-y-4 shadow-2xl shadow-amber-900/20">
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#FF3C00] text-[#fffaf2] text-xs font-bold uppercase tracking-widest px-5 py-2 rounded-full shadow-md">
+              <div className="bg-[#252140] text-[#FFFFFF] p-10 rounded-3xl border border-[#252140]/30 relative transform md:-translate-y-4 shadow-2xl shadow-slate-900/20">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#252140] text-[#FFFFFF] text-xs font-bold uppercase tracking-widest px-5 py-2 rounded-full shadow-md">
                   Most Popular
                 </div>
-                <h3 className="font-bold text-2xl mb-2 font-['Fraunces'] text-[#fdf3e9]">Growth</h3>
-                <p className="text-[#fffaf2]/60 text-sm mb-8 font-medium">For growing developer teams</p>
+                <h3 className="font-bold text-2xl mb-2 font-['Fraunces'] text-[#FAFAFD]">Growth</h3>
+                <p className="text-[#FFFFFF]/60 text-sm mb-8 font-medium">For growing developer teams</p>
                 <div className="mb-10">
-                  <span className="text-4xl font-['Fraunces'] text-[#FF3C00] italic font-medium">₹1,499</span>
-                  <span className="text-[#fffaf2]/50 text-sm font-medium">/user/mo</span>
+                  <span className="text-4xl font-['Fraunces'] text-[#252140] italic font-medium">₹1,499</span>
+                  <span className="text-[#FFFFFF]/50 text-sm font-medium">/user/mo</span>
                 </div>
-                <ul className="space-y-5 mb-10 text-sm font-medium text-[#fffaf2]/80">
-                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Unlimited users</li>
-                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Auto Lead Rotation</li>
-                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Call Tracking Integration</li>
-                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> WhatsApp API</li>
+                <ul className="space-y-5 mb-10 text-sm font-medium text-[#FFFFFF]/80">
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#252140] shrink-0" /> Unlimited users</li>
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#252140] shrink-0" /> Auto Lead Rotation</li>
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#252140] shrink-0" /> Call Tracking Integration</li>
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#252140] shrink-0" /> WhatsApp API</li>
                 </ul>
                 <a
                   href="https://app.leadsrubix.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full py-4 rounded-2xl bg-[#FF3C00] text-[#fffaf2] font-bold hover:bg-[#CC3000] shadow-lg shadow-[#FF3C00]/20 transition-colors text-center"
+                  className="block w-full py-4 rounded-2xl bg-[#252140] text-[#FFFFFF] font-bold hover:bg-[#16142B] shadow-lg shadow-[#252140]/20 transition-colors text-center"
                 >
                   Start Free Trial
                 </a>
               </div>
 
-              <div className="bg-[#fffaf2] p-10 rounded-3xl border border-[#FF3C00]/10 shadow-sm hover:shadow-lg transition-shadow">
+              <div className="bg-[#FFFFFF] p-10 rounded-3xl border border-[#252140]/10 shadow-sm hover:shadow-lg transition-shadow">
                 <h3 className="font-bold text-2xl mb-2 font-['Fraunces']">Enterprise</h3>
-                <p className="text-[#3d2817]/60 text-sm mb-8 font-medium">For massive scale</p>
+                <p className="text-[#252140]/60 text-sm mb-8 font-medium">For massive scale</p>
                 <div className="mb-10">
                   <span className="text-4xl font-['Fraunces'] italic font-medium">Custom</span>
                 </div>
-                <ul className="space-y-5 mb-10 text-sm font-medium text-[#3d2817]/80">
-                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Dedicated Account Manager</li>
-                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> Custom Integrations</li>
-                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> White-labelling</li>
-                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#FF3C00] shrink-0" /> On-premise deployment</li>
+                <ul className="space-y-5 mb-10 text-sm font-medium text-[#252140]/80">
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#252140] shrink-0" /> Dedicated Account Manager</li>
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#252140] shrink-0" /> Custom Integrations</li>
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#252140] shrink-0" /> White-labelling</li>
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#252140] shrink-0" /> On-premise deployment</li>
                 </ul>
                 <Link
                   href="/contact"
-                  className="block w-full py-4 rounded-2xl border-2 border-[#FF3C00]/50 text-[#FF3C00] font-bold hover:bg-[#FF3C00] hover:text-[#fffaf2] transition-colors text-center"
+                  className="block w-full py-4 rounded-2xl border-2 border-[#252140]/50 text-[#252140] font-bold hover:bg-[#252140] hover:text-[#FFFFFF] transition-colors text-center"
                 >
                   Contact Sales
                 </Link>
@@ -593,9 +618,9 @@ export default function Home() {
         </section>
 
         {/* FAQ */}
-        <section className="py-32 bg-[#fffaf2] border-t border-[#FF3C00]/10">
+        <section className="py-32 bg-[#FFFFFF] border-t border-[#252140]/10">
           <div className="max-w-3xl mx-auto px-6">
-            <h2 className="font-['Fraunces'] text-4xl md:text-5xl text-center mb-16 font-medium text-[#3d2817]">
+            <h2 className="font-['Fraunces'] text-4xl md:text-5xl text-center mb-16 font-medium text-[#252140]">
               Frequently Asked Questions
             </h2>
 
@@ -608,21 +633,21 @@ export default function Home() {
                 { q: "Who owns my data?", a: "You do. We provide easy export tools so you can download your leads and data at any time." },
                 { q: "What kind of support do you offer?", a: "We offer email support for all plans, priority chat support for Growth, and a dedicated manager for Enterprise." },
               ].map((faq, i) => (
-                <div key={i} className="border border-[#FF3C00]/10 bg-[#fdf3e9] rounded-2xl overflow-hidden shadow-sm">
+                <div key={i} className="border border-[#252140]/10 bg-[#FAFAFD] rounded-2xl overflow-hidden shadow-sm">
                   <button
                     type="button"
-                    className="w-full text-left px-8 py-6 font-semibold flex justify-between items-center hover:bg-[#fbe8d3]/50 transition-colors"
+                    className="w-full text-left px-8 py-6 font-semibold flex justify-between items-center hover:bg-[#F0F0F7]/50 transition-colors"
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   >
                     <span className="text-[15px]">{faq.q}</span>
                     <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${openFaq === i ? "bg-[#FF3C00] text-[#fffaf2]" : "bg-[#fffaf2] text-[#FF3C00] border border-[#FF3C00]/20"}`}
+                      className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${openFaq === i ? "bg-[#252140] text-[#FFFFFF]" : "bg-[#FFFFFF] text-[#252140] border border-[#252140]/20"}`}
                     >
                       {openFaq === i ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                     </div>
                   </button>
                   {openFaq === i && (
-                    <div className="px-8 pb-6 text-[#3d2817]/70 text-[15px] leading-relaxed font-medium">{faq.a}</div>
+                    <div className="px-8 pb-6 text-[#252140]/70 text-[15px] leading-relaxed font-medium">{faq.a}</div>
                   )}
                 </div>
               ))}
@@ -631,18 +656,18 @@ export default function Home() {
         </section>
 
         {/* Final CTA */}
-        <section className="py-32 bg-[#FF3C00] text-[#fffaf2] text-center relative overflow-hidden">
+        <section className="py-32 bg-[#252140] text-[#FFFFFF] text-center relative overflow-hidden">
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
           <div className="max-w-4xl mx-auto px-6 relative z-10">
             <h2 className="font-['Fraunces'] text-5xl md:text-6xl mb-6 font-medium italic">Ready to close more deals?</h2>
-            <p className="text-xl md:text-2xl text-[#fffaf2]/80 mb-12 font-medium max-w-2xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-[#FFFFFF]/80 mb-12 font-medium max-w-2xl mx-auto leading-relaxed">
               Join top Indian developers managing their pipeline on Leads Rubix.
             </p>
             <a
               href="https://app.leadsrubix.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-[#3d2817] text-[#fffaf2] px-10 py-5 rounded-full text-lg font-bold hover:bg-[#fffaf2] hover:text-[#3d2817] shadow-xl shadow-amber-900/20 hover:-translate-y-1 transition-all duration-300"
+              className="inline-block bg-[#252140] text-[#FFFFFF] px-10 py-5 rounded-full text-lg font-bold hover:bg-[#FFFFFF] hover:text-[#252140] shadow-xl shadow-slate-900/20 hover:-translate-y-1 transition-all duration-300"
             >
               Start Your Free Trial
             </a>
