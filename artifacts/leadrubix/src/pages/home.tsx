@@ -107,9 +107,11 @@ export default function Home() {
 
   return (
     <Layout>
-      <div className="bg-[#FAFAFD] text-[#252140] font-sans selection:bg-[#252140] selection:text-white">
+      <div className="bg-[#F1F1F9] text-[#252140] font-sans selection:bg-[#252140] selection:text-white">
         {/* Hero */}
-        <section className="relative pt-24 pb-32 overflow-hidden bg-gradient-to-b from-[#FAFAFD] via-[#F0F0F7] to-[#FAFAFD]">
+        <section className="relative pt-24 pb-32 overflow-hidden bg-gradient-to-br from-[#FAF2EE] via-[#F1F1F9] to-[#E8EAF5]">
+          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#FF6B9D]/[0.08] rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-[#252140]/[0.05] rounded-full blur-3xl pointer-events-none" />
           <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
             <div className="max-w-2xl relative z-10">
               <div
@@ -148,7 +150,7 @@ export default function Home() {
                 </a>
                 <Link
                   href="/demo"
-                  className="bg-[#FFFFFF] text-[#252140] border border-[#252140]/20 px-8 py-4 rounded-2xl text-base font-medium hover:border-[#252140]/50 hover:bg-[#F0F0F7] transition-all duration-300 w-full sm:w-auto text-center shadow-sm"
+                  className="bg-[#FFFFFF] text-[#252140] border border-[#252140]/20 px-8 py-4 rounded-2xl text-base font-medium hover:border-[#252140]/50 hover:bg-[#E4E4EF] transition-all duration-300 w-full sm:w-auto text-center shadow-sm"
                   data-testid="btn-hero-demo"
                 >
                   {hero.secondaryCtaLabel}
@@ -178,7 +180,7 @@ export default function Home() {
                     { label: "Avg Response", value: "2m 14s", trend: "−38%", positive: true },
                     { label: "Site Visits", value: "12", trend: "+5", positive: true },
                   ].map((kpi, i) => (
-                    <div key={i} className="bg-[#FAFAFD] p-3.5 rounded-xl border border-[#252140]/5">
+                    <div key={i} className="bg-[#F1F1F9] p-3.5 rounded-xl border border-[#252140]/5">
                       <div className="text-[10px] uppercase tracking-wider font-semibold text-[#252140]/50 mb-1.5">{kpi.label}</div>
                       <div className="font-['Fraunces'] text-2xl text-[#252140] leading-none mb-1.5">{kpi.value}</div>
                       <div className="text-[11px] font-semibold text-emerald-600">{kpi.trend}</div>
@@ -186,7 +188,7 @@ export default function Home() {
                   ))}
                 </div>
 
-                <div className="bg-[#FAFAFD] rounded-xl border border-[#252140]/5 p-4 mb-4">
+                <div className="bg-[#F1F1F9] rounded-xl border border-[#252140]/5 p-4 mb-4">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-[10px] uppercase tracking-wider font-semibold text-[#252140]/60">This Week's Funnel</span>
                     <span className="text-[10px] text-[#252140]/40 font-medium">Updated 2m ago</span>
@@ -209,7 +211,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="bg-[#FAFAFD] p-4 rounded-xl border border-[#252140]/5 flex items-center justify-between">
+                <div className="bg-[#F1F1F9] p-4 rounded-xl border border-[#252140]/5 flex items-center justify-between">
                   <div className="flex items-center gap-3 min-w-0">
                     <div className="w-9 h-9 rounded-lg bg-[#252140]/5 flex items-center justify-center shrink-0">
                       <Facebook className="w-4 h-4 text-[#252140]" />
@@ -229,7 +231,7 @@ export default function Home() {
         </section>
 
         {/* Built-for pill strip */}
-        <section className="border-y border-[#252140]/20 bg-[#FFFFFF] py-10">
+        <section className="border-y border-[#252140]/10 bg-white py-12">
           <div className="max-w-7xl mx-auto px-6">
             <p className="text-center text-xs font-bold tracking-widest uppercase text-[#252140]/60 mb-8">
               Built Exclusively For
@@ -255,7 +257,7 @@ export default function Home() {
         </section>
 
         {/* Stats band */}
-        <section className="bg-[#252140] text-[#FAFAFD] py-24 relative overflow-hidden">
+        <section className="bg-[#252140] text-[#F1F1F9] py-24 relative overflow-hidden">
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-12 text-center relative z-10">
             {[
@@ -275,7 +277,7 @@ export default function Home() {
         </section>
 
         {/* The problem */}
-        <section className="py-32 bg-[#FAFAFD]">
+        <section className="py-32 bg-[#F1F1F9] border-b border-[#252140]/5">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center max-w-3xl mx-auto mb-20">
               <h2 className="font-['Fraunces'] text-4xl md:text-5xl mb-6 font-medium text-[#252140]">
@@ -308,7 +310,7 @@ export default function Home() {
                   key={i}
                   className="bg-[#FFFFFF] p-10 border border-[#252140]/10 rounded-3xl shadow-sm hover:shadow-xl hover:shadow-slate-900/5 hover:-translate-y-1 transition-all duration-300 group"
                 >
-                  <div className="w-14 h-14 bg-[#FAFAFD] rounded-2xl flex items-center justify-center mb-8 shadow-sm border border-[#252140]/10 group-hover:bg-[#252140] transition-colors duration-300">
+                  <div className="w-14 h-14 bg-[#F1F1F9] rounded-2xl flex items-center justify-center mb-8 shadow-sm border border-[#252140]/10 group-hover:bg-[#252140] transition-colors duration-300">
                     <item.icon className="w-7 h-7 text-[#252140] group-hover:text-[#FFFFFF] transition-colors duration-300" />
                   </div>
                   <h3 className="text-2xl font-bold mb-4 font-['Fraunces']">{item.title}</h3>
@@ -320,7 +322,7 @@ export default function Home() {
         </section>
 
         {/* Pipeline visualization */}
-        <section className="py-24 bg-[#FFFFFF] border-y border-[#252140]/20 overflow-hidden">
+        <section className="py-24 bg-white border-y border-[#252140]/10 overflow-hidden">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-16">
               <h2 className="font-['Fraunces'] text-4xl mb-4 font-medium text-[#252140]">
@@ -333,11 +335,11 @@ export default function Home() {
               <div className="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-[#252140]/20 -translate-y-1/2 z-0" />
 
               {[
-                { name: "FRESH", color: "bg-[#FAFAFD] text-[#252140] border-[#252140]/20" },
-                { name: "CALLBACK", color: "bg-[#F0F0F7] text-[#252140] border-[#252140]/30" },
-                { name: "INTERESTED", color: "bg-[#E5E5F0] text-[#252140] border-[#252140]/40" },
-                { name: "BOOKED", color: "bg-[#252140] text-[#FFFFFF] border-[#252140]" },
-                { name: "LOST", color: "bg-[#FFFFFF] text-[#252140]/50 border-[#252140]/10" },
+                { name: "FRESH", color: "bg-white text-[#252140] border-[#252140]/15" },
+                { name: "CALLBACK", color: "bg-[#E8EAF5] text-[#252140] border-[#252140]/25" },
+                { name: "INTERESTED", color: "bg-[#B8B8D4] text-[#252140] border-[#252140]/40" },
+                { name: "BOOKED", color: "bg-[#252140] text-white border-[#252140] shadow-lg shadow-[#252140]/30" },
+                { name: "LOST", color: "bg-white text-[#252140]/40 border-[#252140]/10 line-through decoration-[#252140]/20" },
               ].map((stage, i) => (
                 <div key={i} className="relative z-10 flex-1 group">
                   <div
@@ -354,7 +356,7 @@ export default function Home() {
         </section>
 
         {/* Features grid */}
-        <section className="py-32 bg-[#FAFAFD]">
+        <section className="py-32 bg-[#F1F1F9] border-y border-[#252140]/5">
           <div className="max-w-7xl mx-auto px-6">
             <h2 className="font-['Fraunces'] text-4xl md:text-5xl text-center mb-24 font-medium text-[#252140]">
               Everything you need to close more deals.
@@ -392,7 +394,7 @@ export default function Home() {
         <section className="py-32 bg-[#252140] text-[#FFFFFF]">
           <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#252140]/20 rounded-full text-xs font-semibold tracking-widest uppercase text-[#F0F0F7] mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#252140]/20 rounded-full text-xs font-semibold tracking-widest uppercase text-[#E4E4EF] mb-6">
                 Core Technology
               </div>
               <h2 className="font-['Fraunces'] text-4xl md:text-5xl mb-8 font-medium">Never let a lead go cold again.</h2>
@@ -412,19 +414,19 @@ export default function Home() {
                       {item.step}
                     </div>
                     <div>
-                      <h4 className="font-bold text-lg mb-1.5 tracking-wide text-[#FAFAFD]">{item.title}</h4>
+                      <h4 className="font-bold text-lg mb-1.5 tracking-wide text-[#F1F1F9]">{item.title}</h4>
                       <p className="text-[#FFFFFF]/50 text-sm font-medium">{item.desc}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="bg-[#FAFAFD]/5 rounded-3xl border border-[#FAFAFD]/10 p-8 shadow-2xl backdrop-blur-sm">
+            <div className="bg-[#F1F1F9]/5 rounded-3xl border border-[#F1F1F9]/10 p-8 shadow-2xl backdrop-blur-sm">
               <div className="space-y-5">
-                <div className="bg-[#FAFAFD]/10 p-5 rounded-2xl border border-[#FAFAFD]/20 flex justify-between items-center shadow-inner">
+                <div className="bg-[#F1F1F9]/10 p-5 rounded-2xl border border-[#F1F1F9]/20 flex justify-between items-center shadow-inner">
                   <div>
-                    <div className="text-sm font-semibold mb-1 text-[#FAFAFD]">Incoming: Facebook Ads</div>
-                    <div className="text-xs text-[#FAFAFD]/60 font-medium">Project: Horizon Towers</div>
+                    <div className="text-sm font-semibold mb-1 text-[#F1F1F9]">Incoming: Facebook Ads</div>
+                    <div className="text-xs text-[#F1F1F9]/60 font-medium">Project: Horizon Towers</div>
                   </div>
                   <div className="text-xs bg-[#252140] text-[#FFFFFF] px-3 py-1.5 rounded-full font-semibold shadow-sm">Just Now</div>
                 </div>
@@ -432,7 +434,7 @@ export default function Home() {
                   <ArrowRight className="w-6 h-6 text-[#252140] rotate-90 opacity-80" />
                 </div>
                 <div className="bg-[#FFFFFF] text-[#252140] p-5 rounded-2xl border border-[#FFFFFF]/20 flex items-center gap-4 shadow-lg">
-                  <div className="w-12 h-12 rounded-xl bg-[#FAFAFD] flex items-center justify-center text-[#252140] border border-[#252140]/20 shadow-sm">
+                  <div className="w-12 h-12 rounded-xl bg-[#F1F1F9] flex items-center justify-center text-[#252140] border border-[#252140]/20 shadow-sm">
                     <Users className="w-5 h-5" />
                   </div>
                   <div>
@@ -448,7 +450,7 @@ export default function Home() {
         </section>
 
         {/* Six roles */}
-        <section className="py-32 bg-[#FFFFFF]">
+        <section className="py-32 bg-white">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-20">
               <h2 className="font-['Fraunces'] text-4xl md:text-5xl mb-6 font-medium text-[#252140]">
@@ -468,7 +470,7 @@ export default function Home() {
               ].map((role, i) => (
                 <div
                   key={i}
-                  className="bg-[#FAFAFD] p-8 border border-[#252140]/10 rounded-3xl shadow-sm hover:shadow-lg hover:shadow-slate-900/5 transition-all duration-300 group"
+                  className="bg-[#F1F1F9] p-8 border border-[#252140]/10 rounded-3xl shadow-sm hover:shadow-lg hover:shadow-slate-900/5 transition-all duration-300 group"
                 >
                   <div className="w-12 h-12 rounded-xl bg-[#FFFFFF] flex items-center justify-center mb-6 shadow-sm border border-[#252140]/5 group-hover:bg-[#252140] transition-colors duration-300">
                     <Shield className="w-6 h-6 text-[#252140] group-hover:text-[#FFFFFF] transition-colors duration-300" />
@@ -484,7 +486,7 @@ export default function Home() {
         </section>
 
         {/* Integrations strip */}
-        <section className="py-20 border-y border-[#252140]/20 bg-[#FAFAFD] overflow-hidden relative">
+        <section className="py-20 border-y border-[#252140]/10 bg-[#E8EAF5] overflow-hidden relative">
           <div className="max-w-7xl mx-auto px-6 text-center mb-10">
             <p className="text-xs font-bold tracking-widest uppercase text-[#252140]">Integrates with your stack</p>
           </div>
@@ -500,7 +502,7 @@ export default function Home() {
         </section>
 
         {/* Testimonials */}
-        <section className="py-32 bg-[#FFFFFF]">
+        <section className="py-32 bg-white">
           <div className="max-w-7xl mx-auto px-6">
             <h2 className="font-['Fraunces'] text-4xl md:text-5xl text-center mb-20 font-medium text-[#252140]">
               Trusted by top developers
@@ -515,14 +517,14 @@ export default function Home() {
                 return (
                   <div
                     key={i}
-                    className="bg-[#FAFAFD] p-10 rounded-3xl border border-[#252140]/10 shadow-sm relative group hover:-translate-y-1 transition-transform duration-300"
+                    className="bg-[#F1F1F9] p-10 rounded-3xl border border-[#252140]/10 shadow-sm relative group hover:-translate-y-1 transition-transform duration-300"
                   >
                     <div className="text-[#252140] font-['Fraunces'] text-7xl absolute top-4 left-6 opacity-20 italic">"</div>
                     <p className="relative z-10 text-lg leading-relaxed mb-8 italic font-medium font-['Fraunces'] text-[#252140]/80">
                       "{t.body}"
                     </p>
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full bg-[#F0F0F7] border border-[#252140]/20 flex items-center justify-center font-['Fraunces'] font-bold text-[#252140]">
+                      <div className="w-12 h-12 rounded-full bg-[#E4E4EF] border border-[#252140]/20 flex items-center justify-center font-['Fraunces'] font-bold text-[#252140]">
                         {t.name.charAt(0)}
                       </div>
                       <div>
@@ -538,7 +540,7 @@ export default function Home() {
         </section>
 
         {/* Pricing */}
-        <section className="py-32 bg-[#FAFAFD] border-t border-[#252140]/20">
+        <section className="py-32 bg-[#F1F1F9] border-y border-[#252140]/5">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-20">
               <h2 className="font-['Fraunces'] text-4xl md:text-5xl mb-6 font-medium text-[#252140]">Transparent Pricing</h2>
@@ -568,27 +570,27 @@ export default function Home() {
                 </a>
               </div>
 
-              <div className="bg-[#252140] text-[#FFFFFF] p-10 rounded-3xl border border-[#252140]/30 relative transform md:-translate-y-4 shadow-2xl shadow-slate-900/20">
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#252140] text-[#FFFFFF] text-xs font-bold uppercase tracking-widest px-5 py-2 rounded-full shadow-md">
+              <div className="bg-gradient-to-br from-[#252140] to-[#16142B] text-white p-10 rounded-3xl border border-[#252140] relative transform md:-translate-y-4 shadow-2xl shadow-[#252140]/30">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-[#252140] text-xs font-bold uppercase tracking-widest px-5 py-2 rounded-full shadow-md">
                   Most Popular
                 </div>
-                <h3 className="font-bold text-2xl mb-2 font-['Fraunces'] text-[#FAFAFD]">Growth</h3>
-                <p className="text-[#FFFFFF]/60 text-sm mb-8 font-medium">For growing developer teams</p>
+                <h3 className="font-bold text-2xl mb-2 font-['Fraunces'] text-white">Growth</h3>
+                <p className="text-white/60 text-sm mb-8 font-medium">For growing developer teams</p>
                 <div className="mb-10">
-                  <span className="text-4xl font-['Fraunces'] text-[#252140] italic font-medium">₹1,499</span>
-                  <span className="text-[#FFFFFF]/50 text-sm font-medium">/user/mo</span>
+                  <span className="text-4xl font-['Fraunces'] text-white italic font-medium">₹1,499</span>
+                  <span className="text-white/50 text-sm font-medium">/user/mo</span>
                 </div>
-                <ul className="space-y-5 mb-10 text-sm font-medium text-[#FFFFFF]/80">
-                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#252140] shrink-0" /> Unlimited users</li>
-                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#252140] shrink-0" /> Auto Lead Rotation</li>
-                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#252140] shrink-0" /> Call Tracking Integration</li>
-                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-[#252140] shrink-0" /> WhatsApp API</li>
+                <ul className="space-y-5 mb-10 text-sm font-medium text-white/85">
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-white shrink-0" /> Unlimited users</li>
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-white shrink-0" /> Auto Lead Rotation</li>
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-white shrink-0" /> Call Tracking Integration</li>
+                  <li className="flex gap-3 items-center"><Check className="w-5 h-5 text-white shrink-0" /> WhatsApp API</li>
                 </ul>
                 <a
                   href="https://app.leadsrubix.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full py-4 rounded-2xl bg-[#252140] text-[#FFFFFF] font-bold hover:bg-[#16142B] shadow-lg shadow-[#252140]/20 transition-colors text-center"
+                  className="block w-full py-4 rounded-2xl bg-white text-[#252140] font-bold hover:bg-[#F1F1F9] shadow-lg transition-colors text-center"
                 >
                   Start Free Trial
                 </a>
@@ -618,7 +620,7 @@ export default function Home() {
         </section>
 
         {/* FAQ */}
-        <section className="py-32 bg-[#FFFFFF] border-t border-[#252140]/10">
+        <section className="py-32 bg-white">
           <div className="max-w-3xl mx-auto px-6">
             <h2 className="font-['Fraunces'] text-4xl md:text-5xl text-center mb-16 font-medium text-[#252140]">
               Frequently Asked Questions
@@ -633,10 +635,10 @@ export default function Home() {
                 { q: "Who owns my data?", a: "You do. We provide easy export tools so you can download your leads and data at any time." },
                 { q: "What kind of support do you offer?", a: "We offer email support for all plans, priority chat support for Growth, and a dedicated manager for Enterprise." },
               ].map((faq, i) => (
-                <div key={i} className="border border-[#252140]/10 bg-[#FAFAFD] rounded-2xl overflow-hidden shadow-sm">
+                <div key={i} className="border border-[#252140]/10 bg-[#F1F1F9] rounded-2xl overflow-hidden shadow-sm">
                   <button
                     type="button"
-                    className="w-full text-left px-8 py-6 font-semibold flex justify-between items-center hover:bg-[#F0F0F7]/50 transition-colors"
+                    className="w-full text-left px-8 py-6 font-semibold flex justify-between items-center hover:bg-[#E4E4EF]/50 transition-colors"
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   >
                     <span className="text-[15px]">{faq.q}</span>

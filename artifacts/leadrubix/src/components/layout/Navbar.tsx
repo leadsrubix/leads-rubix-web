@@ -17,7 +17,7 @@ export function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-[#252140]/20 bg-[#FAFAFD]/90 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-[#252140]/10 bg-white/85 backdrop-blur-md">
       <div className="container mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2" data-testid="link-logo">
           <div className="bg-[#252140] text-[#FFFFFF] p-1.5 rounded-lg">
@@ -70,7 +70,7 @@ export function Navbar() {
               <span className="sr-only">Toggle menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-[#FAFAFD] border-l border-[#252140]/20">
+          <SheetContent side="right" className="w-[300px] sm:w-[400px] bg-[#F1F1F9] border-l border-[#252140]/20">
             <nav className="flex flex-col gap-4 mt-8">
               {links.map((link) => (
                 <Link
@@ -88,7 +88,7 @@ export function Navbar() {
                   href="https://app.leadsrubix.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full text-center px-6 py-2.5 rounded-full text-sm font-medium border border-[#252140]/30 text-[#252140] hover:bg-[#F0F0F7] transition-colors"
+                  className="w-full text-center px-6 py-2.5 rounded-full text-sm font-medium border border-[#252140]/30 text-[#252140] hover:bg-[#E4E4EF] transition-colors"
                   data-testid="btn-mobile-signin"
                 >
                   Sign In
