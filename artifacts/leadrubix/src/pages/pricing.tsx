@@ -5,6 +5,23 @@ import { CheckCircle2, MinusCircle, ShieldCheck, Receipt, RefreshCw, ArrowRight,
 import { Link } from "wouter";
 import { useState, Fragment } from "react";
 import { useSEO } from "@/lib/useSEO";
+import { useContent } from "@/lib/useContent";
+
+type RawPlan = {
+  name: string;
+  monthly: number;
+  annual: number;
+  desc: string;
+  highlight: boolean;
+  cta: string;
+  href: string;
+  features: string[];
+};
+
+type PricingContent = {
+  annualDiscount: number;
+  plans: RawPlan[];
+};
 
 type Plan = {
   name: string;
@@ -17,22 +34,13 @@ type Plan = {
   features: string[];
 };
 
-export default function Pricing() {
-  useSEO({
-    title: "Pricing — Leads Rubix CRM | Plans starting at ₹999/user/month",
-    description:
-      "Simple, transparent pricing in INR. Starter ₹999/user/month, Growth ₹1,499/user/month, Enterprise custom. 7-day free trial, no credit card, cancel anytime. GST applied at checkout.",
-    canonical: "https://leadsrubix.com/pricing",
-  });
-
-  const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
-  const annualDiscount = 0.2;
-
-  const plans: Plan[] = [
+const DEFAULT_PRICING: PricingContent = {
+  annualDiscount: 0.2,
+  plans: [
     {
       name: "Starter",
       monthly: 999,
-      annual: Math.round(999 * (1 - annualDiscount)),
+      annual: 0,
       desc: "Perfect for small brokerages getting started with structured sales.",
       highlight: false,
       cta: "Start Free Trial",
@@ -49,7 +57,7 @@ export default function Pricing() {
     {
       name: "Growth",
       monthly: 1499,
-      annual: Math.round(1499 * (1 - annualDiscount)),
+      annual: 0,
       desc: "For growing teams that need automation and deep analytics.",
       highlight: true,
       cta: "Start Free Trial",
@@ -66,8 +74,8 @@ export default function Pricing() {
     },
     {
       name: "Enterprise",
-      monthly: null,
-      annual: null,
+      monthly: 0,
+      annual: 0,
       desc: "For large developers needing multi-org structure and dedicated support.",
       highlight: false,
       cta: "Contact Sales",
@@ -81,7 +89,43 @@ export default function Pricing() {
         "Custom SLA & on-premise deployment options",
       ],
     },
-  ];
+  ],
+};
+
+export default function Pricing() {
+  useSEO({
+    title: "Pricing — Leads Rubix CRM | Plans starting at ₹999/user/month",
+    description:
+      "Simple, transparent pricing in INR. Starter ₹999/user/month, Growth ₹1,499/user/month, Enterprise custom. 7-day free trial, no credit card, cancel anytime. GST applied at checkout.",
+    canonical: "https://leadsrubix.com/pricing",
+  });
+
+  const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
+  const pricing = useContent<PricingContent>("pricing_plans", DEFAULT_PRICING);
+  const annualDiscount =
+    typeof pricing.annualDiscount === "number" && pricing.annualDiscount > 0
+      ? pricing.annualDiscount
+      : 0.2;
+
+  const plans: Plan[] = (pricing.plans ?? []).map((p) => {
+    const isCustom = !p.monthly || p.monthly <= 0;
+    const annual =
+      isCustom
+        ? null
+        : p.annual && p.annual > 0
+          ? p.annual
+          : Math.round(p.monthly * (1 - annualDiscount));
+    return {
+      name: p.name,
+      monthly: isCustom ? null : p.monthly,
+      annual,
+      desc: p.desc,
+      highlight: !!p.highlight,
+      cta: p.cta,
+      href: p.href,
+      features: Array.isArray(p.features) ? p.features : [],
+    };
+  });
 
   function priceLabel(plan: Plan): string {
     if (plan.monthly === null) return "Custom";
