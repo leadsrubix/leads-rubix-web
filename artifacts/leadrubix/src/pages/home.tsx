@@ -94,6 +94,16 @@ export default function Home() {
   const testimonialsCms = useContent<Testimonial[]>("testimonials", []);
   const testimonials = testimonialsCms.length > 0 ? testimonialsCms : DEFAULT_TESTIMONIALS;
   const usingCmsTestimonials = testimonialsCms.length > 0;
+  const faqCms = useContent<Array<{ question: string; answer: string }>>("faq_items", []);
+  const HOME_FAQ_FALLBACK = [
+    { question: "How long is the free trial?", answer: "We offer a 7-day full-featured free trial. No credit card is required to sign up." },
+    { question: "Can I cancel anytime?", answer: "Yes, our subscriptions are month-to-month. You can cancel at any time without penalty." },
+    { question: "Do you offer white-labelling?", answer: "Yes, white-labelling is available on our Enterprise plan. You can use your own domain and branding." },
+    { question: "Is GST included in the pricing?", answer: "No, the prices listed are exclusive of 18% GST." },
+    { question: "Who owns my data?", answer: "You do. We provide easy export tools so you can download your leads and data at any time." },
+    { question: "What kind of support do you offer?", answer: "We offer email support for all plans, priority chat support for Growth, and a dedicated manager for Enterprise." },
+  ];
+  const homeFaqs = faqCms.length > 0 ? faqCms : HOME_FAQ_FALLBACK;
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   useSEO({
@@ -626,22 +636,15 @@ export default function Home() {
               Frequently Asked Questions
             </h2>
 
-            <div className="space-y-4">
-              {[
-                { q: "How long is the free trial?", a: "We offer a 7-day full-featured free trial. No credit card is required to sign up." },
-                { q: "Can I cancel anytime?", a: "Yes, our subscriptions are month-to-month. You can cancel at any time without penalty." },
-                { q: "Do you offer white-labelling?", a: "Yes, white-labelling is available on our Enterprise plan. You can use your own domain and branding." },
-                { q: "Is GST included in the pricing?", a: "No, the prices listed are exclusive of 18% GST." },
-                { q: "Who owns my data?", a: "You do. We provide easy export tools so you can download your leads and data at any time." },
-                { q: "What kind of support do you offer?", a: "We offer email support for all plans, priority chat support for Growth, and a dedicated manager for Enterprise." },
-              ].map((faq, i) => (
+            <div className="space-y-4" data-testid="home-faq-list">
+              {homeFaqs.map((faq, i) => (
                 <div key={i} className="border border-[#252140]/10 bg-[#F1F1F9] rounded-2xl overflow-hidden shadow-sm">
                   <button
                     type="button"
                     className="w-full text-left px-8 py-6 font-semibold flex justify-between items-center hover:bg-[#E4E4EF]/50 transition-colors"
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   >
-                    <span className="text-[15px]">{faq.q}</span>
+                    <span className="text-[15px]">{faq.question}</span>
                     <div
                       className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${openFaq === i ? "bg-[#252140] text-[#FFFFFF]" : "bg-[#FFFFFF] text-[#252140] border border-[#252140]/20"}`}
                     >
@@ -649,7 +652,7 @@ export default function Home() {
                     </div>
                   </button>
                   {openFaq === i && (
-                    <div className="px-8 pb-6 text-[#252140]/70 text-[15px] leading-relaxed font-medium">{faq.a}</div>
+                    <div className="px-8 pb-6 text-[#252140]/70 text-[15px] leading-relaxed font-medium whitespace-pre-wrap">{faq.answer}</div>
                   )}
                 </div>
               ))}

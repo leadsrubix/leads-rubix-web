@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Building2, Linkedin } from "lucide-react";
+import { Building2, Linkedin, Facebook, Instagram, Youtube, Twitter } from "lucide-react";
 import { useContent } from "@/lib/useContent";
 
 interface FooterContact {
@@ -10,6 +10,14 @@ interface FooterContact {
   hours?: string;
 }
 
+interface SocialLinks {
+  linkedin?: string;
+  facebook?: string;
+  instagram?: string;
+  twitter?: string;
+  youtube?: string;
+}
+
 const DEFAULT_CONTACT: FooterContact = {
   legalEntity: "Leads Rubix Technologies Pvt. Ltd.",
   addressLine: "Registered office: Mumbai, Maharashtra, India",
@@ -18,8 +26,25 @@ const DEFAULT_CONTACT: FooterContact = {
   hours: "",
 };
 
+const DEFAULT_SOCIAL: SocialLinks = {
+  linkedin: "https://www.linkedin.com/company/leads-rubix",
+  facebook: "",
+  instagram: "",
+  twitter: "",
+  youtube: "",
+};
+
+const SOCIAL_ICONS: Array<{ key: keyof SocialLinks; Icon: typeof Linkedin; label: string; testId: string }> = [
+  { key: "linkedin", Icon: Linkedin, label: "Leads Rubix on LinkedIn", testId: "link-social-li" },
+  { key: "facebook", Icon: Facebook, label: "Leads Rubix on Facebook", testId: "link-social-fb" },
+  { key: "instagram", Icon: Instagram, label: "Leads Rubix on Instagram", testId: "link-social-ig" },
+  { key: "twitter", Icon: Twitter, label: "Leads Rubix on X (Twitter)", testId: "link-social-x" },
+  { key: "youtube", Icon: Youtube, label: "Leads Rubix on YouTube", testId: "link-social-yt" },
+];
+
 export function Footer() {
   const contact = useContent<FooterContact>("footer_contact", DEFAULT_CONTACT);
+  const social = useContent<SocialLinks>("social_links", DEFAULT_SOCIAL);
 
   return (
     <footer className="bg-[#16142B] text-white/70 py-16 border-t border-white/5">
@@ -36,16 +61,23 @@ export function Footer() {
               The purpose-built CRM for Indian real estate sales teams. Capture, manage, and convert leads from first contact through booking.
             </p>
             <div className="flex gap-4 mb-6">
-              <a
-                href="https://www.linkedin.com/company/leads-rubix"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:bg-white hover:text-[#252140] hover:border-white transition-colors"
-                aria-label="Leads Rubix on LinkedIn"
-                data-testid="link-social-li"
-              >
-                <Linkedin size={18} />
-              </a>
+              {SOCIAL_ICONS.map(({ key, Icon, label, testId }) => {
+                const href = social?.[key];
+                if (!href || !href.trim()) return null;
+                return (
+                  <a
+                    key={key}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:bg-white hover:text-[#252140] hover:border-white transition-colors"
+                    aria-label={label}
+                    data-testid={testId}
+                  >
+                    <Icon size={18} />
+                  </a>
+                );
+              })}
             </div>
             <div className="text-xs text-white/55 space-y-1 leading-relaxed" data-testid="footer-contact">
               <p className="font-semibold text-white/80">{contact.legalEntity}</p>

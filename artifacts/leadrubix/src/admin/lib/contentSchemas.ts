@@ -80,8 +80,22 @@ export const KNOWN_SECTIONS: SectionDefinition[] = [
         body: "Auto-rotation and SMS+WhatsApp alerts made sure leads never sat unattended overnight.",
         metric1: { value: "-93%", label: "First-touch time" },
         metric2: { value: "+38%", label: "Site-visit conversion" },
+        metric3: { value: "42", label: "Agents managed" },
       },
     ],
+  },
+  {
+    key: "social_links",
+    label: "Social media links",
+    description:
+      "Footer social icons. Leave a URL empty to hide that icon. Use full https:// URLs.",
+    defaultValue: {
+      linkedin: "https://www.linkedin.com/company/leads-rubix",
+      facebook: "",
+      instagram: "",
+      twitter: "",
+      youtube: "",
+    },
   },
 ];
 
