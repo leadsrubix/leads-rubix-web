@@ -223,6 +223,38 @@ export const KNOWN_SECTIONS: SectionDefinition[] = [
     },
   },
   {
+    key: "trusted_by",
+    label: "Home — Customer logo strip",
+    description:
+      "Logos shown in the 'Trusted by' strip. `name` is required; `src` is an optional full https:// image URL — if omitted, the company name renders as a styled wordmark. Up to 20 entries (first 8 are shown).",
+    defaultValue: {
+      heading: "Trusted by sales teams across India",
+      logos: [
+        { name: "Horizon Developers", src: "" },
+        { name: "Skyline Realty", src: "" },
+        { name: "MeritEdu", src: "" },
+        { name: "WellCare Hospitals", src: "" },
+        { name: "BlueLeaf Capital", src: "" },
+        { name: "Vista Motors", src: "" },
+      ],
+    },
+  },
+  {
+    key: "trust_badges",
+    label: "Security — Trust badges",
+    description:
+      "Small badge cards shown on the /security page. Each has a label, optional caption, optional src (https:// image URL — wordmark fallback if blank), and optional href (link). Use for 'DPDP 2023', 'PCI-DSS via Razorpay', 'AWS Hosted', G2 / Capterra ratings, etc.",
+    defaultValue: {
+      heading: "Recognised, audited, compliant",
+      items: [
+        { label: "DPDP 2023", caption: "India data-protection compliant", src: "", href: "" },
+        { label: "PCI-DSS", caption: "Payments via Razorpay (Level 1)", src: "", href: "" },
+        { label: "AWS Hosted", caption: "Elastic Beanstalk · Mumbai region", src: "", href: "" },
+        { label: "MongoDB Atlas", caption: "Encrypted at rest · daily backups", src: "", href: "" },
+      ],
+    },
+  },
+  {
     key: "social_links",
     label: "Social media links",
     description:

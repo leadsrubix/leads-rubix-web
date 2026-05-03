@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 
 import { useSEO } from "@/lib/useSEO";
+import { TrustBadges } from "@/components/marketing/TrustBadges";
 
 export default function Security() {
   useSEO({
@@ -93,6 +94,8 @@ export default function Security() {
           </div>
         </div>
       </section>
+
+      <TrustBadges />
 
       {/* Security Features Grid */}
       <section className="py-24 bg-background">

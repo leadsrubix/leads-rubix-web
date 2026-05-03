@@ -1,6 +1,7 @@
+import { useEffect, useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle2, AlertTriangle, AlertOctagon } from "lucide-react";
+import { CheckCircle2, AlertTriangle, AlertOctagon, Activity } from "lucide-react";
 import { useSEO } from "@/lib/useSEO";
 import { useContent } from "@/lib/useContent";
 
@@ -102,6 +103,31 @@ export default function StatusPage() {
     canonical: "https://leadsrubix.com/status",
   });
 
+  const [livePing, setLivePing] = useState<{ status: "checking" | "ok" | "fail"; ms?: number }>({
+    status: "checking",
+  });
+  useEffect(() => {
+    let cancelled = false;
+    const t0 = performance.now();
+    const ctrl = new AbortController();
+    const timeout = window.setTimeout(() => ctrl.abort(), 5000);
+    fetch("/api/healthz", { signal: ctrl.signal, cache: "no-store" })
+      .then((r) => {
+        if (cancelled) return;
+        const ms = Math.max(0, Math.round(performance.now() - t0));
+        setLivePing({ status: r.ok ? "ok" : "fail", ms });
+      })
+      .catch(() => {
+        if (!cancelled) setLivePing({ status: "fail" });
+      })
+      .finally(() => window.clearTimeout(timeout));
+    return () => {
+      cancelled = true;
+      ctrl.abort();
+      window.clearTimeout(timeout);
+    };
+  }, []);
+
   const uptime = (() => {
     let bad = 0;
     for (const d of days) {
@@ -128,6 +154,29 @@ export default function StatusPage() {
           </div>
           <h1 className="text-3xl md:text-5xl font-bold tracking-tight">System status</h1>
           <p className="mt-3 text-muted-foreground">Last 90 days uptime: <span className="font-semibold text-foreground" data-testid="text-uptime">{uptime}%</span></p>
+          <div className="mt-3 inline-flex items-center gap-2 text-xs font-medium" data-testid="live-ping">
+            <Activity
+              className={`h-3.5 w-3.5 ${livePing.status === "ok" ? "text-emerald-600 animate-pulse" : livePing.status === "fail" ? "text-rose-600" : "text-muted-foreground"}`}
+            />
+            <span className="text-muted-foreground">
+              Live API ping:{" "}
+              <span
+                className={
+                  livePing.status === "ok"
+                    ? "text-emerald-700 font-semibold"
+                    : livePing.status === "fail"
+                      ? "text-rose-700 font-semibold"
+                      : "text-muted-foreground"
+                }
+              >
+                {livePing.status === "checking"
+                  ? "checking…"
+                  : livePing.status === "ok"
+                    ? `OK${livePing.ms !== undefined ? ` · ${livePing.ms}ms` : ""}`
+                    : "Unreachable"}
+              </span>
+            </span>
+          </div>
         </div>
       </section>
 

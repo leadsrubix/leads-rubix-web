@@ -7,6 +7,7 @@ import {
   Newspaper,
   Users,
   ScrollText,
+  PieChart,
   LogOut,
   Menu,
   X,
@@ -19,6 +20,7 @@ import { CommandPalette } from "./CommandPalette";
 const NAV = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { href: "/admin/leads", label: "Leads", icon: Inbox },
+  { href: "/admin/sources", label: "Lead sources", icon: PieChart },
   { href: "/admin/content", label: "Content", icon: FileText },
   { href: "/admin/posts", label: "Blog", icon: Newspaper },
   { href: "/admin/users", label: "Admins", icon: Users },

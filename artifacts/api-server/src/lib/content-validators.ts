@@ -89,6 +89,28 @@ const TrackingPixels = z.object({
     .default(""),
 });
 
+const TrustedByLogo = z.object({
+  name: z.string().min(1).max(120),
+  src: z.string().max(1024).default(""),
+});
+
+const TrustedBy = z.object({
+  heading: z.string().max(200).default(""),
+  logos: z.array(TrustedByLogo).max(20),
+});
+
+const TrustBadge = z.object({
+  label: z.string().min(1).max(120),
+  caption: z.string().max(200).default(""),
+  src: z.string().max(1024).default(""),
+  href: z.string().max(1024).default(""),
+});
+
+const TrustBadges = z.object({
+  heading: z.string().max(200).default(""),
+  items: z.array(TrustBadge).max(12),
+});
+
 const SCHEMAS: Record<string, z.ZodTypeAny> = {
   home_hero: HomeHero,
   home_announcement: HomeAnnouncement,
@@ -97,6 +119,8 @@ const SCHEMAS: Record<string, z.ZodTypeAny> = {
   testimonials: z.array(Testimonial).max(60),
   case_studies: z.array(CaseStudy).max(40),
   tracking_pixels: TrackingPixels,
+  trusted_by: TrustedBy,
+  trust_badges: TrustBadges,
 };
 
 export function validateContent(

@@ -19,6 +19,7 @@ const STATIC_URLS: Array<{ loc: string; changefreq: string; priority: string }> 
   { loc: "/vs/zoho", changefreq: "monthly", priority: "0.8" },
   { loc: "/vs/sell-do", changefreq: "monthly", priority: "0.8" },
   { loc: "/docs/api", changefreq: "monthly", priority: "0.5" },
+  { loc: "/tools/response-time-calculator", changefreq: "monthly", priority: "0.7" },
   { loc: "/case-studies", changefreq: "monthly", priority: "0.8" },
   { loc: "/case-studies/real-estate", changefreq: "monthly", priority: "0.7" },
   { loc: "/case-studies/education", changefreq: "monthly", priority: "0.7" },

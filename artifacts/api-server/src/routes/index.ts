@@ -5,6 +5,7 @@ import contentRouter from "./content";
 import postsRouter from "./posts";
 import objectsRouter from "./objects";
 import socialProofRouter from "./social-proof";
+import telemetryRouter from "./telemetry";
 import adminRouter from "./admin";
 
 const router: IRouter = Router();
@@ -15,6 +16,7 @@ router.use(contentRouter);
 router.use(postsRouter);
 router.use(objectsRouter);
 router.use(socialProofRouter);
+router.use(telemetryRouter);
 router.use("/admin", adminRouter);
 
 export default router;

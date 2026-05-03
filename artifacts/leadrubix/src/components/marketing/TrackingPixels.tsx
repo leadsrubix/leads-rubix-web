@@ -175,13 +175,28 @@ export function TrackingPixels(): null {
     };
   }, []);
 
-  // Initial injection on consent + config (once each).
+  // Initial injection on consent + config (once each). Deferred until the
+  // browser is idle so it doesn't compete with first paint / hydration.
   useEffect(() => {
     if (!consent) return;
-    if (consent.analytics && cfg.ga4MeasurementId) loadGa4(cfg.ga4MeasurementId);
-    if (consent.analytics && cfg.clarityProjectId) loadClarity(cfg.clarityProjectId);
-    if (consent.marketing && cfg.fbPixelId) loadFbPixel(cfg.fbPixelId);
-    if (consent.marketing && cfg.taboolaAccountId) loadTaboola(cfg.taboolaAccountId);
+    const run = () => {
+      if (consent.analytics && cfg.ga4MeasurementId) loadGa4(cfg.ga4MeasurementId);
+      if (consent.analytics && cfg.clarityProjectId) loadClarity(cfg.clarityProjectId);
+      if (consent.marketing && cfg.fbPixelId) loadFbPixel(cfg.fbPixelId);
+      if (consent.marketing && cfg.taboolaAccountId) loadTaboola(cfg.taboolaAccountId);
+    };
+    const w = window as Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    if (typeof w.requestIdleCallback === "function") {
+      const id = w.requestIdleCallback(run, { timeout: 2500 });
+      return () => {
+        if (typeof w.cancelIdleCallback === "function") w.cancelIdleCallback(id);
+      };
+    }
+    const t = window.setTimeout(run, 1500);
+    return () => window.clearTimeout(t);
   }, [
     consent,
     cfg.ga4MeasurementId,

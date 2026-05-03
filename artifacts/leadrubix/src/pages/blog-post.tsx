@@ -11,6 +11,7 @@ import { ArrowLeft, Clock, ListTree } from "lucide-react";
 import { useSEO } from "@/lib/useSEO";
 import { extractToc, readingTimeMinutes, type TocHeading } from "@/lib/readingTime";
 import { BlogLeadMagnet } from "@/components/marketing/BlogLeadMagnet";
+import { ExitIntentModal } from "@/components/marketing/ExitIntentModal";
 
 interface BlogPost {
   id: string;
@@ -285,6 +286,7 @@ export default function BlogPostPage() {
           ) : null}
         </div>
       </article>
+      {slug ? <ExitIntentModal storageKey={`leadsrubix-exit-intent-blog-${slug}`} /> : null}
     </Layout>
   );
 }

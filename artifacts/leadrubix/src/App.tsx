@@ -30,6 +30,7 @@ import StatusPage from "@/pages/status";
 import Changelog from "@/pages/changelog";
 import VsPage from "@/pages/vs";
 import ApiDocs from "@/pages/api-docs";
+import ResponseTimeCalculator from "@/pages/response-time-calculator";
 
 import { AuthProvider } from "@/admin/contexts/AuthContext";
 import RequireAuth from "@/admin/components/RequireAuth";
@@ -47,6 +48,7 @@ const AdminPosts = lazy(() => import("@/admin/pages/Posts"));
 const AdminPostEdit = lazy(() => import("@/admin/pages/PostEdit"));
 const AdminUsers = lazy(() => import("@/admin/pages/Users"));
 const AdminAudit = lazy(() => import("@/admin/pages/Audit"));
+const AdminSources = lazy(() => import("@/admin/pages/Sources"));
 
 const queryClient = new QueryClient();
 
@@ -157,6 +159,13 @@ function Router() {
           </Suspense>
         </RequireAuth>
       </Route>
+      <Route path="/admin/sources">
+        <RequireAuth>
+          <Suspense fallback={<AdminFallback />}>
+            <AdminSources />
+          </Suspense>
+        </RequireAuth>
+      </Route>
 
       <Route path="/" component={Home} />
       <Route path="/features" component={Features} />
@@ -169,6 +178,7 @@ function Router() {
       <Route path="/compare" component={Compare} />
       <Route path="/vs/:slug" component={VsPage} />
       <Route path="/docs/api" component={ApiDocs} />
+      <Route path="/tools/response-time-calculator" component={ResponseTimeCalculator} />
       <Route path="/case-studies" component={CaseStudies} />
       <Route path="/case-studies/:slug" component={CaseStudyDetail} />
       <Route path="/demo" component={Demo} />

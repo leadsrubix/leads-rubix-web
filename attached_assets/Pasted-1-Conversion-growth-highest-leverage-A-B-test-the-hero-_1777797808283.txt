@@ -1,0 +1,31 @@
+1. Conversion & growth (highest leverage)
+A/B test the hero & pricing CTAs — Track click-through on “Start Free Trial” vs “Book Demo” via a CMS-flippable variant; pick the winner after 2 weeks. Medium effort · High impact.
+Exit-intent popup with the same lead-magnet playbook — Catches the 30–40% of bounces that ignore inline forms. Low effort · Medium impact.
+Comparison-page lead bar (/vs/salesforce, /vs/hubspot, …) — Sticky “See how Leads Rubix compares for your team” strip. Low effort · Medium impact.
+Calculator-driven landing page — “How much do you lose to slow first-response?” with sharable result. Big in B2B India; reuses your ROI-calculator code. Medium effort · High impact.
+2. SEO & content surfaces
+Per-industry case-study pages with metrics (you already have shells) — pad with 2 testimonials + 1 chart each, tag with Article schema. Medium effort · High impact.
+Programmatic “city × industry” pages (e.g. Real estate CRM in Pune) — generated from a small JSON dataset, indexed via the sitemap you just shipped. Higher effort · Very high SEO impact.
+FAQPage JSON-LD on /faq and HowTo schema on long-form blog posts — unlocks rich results in Google. Low effort · Medium impact.
+Internal-linking pass — auto-link every mention of “WhatsApp routing”, “lead scoring”, etc. to the canonical feature page. Low effort · Medium impact.
+3. Performance & polish
+Image pipeline: serve the new blog covers as .webp + .avif with <picture> and width hints; today they're plain PNG. Should shave ~300 KB per post. Low effort · Medium impact.
+Lighthouse pass on home, pricing, blog, industry — aim for green CWV. Most likely wins: deferring TrackingPixels until after first interaction, font-display swap, route-based code-splitting for the admin bundle. Medium effort · Medium impact.
+Skeleton states on /blog and /industries instead of the brief blank-then-pop. Low effort · Low impact (but feels great).
+Dark-mode QA sweep — a few sections still have low-contrast text on #252140 backgrounds. Low effort · Low impact.
+4. Trust & credibility
+Customer-logo strip in the hero + footer (CMS-driven so the team can swap easily). Low effort · High impact.
+G2 / Capterra badges when you have them; placeholder slots now so it's a one-line CMS change later. Low effort · Medium impact.
+Status-page wiring — /status currently renders static; point it at a real ping endpoint or an UptimeRobot-style JSON feed. Medium effort · Medium impact.
+Privacy / DPA / SOC2 download stubs under /security — even a “coming soon, request copy” form converts enterprise buyers. Low effort · Medium impact.
+5. Admin & operations
+Lead-source dashboard — splits incoming leads by placement tag (we now have inline-pricing, industry-*, blog-*, etc.). One bar chart, huge ROI for the marketing team. Medium effort · High impact.
+CSV export on the leads table (streamed; the route exists; just expose a button). Tiny effort · Medium impact.
+Saved-views on leads (filters by tag/source/status). Medium effort · Medium impact.
+Email digest of new leads — once LEAD_NOTIFICATION_WEBHOOK is in, also send a 9 AM IST daily roll-up. Low effort · Medium impact.
+Audit-log UI page — backend already records events; surface them at /admin/audit. Medium effort · Medium impact.
+6. Pre-launch hygiene (quick wins)
+Custom 404 / 500 telemetry — log unmatched paths to a not_found_hits table so you can spot broken inbound links and add 301s. Low effort · Medium impact.
+Email DNS (SPF / DKIM / DMARC for leadsrubix.com) so contact-form auto-replies don't land in spam. Low effort · High impact. (Needs domain access from you.)
+Privacy/terms last-updated dates — show explicitly so legal-conscious buyers don't bounce. Tiny effort.
+og-image.jpg per page — currently shared default; per-page OG previews lift social CTR markedly. Medium effort · Medium impact.

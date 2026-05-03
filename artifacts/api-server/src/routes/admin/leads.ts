@@ -23,6 +23,24 @@ const ListQuery = z.object({
   pageSize: z.coerce.number().int().min(1).max(200).default(50),
 });
 
+router.get("/by-source", async (_req, res) => {
+  // 30-day cutoff
+  const rows = await db
+    .select({
+      source: leadsTable.source,
+      total: sql<number>`count(*)::int`,
+      last30: sql<number>`count(*) filter (where ${leadsTable.createdAt} >= now() - interval '30 days')::int`,
+      won: sql<number>`count(*) filter (where ${leadsTable.status} = 'won')::int`,
+      lost: sql<number>`count(*) filter (where ${leadsTable.status} = 'lost')::int`,
+    })
+    .from(leadsTable)
+    .groupBy(leadsTable.source)
+    .orderBy(desc(sql`count(*)`));
+  const totalAll = rows.reduce((s, r) => s + Number(r.total ?? 0), 0);
+  const total30 = rows.reduce((s, r) => s + Number(r.last30 ?? 0), 0);
+  res.json({ rows, totalAll, total30 });
+});
+
 router.get("/", async (req, res) => {
   const parsed = ListQuery.safeParse(req.query);
   if (!parsed.success) {

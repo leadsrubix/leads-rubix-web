@@ -32,6 +32,8 @@ import { Link } from "wouter";
 import { useSEO } from "@/lib/useSEO";
 import { useContent } from "@/lib/useContent";
 import { SocialProofTicker } from "@/components/marketing/SocialProofTicker";
+import { TrustedBy } from "@/components/marketing/TrustedBy";
+import { ExitIntentModal } from "@/components/marketing/ExitIntentModal";
 
 interface HomeHero {
   eyebrow: string;
@@ -398,6 +400,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <TrustedBy className="!bg-white" />
 
         {/* Built-for pill strip */}
         <section className="border-y border-[#252140]/10 bg-white py-12">
@@ -838,6 +842,7 @@ export default function Home() {
           </div>
         </section>
       </div>
+      <ExitIntentModal storageKey="leadsrubix-exit-intent-home" />
     </Layout>
   );
 }

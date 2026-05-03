@@ -5,3 +5,4 @@ export * from "./content-versions";
 export * from "./posts";
 export * from "./sessions";
 export * from "./audit-events";
+export * from "./not-found-hits";

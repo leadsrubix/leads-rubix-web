@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "wouter";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -5,6 +6,31 @@ import { useSEO } from "@/lib/useSEO";
 import { ArrowLeft, Home, MessageSquare, BookOpen } from "lucide-react";
 
 export default function NotFound() {
+  // Fire-and-forget telemetry so we can see what users are looking for.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const payload = JSON.stringify({
+        path: window.location.pathname + window.location.search,
+        referrer: document.referrer || null,
+      });
+      const url = "/api/telemetry/not-found";
+      const sent =
+        typeof navigator.sendBeacon === "function" &&
+        navigator.sendBeacon(url, new Blob([payload], { type: "application/json" }));
+      if (!sent) {
+        void fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: payload,
+          keepalive: true,
+        }).catch(() => {});
+      }
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
   useSEO({
     title: "Page not found — Leads Rubix",
     description:
