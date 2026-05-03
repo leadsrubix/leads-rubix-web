@@ -46,6 +46,7 @@ The project is structured as a pnpm workspace monorepo, with each package managi
 - **Telemetry**: 404 telemetry pipeline captures pathname and referrer to identify broken links. The 404 page also surfaces a search box (routes to `/blog?q=`) and the four most recent posts.
 - **Cal.com Webhook**: `POST /api/cal/webhook` accepts Cal booking events, verifies HMAC via `CAL_WEBHOOK_SECRET` (when set), and on `BOOKING_CREATED`/`BOOKING_RESCHEDULED` flips the matching lead to `demo_booked` (+20 score) and writes a `lead_activities` row. `BOOKING_CANCELLED` deducts 10 points.
 - **IndexNow**: `lib/indexnow.ts` posts newly published or slug-changed blog URLs to `api.indexnow.org` (best-effort, requires `INDEXNOW_KEY`).
+- **Social-proof baselines**: `GET /api/stats/social-proof` adds historical baselines to the live lead counts so the marketing badge reads believably even on a fresh DB. Override via `SOCIAL_PROOF_BASELINE_TOTAL` / `_30D` / `_7D` / `_DISTINCT_COMPANIES`. Defaults: 1850 / 240 / 58 / 410.
 - **Pricing add-ons**: `/pricing` includes an India-specific add-ons table (WhatsApp BSP, per-seat overage, GST e-invoicing, dedicated IP, Razorpay routing, on-site implementation).
 - **Backups**: `pnpm --filter @workspace/scripts run backup` invokes `pg_dump --format=custom` into `./backups`, prunes older than `RETAIN_DAYS` (default 14). Designed for host cron (Hostinger Cloud).
 
