@@ -14,6 +14,15 @@ I prefer to work iteratively. Please ask before making major changes. I value cl
 
 The project is structured as a pnpm workspace monorepo, with each package managing its own dependencies. Key packages include `@workspace/api-server` for the backend, `@workspace/leadrubix` for the frontend, and shared libraries.
 
+## Recent updates (v3.0 — May 2026, marketing pixels)
+
+- **CMS-driven tracking pixels** — New `tracking_pixels` CMS section (admin → Site content → Tracking) lets the team set GA4 (`ga4MeasurementId`, e.g. `G-XXXXXXXX`), Meta Pixel (`fbPixelId`), and Taboola (`taboolaAccountId`) IDs without a code change. Server-side Zod validator (`api-server/src/lib/content-validators.ts`) constrains each ID to a tight char/length set so values can't smuggle script payloads.
+- **Consent-gated injection** — `src/components/marketing/TrackingPixels.tsx` is mounted globally in `Layout`. It reads the existing cookie-consent record (`lr_cookie_consent_v1`) and only injects:
+  - **GA4** when the visitor granted **analytics** consent;
+  - **Facebook Pixel** and **Taboola** when the visitor granted **marketing** consent.
+  Each pixel is injected at most once per page load. Empty IDs disable the pixel.
+- **Live consent updates** — `CookieConsent` now dispatches a `lr-cookie-consent-changed` window event when the visitor clicks Accept / Reject / Save. `TrackingPixels` listens for it (and `storage` events for cross-tab sync) so pixels fire immediately on consent — no reload required.
+
 ## Recent updates (v2.9 — May 2026, dark-mode polish)
 
 - **Comprehensive dark-mode override block** — `src/index.css` now remaps every hardcoded brand color used across the marketing pages (`#252140`, `#F1F1F9`, `#FAF2EE`, `#E8EAF5`, `#E4E4EF`, `#16142B`, `#B8B8D4`, `#FFFFFF`, plus all opacity variants `/5 /10 /20 /25 /30 /40 /50 /60 /70 /80 /90`) to semantic tokens when `.dark` is on `<html>`. Also covers Tailwind named utilities (`bg-gray-50`, `bg-slate-50/100`, `bg-white`, `text-gray-600/900`, `text-slate-500/600/700/900`) and gradient stops (`from-slate-50`, `to-white`, `from-white`, etc.) so hero sections like `/industries/:slug` (which uses `bg-gradient-to-b from-slate-50 to-white`) flip correctly.

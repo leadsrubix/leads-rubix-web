@@ -5,6 +5,7 @@ import { ReactNode, useEffect } from "react";
 import { StickyDemoCTA } from "@/components/marketing/StickyDemoCTA";
 import { WhatsAppFab } from "@/components/marketing/WhatsAppFab";
 import { CookieConsent } from "@/components/marketing/CookieConsent";
+import { TrackingPixels } from "@/components/marketing/TrackingPixels";
 import { captureUtmFromUrl } from "@/lib/utm";
 
 export function Layout({ children }: { children: ReactNode }) {
@@ -22,6 +23,7 @@ export function Layout({ children }: { children: ReactNode }) {
       <StickyDemoCTA />
       <WhatsAppFab />
       <CookieConsent />
+      <TrackingPixels />
     </div>
   );
 }

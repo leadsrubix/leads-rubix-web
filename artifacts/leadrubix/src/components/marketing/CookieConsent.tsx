@@ -47,6 +47,13 @@ export function CookieConsent() {
 
   function decide(a: boolean, m: boolean) {
     writeConsent({ essential: true, analytics: a, marketing: m, decidedAt: new Date().toISOString() });
+    // Notify TrackingPixels (and any other listener) so they can fire immediately
+    // without waiting for a reload.
+    try {
+      window.dispatchEvent(new Event("lr-cookie-consent-changed"));
+    } catch {
+      /* ignore */
+    }
     setVisible(false);
   }
 

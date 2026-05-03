@@ -47,6 +47,30 @@ const CaseStudy = z.object({
   metric2: z.object({ value: z.string().max(40), label: z.string().max(120) }).optional(),
 });
 
+// Tracking pixels — IDs are constrained to harmless characters and short lengths
+// so they can't be abused to inject script payloads even if the public CMS
+// ever exposed them. Empty string disables that pixel.
+const TrackingPixels = z.object({
+  ga4MeasurementId: z
+    .string()
+    .max(40)
+    .regex(/^(|G-[A-Z0-9]{4,20})$/i, "ga4MeasurementId must look like 'G-XXXXXXXX' or be blank")
+    .default(""),
+  fbPixelId: z
+    .string()
+    .max(40)
+    .regex(/^[a-zA-Z0-9_-]{0,40}$/, "fbPixelId must be alphanumeric (digits, letters, _ or -)")
+    .default(""),
+  taboolaAccountId: z
+    .string()
+    .max(40)
+    .regex(
+      /^[a-zA-Z0-9_-]{0,40}$/,
+      "taboolaAccountId must be alphanumeric (digits, letters, _ or -)",
+    )
+    .default(""),
+});
+
 const SCHEMAS: Record<string, z.ZodTypeAny> = {
   home_hero: HomeHero,
   home_announcement: HomeAnnouncement,
@@ -54,6 +78,7 @@ const SCHEMAS: Record<string, z.ZodTypeAny> = {
   faq_items: z.array(FaqItem).max(100),
   testimonials: z.array(Testimonial).max(60),
   case_studies: z.array(CaseStudy).max(40),
+  tracking_pixels: TrackingPixels,
 };
 
 export function validateContent(
