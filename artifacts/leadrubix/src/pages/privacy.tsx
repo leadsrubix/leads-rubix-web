@@ -19,7 +19,7 @@ export default function Privacy() {
       <div className="py-20 bg-background">
         <div className="container mx-auto px-4 max-w-3xl prose prose-slate">
           <p>
-            Leads Rubix ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our Customer Relationship Management (CRM) platform designed for real estate professionals in India.
+            Leads Rubix ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our Customer Relationship Management (CRM) platform designed for sales teams in India across industries including real estate, education, healthcare, financial services, automotive, travel, SaaS and manufacturing.
           </p>
 
           <h2>1. Information We Collect</h2>

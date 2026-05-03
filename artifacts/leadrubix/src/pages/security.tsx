@@ -76,7 +76,7 @@ export default function Security() {
             <Lock className="h-8 w-8 text-primary" />
           </div>
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">Built for trust. Designed for scale.</h1>
-          <p className="text-xl text-slate-400">Enterprise-grade security and compliance for Indian real estate data.</p>
+          <p className="text-xl text-slate-400">Enterprise-grade security and compliance for India's most data-sensitive industries — from real estate and BFSI to healthcare and education.</p>
         </div>
       </section>
 

@@ -31,7 +31,7 @@ export default function Blog() {
   useSEO({
     title: "Blog — Leads Rubix",
     description:
-      "Notes on lead management, real estate sales operations and CRM best practices for the Indian market.",
+      "Notes on lead management, sales operations and CRM best practices for India's high-velocity sales teams across real estate, education, healthcare, BFSI and more.",
     canonical: "https://leadsrubix.com/blog",
   });
 
@@ -87,7 +87,7 @@ export default function Blog() {
             </span>
             <h1 className="text-3xl md:text-5xl font-bold tracking-tight mt-4">Notes from the team</h1>
             <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">
-              Lessons from working with developers, brokerages and channel partners across India.
+              Lessons from working with sales teams across real estate, education, healthcare, BFSI, automotive, travel, SaaS and manufacturing in India.
             </p>
             {tag ? (
               <div className="mt-4 inline-flex items-center gap-2 text-sm text-muted-foreground">

@@ -25,7 +25,7 @@ export default function Terms() {
 
           <h2>2. Service Description</h2>
           <p>
-            Leads Rubix provides a cloud-based Customer Relationship Management (CRM) platform tailored specifically for real estate developers, brokerages, and sales teams in India. The service includes lead capture, automated rotation, call tracking, and reporting features.
+            Leads Rubix provides a cloud-based Customer Relationship Management (CRM) platform tailored for India's high-velocity sales teams across industries including real estate, education, healthcare, financial services, automotive, travel, SaaS and manufacturing. The service includes lead capture, automated routing, call tracking, payments and reporting features.
           </p>
 
           <h2>3. Eligibility & Accounts</h2>

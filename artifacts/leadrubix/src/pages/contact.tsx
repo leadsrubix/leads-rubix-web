@@ -115,9 +115,9 @@ export default function Contact() {
                           name="company"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Company / Brokerage</FormLabel>
+                              <FormLabel>Company</FormLabel>
                               <FormControl>
-                                <Input placeholder="Acme Real Estate" autoComplete="organization" {...field} data-testid="input-contact-company" />
+                                <Input placeholder="Your company name" autoComplete="organization" {...field} data-testid="input-contact-company" />
                               </FormControl>
                               <FormMessage />
                             </FormItem>

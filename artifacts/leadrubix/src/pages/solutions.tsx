@@ -15,67 +15,67 @@ import { useSEO } from "@/lib/useSEO";
 
 export default function Solutions() {
   useSEO({
-    title: "Solutions — Leads Rubix for Brokerages, Developers & Channel Partners",
+    title: "Solutions — Leads Rubix for sales leaders, ops, frontline & partners",
     description:
-      "Whether you're a brokerage, a property developer, a channel partner network, or a solo agent, Leads Rubix has a workflow built for you.",
+      "Whether you're a sales leader, a sales-ops manager, a frontline rep or a partner-channel team, Leads Rubix has a workflow built for you — across every industry we serve.",
     canonical: "https://leadsrubix.com/solutions",
   });
   const sections = [
     {
-      id: "brokerages",
-      title: "For Brokerages",
+      id: "sales-leaders",
+      title: "For Sales Leaders",
       icon: Building2,
-      description: "Manage high-volume lead pipelines across multiple teams and branches without losing a single prospect.",
+      description: "Run a multi-team, multi-branch sales floor with full visibility — across real estate, education, healthcare, BFSI, automotive, travel, SaaS or manufacturing.",
       features: [
-        "Multi-source lead capture from Facebook, Instagram, and CSV",
-        "Automated lead rotation across available agents",
-        "Role-based access control for team leads and managers",
-        "Comprehensive calling reports and performance tracking",
-        "Customizable pipeline stages (FRESH → BOOKED)"
+        "Multi-source lead capture from Meta, Google and vertical aggregators",
+        "Automated routing by territory, ICP, language or product",
+        "Role-based access for team leads, managers and partners",
+        "Real-time forecast, productivity and revenue dashboards",
+        "Industry-specific pipelines that work on day one"
       ],
       image: "/solutions-brokerage.png",
       reversed: false
     },
     {
-      id: "developers",
-      title: "For Property Developers",
+      id: "sales-ops",
+      title: "For Sales Ops & RevOps",
       icon: Construction,
-      description: "Track project-level performance, manage bookings, and handle multi-organization structures from a single pane of glass.",
+      description: "Eliminate spreadsheets. Run forecasts, payments, audit trails and integrations from a single pane of glass — configured for your vertical.",
       features: [
-        "Project-level lead tracking and attribution",
-        "Integrated property bookings with Razorpay",
-        "Automated PDF invoice generation",
-        "Multi-org and multi-branch support",
-        "Complete transaction history and audit trails"
+        "Source-of-truth pipeline with multi-org and multi-branch support",
+        "Razorpay payments for bookings, fees, premiums or EMIs",
+        "Auto-generated GST invoices and reconciliation",
+        "Server-verified webhooks and immutable audit trails",
+        "Open REST API and native integrations with the tools you use"
       ],
       image: "/solutions-developer.png",
       reversed: true
     },
     {
-      id: "channel-partners",
-      title: "For Channel Partners",
+      id: "partner-channels",
+      title: "For Partner Channels",
       icon: Handshake,
-      description: "Seamlessly collaborate with developers while maintaining control over your own lead data and agent permissions.",
+      description: "Distributors, channel partners, advisor networks and DMCs — collaborate seamlessly while maintaining control over your data and permissions.",
       features: [
-        "Lead transfer between agents with full history",
-        "Branch-level visibility permissions",
+        "Branded partner portal for lead submission and tracking",
+        "Branch-level and partner-level visibility permissions",
         "Custom field mapping for industry-specific data",
-        "Drill-down search and advanced filtering",
-        "Automated duplicate detection rules"
+        "Lead transfer with full history and audit log",
+        "Automated duplicate detection and attribution"
       ],
       image: "/solutions-channel.png",
       reversed: false
     },
     {
-      id: "sales-teams",
-      title: "For Sales Teams & Agents",
+      id: "frontline-reps",
+      title: "For Frontline Reps & Agents",
       icon: UserCircle,
-      description: "Focus on closing deals with tools that organize your day, track your calls, and ensure you never miss a follow-up.",
+      description: "Whether you're an agent, a counsellor, a tele-caller, a sales consultant or a field rep, focus on closing deals with tools designed for how you actually work.",
       features: [
-        "Task management for calls, meetings, and site visits",
-        "Automated call logging with duration and GPS",
-        "Clear visibility into your personal pipeline",
-        "FCM push notifications on mobile",
+        "Task management for calls, meetings, site visits, demos and follow-ups",
+        "Automated call logging with duration and optional GPS",
+        "WhatsApp Business templates and one-tap messaging",
+        "Mobile-first app with push notifications and offline mode",
         "One-click status updates and stage progression"
       ],
       image: "/solutions-agent.png",
@@ -89,10 +89,10 @@ export default function Solutions() {
       <section className="pt-24 pb-16 bg-slate-50 border-b">
         <div className="container mx-auto px-4 text-center max-w-4xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/10 text-secondary font-medium text-sm mb-6">
-            Solutions for every part of real estate sales
+            Solutions for every role on a sales floor
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">Built for the people who actually sell real estate</h1>
-          <p className="text-xl text-muted-foreground">From individual agents to enterprise developers, Leads Rubix provides the exact tools you need to organize your pipeline and close more deals.</p>
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">Built for the people who actually sell</h1>
+          <p className="text-xl text-muted-foreground">From individual reps to enterprise sales leaders, Leads Rubix provides the exact tools you need to organise your pipeline and close more revenue — configured for your industry. Looking for industry-specific playbooks? <Link href="/industries" className="underline hover:text-primary">Browse industries →</Link></p>
         </div>
       </section>
 

@@ -2,9 +2,22 @@ import { Layout } from "@/components/layout/Layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { ArrowRight, Building2, Construction, Handshake, TrendingUp, Clock, Users } from "lucide-react";
+import { ArrowRight, Building2, GraduationCap, Stethoscope, Banknote, Server, Factory, Car, Plane, Briefcase, TrendingUp, Clock, Users } from "lucide-react";
 import { useSEO } from "@/lib/useSEO";
 import { useContent } from "@/lib/useContent";
+
+function iconForTag(tag: string) {
+  const t = tag.toLowerCase();
+  if (t.includes("educat")) return GraduationCap;
+  if (t.includes("health") || t.includes("clinic") || t.includes("hospital")) return Stethoscope;
+  if (t.includes("bfsi") || t.includes("financ") || t.includes("nbfc") || t.includes("bank") || t.includes("insur")) return Banknote;
+  if (t.includes("saas") || t.includes("software")) return Server;
+  if (t.includes("manufactur") || t.includes("industrial")) return Factory;
+  if (t.includes("auto")) return Car;
+  if (t.includes("travel") || t.includes("tourism")) return Plane;
+  if (t.includes("real estate") || t.includes("property") || t.includes("brokerage") || t.includes("developer")) return Building2;
+  return Briefcase;
+}
 
 interface CaseStudyMetric {
   value: string;
@@ -23,19 +36,19 @@ interface CaseStudyItem {
 export default function CaseStudies() {
   const cms = useContent<CaseStudyItem[]>("case_studies", []);
   useSEO({
-    title: "Case Studies — Leads Rubix | Real estate teams winning with us",
+    title: "Case Studies — Leads Rubix | Sales teams winning across industries",
     description:
-      "How Indian developers, brokerages and channel partners use Leads Rubix to capture leads instantly, rotate them automatically, and close more bookings. Detailed customer stories coming soon.",
+      "How Indian sales teams across real estate, education, healthcare, BFSI, SaaS, automotive and manufacturing use Leads Rubix to capture leads instantly, route them automatically and close more revenue.",
     canonical: "https://leadsrubix.com/case-studies",
   });
 
   const stories = [
     {
       icon: Building2,
-      tag: "Multi-branch brokerage",
-      headline: "Cutting first-touch time from hours to under 5 minutes",
+      tag: "Real estate · multi-branch brokerage",
+      headline: "Cutting first-touch time from hours to under 60 seconds",
       summary:
-        "A residential brokerage with branches in Mumbai and Pune was losing Facebook leads because they were being downloaded as a CSV every morning. Auto-rotation now pings the next available agent within seconds of submission.",
+        "A residential brokerage with branches in Mumbai and Pune was losing Facebook leads because they were downloaded as a CSV every morning. Auto-rotation now pings the next available agent within seconds of submission.",
       metrics: [
         { icon: Clock, label: "First-touch time", value: "−93%" },
         { icon: TrendingUp, label: "Lead-to-meeting rate", value: "+38%" },
@@ -43,27 +56,63 @@ export default function CaseStudies() {
       ],
     },
     {
-      icon: Construction,
-      tag: "Property developer",
-      headline: "One pipeline across 6 projects, full Razorpay reconciliation",
+      icon: GraduationCap,
+      tag: "Education · Tier-1 management institute",
+      headline: "From 720 to 2,140 applications in a single intake",
       summary:
-        "A developer with active inventory across 6 projects had token bookings tracked in Excel and payments reconciled by hand. Bookings, Razorpay payments and PDF invoices now live next to the lead — month-end reconciliation went from days to hours.",
+        "A Pune-based management institute was losing 40% of admissions enquiries between form-fill and first counsellor call. Cadence automation and program-wise routing tripled application volume — without adding counsellors.",
       metrics: [
-        { icon: Building2, label: "Projects unified", value: "6" },
-        { icon: Clock, label: "Reconciliation time", value: "−85%" },
-        { icon: TrendingUp, label: "Booking conversion", value: "+22%" },
+        { icon: TrendingUp, label: "Enquiry-to-application", value: "+142%" },
+        { icon: Clock, label: "Counsellor response time", value: "8 min" },
+        { icon: Users, label: "Counsellors enabled", value: "8" },
       ],
     },
     {
-      icon: Handshake,
-      tag: "Channel partner network",
-      headline: "Real visibility into 30+ field agents — finally",
+      icon: Stethoscope,
+      tag: "Healthcare · multi-specialty clinic chain",
+      headline: "No-shows cut in half, IVF conversions doubled",
       summary:
-        "A channel partner organisation knew its agents were calling clients but couldn't verify site visits. GPS-stamped call logs and tasks gave management a single dashboard of who's actually on the ground.",
+        "A 12-centre clinic chain had patient enquiries scattered across phone, WhatsApp and Practo. Procedure-specific nurture journeys and automated reminders cut no-show rate from 22% to 10% and doubled IVF package conversions.",
       metrics: [
-        { icon: Users, label: "Field agents tracked", value: "32" },
-        { icon: TrendingUp, label: "Site-visit completion", value: "+47%" },
-        { icon: Clock, label: "Agent reporting overhead", value: "−70%" },
+        { icon: TrendingUp, label: "Package conversion", value: "+111%" },
+        { icon: Clock, label: "No-show rate", value: "−55%" },
+        { icon: Users, label: "Centres unified", value: "12" },
+      ],
+    },
+    {
+      icon: Banknote,
+      tag: "BFSI · mid-sized NBFC",
+      headline: "100% audit-trail coverage, 23% cross-sell attach",
+      summary:
+        "A ₹2,000 Cr-book NBFC closed every regulator-flagged audit gap with immutable advisor logs. Native Aadhaar e-KYC and bureau pulls cut KYC turnaround by a third, and product-graph cross-sell turned 4% attach into 23%.",
+      metrics: [
+        { icon: TrendingUp, label: "Audit coverage", value: "100%" },
+        { icon: Clock, label: "KYC turnaround", value: "−33%" },
+        { icon: Users, label: "Advisor productivity", value: "+79%" },
+      ],
+    },
+    {
+      icon: Server,
+      tag: "SaaS · Series-B B2B SaaS",
+      headline: "Forecast accuracy from ±32% to ±9% in one quarter",
+      summary:
+        "A $14M ARR SaaS replaced HubSpot Sales Hub plus a tangle of Notion docs. Stakeholder maps, per-stage confidence scoring and a proactive renewal motion took inbound-to-demo from 31% to 58% and net renewal to 92%.",
+      metrics: [
+        { icon: TrendingUp, label: "Inbound demos held", value: "+87%" },
+        { icon: Clock, label: "Avg deal velocity", value: "−37%" },
+        { icon: Users, label: "Net renewal rate", value: "92%" },
+      ],
+    },
+    {
+      icon: Factory,
+      tag: "Manufacturing · industrial fasteners",
+      headline: "Lost zero deals on rep attrition; RFQ-to-quote 2.2×",
+      summary:
+        "A ₹450 Cr fasteners manufacturer lost three field reps in 2024 and with them, years of context. Now every RFQ, plant visit and conversation lives in the system — RFQ-to-quote rate doubled and 100% of pipeline survived team changes.",
+      metrics: [
+        { icon: TrendingUp, label: "RFQ-to-quote rate", value: "+118%" },
+        { icon: Clock, label: "Sample dispatch cycle", value: "−44%" },
+        { icon: Users, label: "Pipeline retained", value: "100%" },
       ],
     },
   ];
@@ -75,8 +124,8 @@ export default function CaseStudies() {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary font-medium text-sm mb-6">
             Customer outcomes
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Real estate teams winning with Leads Rubix</h1>
-          <p className="text-xl text-muted-foreground">Representative outcomes from developers, brokerages and channel partners who switched from spreadsheets and generic CRMs to Leads Rubix.</p>
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Sales teams winning with Leads Rubix</h1>
+          <p className="text-xl text-muted-foreground">Representative outcomes from real estate, education, healthcare, BFSI, SaaS, automotive and manufacturing teams who switched from spreadsheets and generic CRMs to Leads Rubix.</p>
           <p className="text-xs text-muted-foreground mt-4">Customer names are anonymised by request. Detailed named case studies are published with permission.</p>
         </div>
       </section>
@@ -84,13 +133,15 @@ export default function CaseStudies() {
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4 max-w-5xl space-y-8">
           {cms.length > 0
-            ? cms.map((s, i) => (
+            ? cms.map((s, i) => {
+                const TagIcon = iconForTag(s.tag);
+                return (
                 <Card key={i} className="border-border overflow-hidden" data-testid={`case-cms-${i}`}>
                   <CardContent className="p-8 md:p-10 flex flex-col md:flex-row gap-8">
                     <div className="md:w-2/3">
                       <div className="flex items-center gap-2 mb-4">
                         <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center">
-                          <Building2 className="h-4 w-4 text-primary" />
+                          <TagIcon className="h-4 w-4 text-primary" />
                         </div>
                         <span className="text-xs font-bold tracking-wider uppercase text-primary">{s.tag}</span>
                       </div>
@@ -109,7 +160,8 @@ export default function CaseStudies() {
                     </div>
                   </CardContent>
                 </Card>
-              ))
+                );
+              })
             : stories.map((s) => (
             <Card key={s.headline} className="border-border overflow-hidden">
               <CardContent className="p-8 md:p-10 flex flex-col md:flex-row gap-8">

@@ -9,9 +9,9 @@ import { useSEO } from "@/lib/useSEO";
 
 export default function Features() {
   useSEO({
-    title: "Features — Leads Rubix Real Estate CRM",
+    title: "Features — Leads Rubix CRM for India",
     description:
-      "Lead capture, automated rotation, GPS-verified calling, bookings & Razorpay payments, role-based access, multi-org support, and analytics — every feature built for Indian real estate.",
+      "Lead capture, automated routing, GPS-verified calling, payments, role-based access, multi-org support, and analytics — every feature built for India's high-velocity sales teams across real estate, education, healthcare, BFSI and more.",
     canonical: "https://leadsrubix.com/features",
   });
 
@@ -20,8 +20,8 @@ export default function Features() {
       {/* Hero Section */}
       <div className="py-20 bg-slate-50 border-b">
         <div className="container mx-auto px-4 text-center max-w-4xl">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Engineered for Real Estate Sales</h1>
-          <p className="text-xl text-muted-foreground">Every tool you need to organize your pipeline, enforce accountability, and close properties faster. No generic features—just pure performance.</p>
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Engineered for India's high-velocity sales teams</h1>
+          <p className="text-xl text-muted-foreground">Every tool you need to organise your pipeline, enforce accountability, and close more revenue — across real estate, education, healthcare, BFSI, automotive, travel, SaaS and manufacturing. No generic features, just pure performance.</p>
         </div>
       </div>
 
@@ -131,7 +131,7 @@ export default function Features() {
                 </div>
                 <h2 className="text-3xl font-bold mb-4">Tasks & Follow-up Management</h2>
                 <p className="text-lg text-muted-foreground mb-8">
-                  Keep the pipeline moving with comprehensive task tracking tailored specifically for real estate workflows.
+                  Keep the pipeline moving with comprehensive task tracking, configurable per industry — site visits, demos, counselling calls, KYC follow-ups, sample dispatch and more.
                 </p>
                 <ul className="space-y-4">
                   <li className="flex items-start gap-3">

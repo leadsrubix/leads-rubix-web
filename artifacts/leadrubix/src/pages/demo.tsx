@@ -28,9 +28,9 @@ const TEAM_SIZES = ["1–5", "6–20", "21–50", "51–200", "200+"];
 
 export default function Demo() {
   useSEO({
-    title: "Book a Demo — Leads Rubix Real Estate CRM",
+    title: "Book a Demo — Leads Rubix CRM",
     description:
-      "See Leads Rubix in action. Book a 30-minute personalised demo with our India team — we'll walk through lead capture, rotation, calling, bookings and pricing for your team.",
+      "See Leads Rubix in action. Book a 30-minute personalised demo with our India team — we'll walk through lead capture, routing, calling, payments and pricing configured for your industry.",
     canonical: "https://leadsrubix.com/demo",
   });
 
@@ -70,7 +70,7 @@ export default function Demo() {
   }
 
   const expect = [
-    { icon: PlayCircle, title: "30-minute live walkthrough", desc: "We screen-share the actual product, not slides — pipeline, rotation, calling, bookings." },
+    { icon: PlayCircle, title: "30-minute live walkthrough", desc: "We screen-share the actual product configured for your industry, not slides — pipeline, routing, calling, payments." },
     { icon: Headphones, title: "Tailored to your sales process", desc: "Tell us your lead sources and team structure; we'll show how Leads Rubix maps to them." },
     { icon: CalendarCheck, title: "Pricing & next steps", desc: "We'll recommend a plan, scope onboarding, and answer security & compliance questions." },
     { icon: Clock, title: "No obligation", desc: "Walk away with a free trial set up — or just the answers you came for." },
@@ -135,8 +135,8 @@ export default function Demo() {
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <FormField control={form.control} name="company" render={({ field }) => (
                               <FormItem>
-                                <FormLabel>Company / Brokerage</FormLabel>
-                                <FormControl><Input placeholder="Acme Real Estate" autoComplete="organization" {...field} data-testid="input-demo-company" /></FormControl>
+                                <FormLabel>Company</FormLabel>
+                                <FormControl><Input placeholder="Your company name" autoComplete="organization" {...field} data-testid="input-demo-company" /></FormControl>
                                 <FormMessage />
                               </FormItem>
                             )} />
@@ -168,7 +168,7 @@ export default function Demo() {
                             <FormItem>
                               <FormLabel>What would you like to see?</FormLabel>
                               <FormControl>
-                                <Textarea placeholder="Lead sources you use (Facebook, channel partners, walk-ins...), what's broken today, what you'd like to evaluate." className="min-h-[120px]" {...field} data-testid="input-demo-message" />
+                                <Textarea placeholder="Your industry, lead sources you use (Meta, Google, aggregators, walk-ins, partners…), what's broken today, what you'd like to evaluate." className="min-h-[120px]" {...field} data-testid="input-demo-message" />
                               </FormControl>
                               <FormMessage />
                             </FormItem>

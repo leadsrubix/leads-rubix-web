@@ -19,7 +19,7 @@ interface FaqItem {
 export default function FAQ() {
   const cmsItems = useContent<FaqItem[]>("faq_items", []);
   useSEO({
-    title: "FAQ — Leads Rubix Real Estate CRM",
+    title: "FAQ — Leads Rubix CRM for India",
     description:
       "Answers to the most common questions about Leads Rubix — pricing, free trial, Facebook Lead Ads, custom fields, roles, security, GST, and more.",
     canonical: "https://leadsrubix.com/faq",
@@ -166,7 +166,7 @@ export default function FAQ() {
             <HelpCircle className="h-8 w-8 text-primary" />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Frequently Asked Questions</h1>
-          <p className="text-xl text-muted-foreground">Everything you need to know about using Leads Rubix for your real estate business.</p>
+          <p className="text-xl text-muted-foreground">Everything you need to know about using Leads Rubix for your sales team — whatever industry you're in.</p>
         </div>
       </section>
 

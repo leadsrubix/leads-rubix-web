@@ -48,10 +48,10 @@ interface Testimonial {
 }
 
 const DEFAULT_HERO: HomeHero = {
-  eyebrow: "Purpose-built for Indian Real Estate",
+  eyebrow: "Purpose-built for India's high-velocity sales teams",
   headline: "Stop losing leads in WhatsApp. Start closing them.",
   subheadline:
-    "The only CRM that understands the chaos of Indian real estate. Automate lead rotation, track broker performance, and respond in seconds.",
+    "The CRM built for how India actually sells — across real estate, education, healthcare, BFSI, automotive, travel, SaaS and manufacturing. Automate lead routing, track team performance, and respond in seconds.",
   primaryCtaLabel: "Start Free Trial",
   secondaryCtaLabel: "Book a Demo",
 };
@@ -61,19 +61,19 @@ const DEFAULT_TESTIMONIALS: Testimonial[] = [
     name: "Rajeev K.",
     role: "VP Sales",
     company: "Horizon Developers",
-    body: "Before Leads Rubix, we were losing 30% of our Facebook leads just because agents didn't check the sheet in time. Now, every lead is called within 5 minutes. Our site visits have doubled.",
+    body: "Before Leads Rubix, we were losing 30% of our Facebook leads just because agents didn't check the sheet in time. Now every lead is called within 5 minutes — our site visits have doubled.",
   },
   {
-    name: "Sneha P.",
-    role: "Operations Head",
-    company: "Metro Realty",
-    body: "The role-based access is a game-changer. Our channel partners can only see their own leads, while my central team has full visibility. It eliminated all the daily friction.",
+    name: "Anuradha S.",
+    role: "Director of Admissions",
+    company: "Tier-1 Management Institute",
+    body: "Counsellor response time dropped from 2.4 hours to 8 minutes. Application volume nearly tripled in one cycle — without adding a single counsellor. Cadence automation effectively replaced four FTEs.",
   },
   {
-    name: "Amitab S.",
-    role: "Director",
-    company: "Prime Properties",
-    body: "Finally, a CRM that understands Indian real estate. The ability to track WhatsApp conversations and token payments in the same timeline has streamlined our entire closing process.",
+    name: "Vikram M.",
+    role: "Head of Sales Ops",
+    company: "Series-B SaaS",
+    body: "We replaced HubSpot Sales Hub plus a tangle of Notion docs. Forecast accuracy went from ±32% to ±9% in one quarter. The stakeholder map and per-stage confidence are killer features.",
   },
 ];
 
@@ -107,9 +107,9 @@ export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   useSEO({
-    title: "Leads Rubix — Real Estate CRM for India | Capture, Rotate, Close",
+    title: "Leads Rubix — The CRM for India's high-velocity sales teams",
     description:
-      "Purpose-built CRM for Indian real estate developers and brokerages. Capture Facebook & Instagram leads instantly, rotate them automatically, and track every call with GPS. 7-day free trial.",
+      "Purpose-built CRM for Indian sales teams across real estate, education, healthcare, BFSI, automotive, travel, SaaS and manufacturing. Capture leads instantly, route them automatically, and close more revenue. 7-day free trial.",
     canonical: "https://leadsrubix.com/",
   });
 
@@ -244,15 +244,15 @@ export default function Home() {
         <section className="border-y border-[#252140]/10 bg-white py-12">
           <div className="max-w-7xl mx-auto px-6">
             <p className="text-center text-xs font-bold tracking-widest uppercase text-[#252140]/60 mb-8">
-              Built Exclusively For
+              Built For Sales Teams Across
             </p>
             <div className="flex flex-wrap justify-center gap-4 md:gap-6">
               {[
-                { icon: Building2, text: "Property Developers" },
-                { icon: HomeIcon, text: "Residential Brokerages" },
-                { icon: Briefcase, text: "Commercial Real Estate" },
-                { icon: Network, text: "Channel Partners" },
-                { icon: Users, text: "Multi-branch Sales Teams" },
+                { icon: Building2, text: "Real Estate" },
+                { icon: HomeIcon, text: "Education" },
+                { icon: Briefcase, text: "Financial Services" },
+                { icon: Network, text: "Healthcare" },
+                { icon: Users, text: "Automotive · Travel · SaaS · Manufacturing" },
               ].map((item, i) => (
                 <div
                   key={i}
@@ -291,10 +291,10 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center max-w-3xl mx-auto mb-20">
               <h2 className="font-['Fraunces'] text-4xl md:text-5xl mb-6 font-medium text-[#252140]">
-                Why legacy CRMs fail in Indian Real Estate.
+                Why legacy CRMs fail Indian sales teams.
               </h2>
               <p className="text-lg text-[#252140]/70 font-medium">
-                Generic tools weren't built for the scale of site visits, broker networks, and WhatsApp negotiations.
+                Generic tools weren't built for the scale of WhatsApp-led conversations, regional languages, partner networks, and the sheer speed Indian buyers expect.
               </p>
             </div>
 
@@ -313,7 +313,7 @@ export default function Home() {
                 {
                   icon: Clock,
                   title: "Slow Response Times",
-                  desc: "Hot leads from 99acres or Facebook sit untouched for hours while competitors call them in minutes.",
+                  desc: "Hot leads from your top channels sit untouched for hours while competitors call them in minutes — and win.",
                 },
               ].map((item, i) => (
                 <div
@@ -336,9 +336,9 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-16">
               <h2 className="font-['Fraunces'] text-4xl mb-4 font-medium text-[#252140]">
-                A Pipeline Built for Property Sales
+                A pipeline built for how your industry sells
               </h2>
-              <p className="text-[#252140]/70 font-medium">Standardized stages that map to how real estate is actually sold.</p>
+              <p className="text-[#252140]/70 font-medium">Configurable stages that map to your real workflow — site visits, demos, counselling, KYC or RFQs.</p>
             </div>
 
             <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 md:gap-3 relative">
@@ -376,12 +376,12 @@ export default function Home() {
               {[
                 { icon: RefreshCw, title: "Automated Lead Rotation", desc: "Distribute incoming leads instantly based on rules, availability, and performance." },
                 { icon: PhoneCall, title: "Call Log Tracking", desc: "Native integration with telephony providers to log every call duration and recording." },
-                { icon: BarChart3, title: "Real-time Analytics", desc: "Dashboards tracking site visits, source ROI, and agent conversion rates." },
+                { icon: BarChart3, title: "Real-time Analytics", desc: "Dashboards for source ROI, team productivity, conversion rates and revenue attribution — configurable to your industry." },
                 { icon: CreditCard, title: "Bookings & Payments", desc: "Generate payment links and track token amounts directly within the deal record." },
                 { icon: Shield, title: "Role-Based Access", desc: "Granular permissions ensuring agents only see their leads, while admins see everything." },
-                { icon: Search, title: "Multi-Source Capture", desc: "Ingest leads from Facebook, Google, 99acres, MagicBricks, and your website seamlessly." },
+                { icon: Search, title: "Multi-Source Capture", desc: "Ingest leads from Meta, Google, your website, vertical aggregators (99acres, Practo, Shiksha, IndiaMART) and any custom webhook." },
                 { icon: CheckSquare, title: "Task Management", desc: "Automated follow-up reminders so a hot lead never slips through the cracks." },
-                { icon: Globe, title: "Multi-Org Support", desc: "Manage multiple projects, branches, or channel partners from a single master dashboard." },
+                { icon: Globe, title: "Multi-Org Support", desc: "Manage multiple business units, branches, or partner networks from a single master dashboard." },
                 { icon: MapPin, title: "GPS Call Tracking", desc: "Verify agent locations during site visits or outdoor meetings for better accountability." },
               ].map((item, i) => (
                 <div key={i} className="flex gap-5 group">
@@ -515,7 +515,7 @@ export default function Home() {
         <section className="py-32 bg-white">
           <div className="max-w-7xl mx-auto px-6">
             <h2 className="font-['Fraunces'] text-4xl md:text-5xl text-center mb-20 font-medium text-[#252140]">
-              Trusted by top developers
+              Trusted by leading sales teams across India
             </h2>
 
             <div
@@ -560,7 +560,7 @@ export default function Home() {
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto items-center">
               <div className="bg-[#FFFFFF] p-10 rounded-3xl border border-[#252140]/10 shadow-sm hover:shadow-lg transition-shadow">
                 <h3 className="font-bold text-2xl mb-2 font-['Fraunces']">Starter</h3>
-                <p className="text-[#252140]/60 text-sm mb-8 font-medium">For small brokerages</p>
+                <p className="text-[#252140]/60 text-sm mb-8 font-medium">For small teams getting started</p>
                 <div className="mb-10">
                   <span className="text-4xl font-['Fraunces'] italic font-medium">₹999</span>
                   <span className="text-[#252140]/50 text-sm font-medium">/user/mo</span>
@@ -585,7 +585,7 @@ export default function Home() {
                   Most Popular
                 </div>
                 <h3 className="font-bold text-2xl mb-2 font-['Fraunces'] text-white">Growth</h3>
-                <p className="text-white/60 text-sm mb-8 font-medium">For growing developer teams</p>
+                <p className="text-white/60 text-sm mb-8 font-medium">For growing sales teams</p>
                 <div className="mb-10">
                   <span className="text-4xl font-['Fraunces'] text-white italic font-medium">₹1,499</span>
                   <span className="text-white/50 text-sm font-medium">/user/mo</span>
@@ -666,7 +666,7 @@ export default function Home() {
           <div className="max-w-4xl mx-auto px-6 relative z-10">
             <h2 className="font-['Fraunces'] text-5xl md:text-6xl mb-6 font-medium italic">Ready to close more deals?</h2>
             <p className="text-xl md:text-2xl text-[#FFFFFF]/80 mb-12 font-medium max-w-2xl mx-auto leading-relaxed">
-              Join top Indian developers managing their pipeline on Leads Rubix.
+              Join leading Indian sales teams across industries managing their pipeline on Leads Rubix.
             </p>
             <a
               href="https://app.leadsrubix.com/"

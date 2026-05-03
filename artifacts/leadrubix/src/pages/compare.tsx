@@ -10,7 +10,7 @@ export default function Compare() {
   useSEO({
     title: "Leads Rubix vs Sell.do, LeadSquared & Generic CRMs — Honest Comparison",
     description:
-      "How Leads Rubix compares to Sell.do, LeadSquared and generic CRMs (Zoho, Freshsales) for Indian real estate teams. Honest, feature-by-feature breakdown.",
+      "How Leads Rubix compares to Sell.do, LeadSquared and generic CRMs (Zoho, Freshsales) for India's high-velocity sales teams across real estate, education, healthcare, BFSI and more. Honest, feature-by-feature breakdown.",
     canonical: "https://leadsrubix.com/compare",
   });
 
@@ -19,11 +19,11 @@ export default function Compare() {
 
   const sections: { group: string; rows: { feature: string; values: Cell[] }[] }[] = [
     {
-      group: "Built for Indian real estate",
+      group: "Built for India",
       rows: [
-        { feature: "Designed exclusively for property sales", values: [true, true, true, false] },
+        { feature: "Industry-specific playbooks (real estate, education, healthcare, BFSI, …)", values: [true, "partial", "partial", false] },
         { feature: "INR pricing with GST handling", values: [true, true, true, "partial"] },
-        { feature: "Razorpay-native bookings & invoices", values: [true, "partial", "partial", false] },
+        { feature: "Razorpay-native bookings, fees & invoices", values: [true, "partial", "partial", false] },
         { feature: "Indian working hours & holiday awareness", values: [true, "partial", "partial", false] },
       ],
     },
@@ -47,11 +47,11 @@ export default function Compare() {
       ],
     },
     {
-      group: "Bookings & money",
+      group: "Bookings, fees & money",
       rows: [
-        { feature: "Property booking module", values: [true, true, true, false] },
+        { feature: "Bookings / fees / premium / EMI module", values: [true, "partial", "partial", false] },
         { feature: "Server-verified Razorpay payments", values: [true, "partial", "partial", false] },
-        { feature: "Auto-generated PDF invoices", values: [true, true, true, "partial"] },
+        { feature: "Auto-generated GST invoices", values: [true, true, true, "partial"] },
       ],
     },
     {
@@ -88,7 +88,7 @@ export default function Compare() {
             Honest comparison
           </div>
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">How Leads Rubix compares</h1>
-          <p className="text-xl text-muted-foreground">A fair, feature-by-feature look at how Leads Rubix stacks up against other CRMs Indian real estate teams evaluate.</p>
+          <p className="text-xl text-muted-foreground">A fair, feature-by-feature look at how Leads Rubix stacks up against other CRMs Indian sales teams evaluate — across real estate, education, healthcare, BFSI and more.</p>
           <p className="text-xs text-muted-foreground mt-4">Comparisons reflect publicly available product information at the time of writing. Competitor capabilities may change — please verify directly with each vendor.</p>
         </div>
       </section>
@@ -99,19 +99,19 @@ export default function Compare() {
           <Card className="border-border">
             <CardContent className="p-6">
               <h3 className="font-bold text-lg mb-2">vs Sell.do</h3>
-              <p className="text-muted-foreground text-sm">Sell.do is a strong incumbent for large developers with enterprise budgets. Leads Rubix offers transparent INR pricing, GPS-verified calling, and an easier first 30 days for mid-market teams.</p>
+              <p className="text-muted-foreground text-sm">Sell.do is a strong incumbent for large real-estate developers with enterprise budgets. Leads Rubix offers transparent INR pricing, multi-industry playbooks beyond real estate, GPS-verified calling, and an easier first 30 days for mid-market teams.</p>
             </CardContent>
           </Card>
           <Card className="border-border">
             <CardContent className="p-6">
               <h3 className="font-bold text-lg mb-2">vs LeadSquared</h3>
-              <p className="text-muted-foreground text-sm">LeadSquared is a horizontal sales execution platform. Leads Rubix is exclusively real estate — pipeline stages, booking flow and reports are built for property, not retrofitted.</p>
+              <p className="text-muted-foreground text-sm">LeadSquared is a horizontal sales execution platform. Leads Rubix ships pre-configured per industry — real estate, education, healthcare, BFSI, automotive, travel, SaaS, manufacturing — so pipelines, payment flows and reports work on day one without consultants.</p>
             </CardContent>
           </Card>
           <Card className="border-border">
             <CardContent className="p-6">
               <h3 className="font-bold text-lg mb-2">vs Zoho / Freshsales</h3>
-              <p className="text-muted-foreground text-sm">Generic CRMs are flexible but require months of customisation to model real estate. Leads Rubix ships with the right defaults on day one — Razorpay bookings, FB Lead Ads, GPS calling.</p>
+              <p className="text-muted-foreground text-sm">Generic CRMs are flexible but require months of customisation to model your industry. Leads Rubix ships with industry-specific defaults on day one — Razorpay payments, Meta lead ads, GPS calling, vertical aggregator integrations and KYC workflows.</p>
             </CardContent>
           </Card>
         </div>
