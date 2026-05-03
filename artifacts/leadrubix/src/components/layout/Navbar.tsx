@@ -14,11 +14,11 @@ export function Navbar() {
 
   const links = [
     { href: "/features", label: "Features" },
+    { href: "/industries", label: "Industries" },
     { href: "/solutions", label: "Solutions" },
     { href: "/integrations", label: "Integrations" },
     { href: "/pricing", label: "Pricing" },
     { href: "/compare", label: "Compare" },
-    { href: "/security", label: "Security" },
   ];
 
   return (

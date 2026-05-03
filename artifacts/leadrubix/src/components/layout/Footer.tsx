@@ -53,6 +53,7 @@ const DEFAULT_FOOTER_LINKS: FooterLinks = {
   productHeading: "Product",
   productLinks: [
     { label: "Features", href: "/features" },
+    { label: "Industries", href: "/industries" },
     { label: "Solutions", href: "/solutions" },
     { label: "Integrations", href: "/integrations" },
     { label: "Pricing", href: "/pricing" },

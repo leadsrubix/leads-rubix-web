@@ -13,6 +13,8 @@ import Terms from "@/pages/terms";
 import Refund from "@/pages/refund";
 import Cookies from "@/pages/cookies";
 import Solutions from "@/pages/solutions";
+import Industries from "@/pages/industries";
+import IndustryDetail from "@/pages/industry-detail";
 import Integrations from "@/pages/integrations";
 import Security from "@/pages/security";
 import Faq from "@/pages/faq";
@@ -112,6 +114,8 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/features" component={Features} />
       <Route path="/solutions" component={Solutions} />
+      <Route path="/industries" component={Industries} />
+      <Route path="/industries/:slug" component={IndustryDetail} />
       <Route path="/integrations" component={Integrations} />
       <Route path="/security" component={Security} />
       <Route path="/pricing" component={Pricing} />
