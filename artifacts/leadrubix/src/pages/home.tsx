@@ -135,7 +135,6 @@ const LOCAL_BUSINESS_JSONLD = {
   name: "Leads Rubix Technologies Pvt. Ltd.",
   url: "https://leadsrubix.com",
   image: "https://leadsrubix.com/opengraph.jpg",
-  telephone: "+91-22-0000-0000",
   email: "hello@leadsrubix.com",
   priceRange: "₹₹",
   address: {

@@ -25,6 +25,16 @@ const FooterContact = z.object({
   supportEmail: z.string().max(200).default(""),
   salesEmail: z.string().max(200).default(""),
   hours: z.string().max(200).default(""),
+  // Phone in international E.164-ish format (e.g. "+91-22-XXXX-XXXX"). Used in
+  // LocalBusiness JSON-LD on home + contact pages. Leave blank to omit.
+  phone: z.string().max(40).default(""),
+  // WhatsApp number in digits-only international form (e.g. "919876543210").
+  // Used by the floating WhatsApp button. Leave blank to hide the button.
+  whatsapp: z
+    .string()
+    .max(20)
+    .regex(/^[0-9]*$/, "whatsapp must be digits only (no + or spaces)")
+    .default(""),
 });
 
 const FaqItem = z.object({

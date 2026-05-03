@@ -95,13 +95,16 @@ export const KNOWN_SECTIONS: SectionDefinition[] = [
   {
     key: "footer_contact",
     label: "Footer — Contact info",
-    description: "Company contact details shown in the footer.",
+    description:
+      "Company contact details shown in the footer, on the contact page, and in LocalBusiness structured data. `phone` should be in international format like '+91-22-XXXX-XXXX' (or blank to omit). `whatsapp` is digits-only international (e.g. '919876543210') — leave blank to hide the floating WhatsApp button.",
     defaultValue: {
       legalEntity: "Leads Rubix Technologies Pvt. Ltd.",
       addressLine: "Andheri East, Mumbai 400069, India",
       supportEmail: "support@leadsrubix.com",
       salesEmail: "sales@leadsrubix.com",
       hours: "Mon–Sat, 10:00–19:00 IST",
+      phone: "",
+      whatsapp: "",
     },
   },
   {

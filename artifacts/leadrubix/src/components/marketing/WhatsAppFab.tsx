@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react";
+import { useContent } from "@/lib/useContent";
 
-const DEFAULT_PHONE = "919999999999";
 const DEFAULT_MESSAGE =
   "Hi Leads Rubix team — I'd like to know more about your CRM and pricing.";
 
+interface FooterContact {
+  whatsapp?: string;
+}
+
 export function WhatsAppFab({
-  phone = DEFAULT_PHONE,
+  phone,
   message = DEFAULT_MESSAGE,
 }: {
   phone?: string;
   message?: string;
-}) {
+} = {}) {
+  // Read WhatsApp number from CMS so the team can update it without a redeploy.
+  // Hide the button entirely when no number is configured — no placeholder.
+  const footer = useContent<FooterContact>("footer_contact", {});
+  const resolvedPhone = (phone ?? footer.whatsapp ?? "").replace(/[^0-9]/g, "");
+
   const [mounted, setMounted] = useState(false);
   // Defer mounting until the browser is idle so the FAB never competes with
   // the LCP image or hero JS for main-thread time.
@@ -30,8 +39,9 @@ export function WhatsAppFab({
     return () => clearTimeout(t);
   }, []);
   if (!mounted) return null;
+  if (!resolvedPhone) return null;
 
-  const href = `https://wa.me/${phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(message)}`;
+  const href = `https://wa.me/${resolvedPhone}?text=${encodeURIComponent(message)}`;
 
   return (
     <a

@@ -44,7 +44,6 @@ export default function Contact() {
         name: "Leads Rubix Technologies Pvt. Ltd.",
         url: "https://leadsrubix.com",
         email: "hello@leadsrubix.com",
-        telephone: "+91-22-0000-0000",
         priceRange: "₹₹",
         address: {
           "@type": "PostalAddress",
