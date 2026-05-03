@@ -18,7 +18,13 @@ The project is structured as a pnpm workspace monorepo, with each package managi
 
 - **Stack**: React + Vite, wouter routing, shadcn/ui, Tailwind v4, lucide-react.
 - **Design**: Emphasis on a clean, professional UI with consistent branding. No emojis in the UI. All interactive elements use `data-testid`.
-- **SEO**: Comprehensive SEO implementation including `index.html` metadata, `useSEO` hook for per-page SEO, `robots.txt`, `sitemap.xml`, and `manifest.webmanifest`. JSON-LD for Organization and SoftwareApplication is included.
+- **SEO**: Comprehensive SEO via `useSEO` hook (per-page title/description/canonical, OG/Twitter tags, default `og:image`, and per-page JSON-LD insertion/cleanup). JSON-LD ships on home (Organization + SoftwareApplication), pricing (Product with offers + aggregateRating), and FAQ (FAQPage with questions). `sitemap.xml` enumerates all public pages including the eight `/industries/*` slugs and `/blog`. `robots.txt` and `manifest.webmanifest` are wired up.
+- **Conversion components** (`src/components/marketing/`):
+    - `StickyDemoCTA` — floating "Book a demo" pill on every public page after 700px of scroll, dismissable for the session.
+    - `RoiCalculator` — interactive calculator on `/pricing` (monthly leads, conversion %, deal value) computing extra annual revenue from a 32% close-rate lift.
+    - `ExitIntentModal` — armed after 5s, fires on cursor exiting the top viewport edge, mounted on `/pricing` and `/compare` with sessionStorage gating, full keyboard a11y (Escape to close, focus trap, focus restore on close).
+    - `WhatsAppFab` — floating WhatsApp click-to-chat button on every public page (configurable phone + message).
+- **Theme**: `ThemeProvider` (`src/lib/useTheme.tsx`) toggles `html.dark`, persists to `localStorage`, respects `prefers-color-scheme` on first load. Toggle button lives in the navbar. CSS includes dark-mode overrides at the bottom of `index.css` for hardcoded brand colors (`#252140`, `#F1F1F9`, slate-50, etc.) so toggling switches the entire site, not just semantic-token sections.
 - **Forms**: Lead-capture forms (`/contact`, `/demo`) utilize `react-hook-form` and `zod` for client-side validation. Submissions are sent to `POST /api/contact`.
 - **Admin Panel UI**: Integrated within the marketing site, providing a unified deployment. It features a dark sidebar navigation, structured forms for content editing, and detailed views for leads, posts, and users.
 - **Content Management**: `useContent<T>(key, defaultValue)` hook for lazy loading and caching CMS content.

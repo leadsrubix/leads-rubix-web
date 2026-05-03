@@ -16,13 +16,37 @@ interface FaqItem {
   answer: string;
 }
 
+const FAQ_FALLBACK_FOR_JSONLD: FaqItem[] = [
+  { question: "How long does setup take?", answer: "Most teams are up and running within 10 minutes. The initial setup involves defining your pipeline stages, inviting users, and mapping any custom fields." },
+  { question: "Do I need a credit card to start?", answer: "No. You can start your 7-day free trial without a credit card." },
+  { question: "Can I import my existing leads from Excel?", answer: "Yes — bulk CSV import lets you ingest thousands of leads at once and map columns to standard or custom fields." },
+  { question: "Is there a mobile app?", answer: "The web app is fully mobile-responsive, with FCM push notifications to native mobile clients." },
+  { question: "How does Facebook & Instagram Lead Ads integration work?", answer: "We provide a direct webhook endpoint that receives lead events, parses fields, and immediately triggers your rotation rules." },
+  { question: "Can I customize the pipeline stages?", answer: "Yes — pipeline stages are fully configurable per organisation." },
+  { question: "Is GST included in the listed price?", answer: "No, GST is added at checkout based on your billing state. You can supply your GSTIN for input tax credit." },
+  { question: "Do you offer refunds?", answer: "Monthly plans cancel anytime with no refund for the current cycle. Annual plans are refundable on a pro-rated basis within 30 days." },
+];
+
 export default function FAQ() {
   const cmsItems = useContent<FaqItem[]>("faq_items", []);
+  const flatFaqs: FaqItem[] = cmsItems.length > 0 ? cmsItems : FAQ_FALLBACK_FOR_JSONLD;
   useSEO({
     title: "FAQ — Leads Rubix CRM for India",
     description:
       "Answers to the most common questions about Leads Rubix — pricing, free trial, Facebook Lead Ads, custom fields, roles, security, GST, and more.",
     canonical: "https://leadsrubix.com/faq",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: flatFaqs.slice(0, 30).map((it) => ({
+        "@type": "Question",
+        name: it.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: it.answer,
+        },
+      })),
+    },
   });
   const faqCategories = [
     {

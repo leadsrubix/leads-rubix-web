@@ -333,3 +333,27 @@
     inset: -1px;
   }
 }
+/* === Dark mode overrides for hardcoded light-only brand classes === */
+/* The marketing pages use hardcoded brand colors (#F1F1F9, #252140, slate-50, etc.).
+   These rules remap them to semantic tokens when .dark is on the html element. */
+.dark .bg-\[\#F1F1F9\] { background-color: hsl(var(--background)); }
+.dark .bg-slate-50 { background-color: hsl(var(--muted) / 0.4); }
+.dark .bg-slate-50\/50 { background-color: hsl(var(--muted) / 0.25); }
+.dark .bg-white { background-color: hsl(var(--card)); color: hsl(var(--card-foreground)); }
+.dark .bg-white\/85 { background-color: hsl(var(--background) / 0.85); }
+.dark .text-\[\#252140\] { color: hsl(var(--foreground)); }
+.dark .text-\[\#252140\]\/70 { color: hsl(var(--muted-foreground)); }
+.dark .text-\[\#252140\]\/80 { color: hsl(var(--foreground) / 0.85); }
+.dark .text-\[\#252140\]\/90 { color: hsl(var(--foreground) / 0.95); }
+.dark .border-\[\#252140\]\/10 { border-color: hsl(var(--border)); }
+.dark .border-\[\#252140\]\/15 { border-color: hsl(var(--border)); }
+.dark .border-\[\#252140\]\/20 { border-color: hsl(var(--border)); }
+.dark .border-\[\#252140\]\/30 { border-color: hsl(var(--border)); }
+.dark .hover\:bg-\[\#E4E4EF\]:hover { background-color: hsl(var(--muted)); }
+.dark .hover\:text-\[\#252140\]:hover { color: hsl(var(--foreground)); }
+.dark .from-\[\#FAF2EE\] { --tw-gradient-from: hsl(var(--background)); }
+.dark .via-\[\#F1F1F9\] { --tw-gradient-via: hsl(var(--background)); }
+.dark .to-\[\#E8EAF5\] { --tw-gradient-to: hsl(var(--muted) / 0.3); }
+.dark .bg-gradient-to-br.from-\[\#FAF2EE\] {
+  background-image: linear-gradient(to bottom right, hsl(var(--background)), hsl(var(--background)), hsl(var(--muted) / 0.4));
+}

@@ -89,6 +89,48 @@ function splitHeadline(headline: string): { lead: string; accent: string | null 
 const DASHBOARD_VALUES = [7.3, 0.5, 3.6];
 const PIPELINE_COUNTS = [12, 8, 24, 6, 3];
 
+const ORGANIZATION_JSONLD = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Leads Rubix",
+  url: "https://leadsrubix.com",
+  logo: "https://leadsrubix.com/favicon.svg",
+  description:
+    "CRM purpose-built for India's high-velocity sales teams across real estate, education, healthcare, BFSI, automotive, travel, SaaS and manufacturing.",
+  sameAs: [
+    "https://www.linkedin.com/company/leadsrubix",
+    "https://twitter.com/leadsrubix",
+  ],
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      contactType: "sales",
+      email: "sales@leadsrubix.com",
+      areaServed: "IN",
+      availableLanguage: ["en", "hi"],
+    },
+  ],
+};
+
+const SOFTWARE_JSONLD = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Leads Rubix CRM",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web, Android, iOS",
+  offers: {
+    "@type": "Offer",
+    price: "999",
+    priceCurrency: "INR",
+    url: "https://leadsrubix.com/pricing",
+  },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.8",
+    reviewCount: "120",
+  },
+};
+
 export default function Home() {
   const hero = useContent<HomeHero>("home_hero", DEFAULT_HERO);
   const testimonialsCms = useContent<Testimonial[]>("testimonials", []);
@@ -111,6 +153,7 @@ export default function Home() {
     description:
       "Purpose-built CRM for Indian sales teams across real estate, education, healthcare, BFSI, automotive, travel, SaaS and manufacturing. Capture leads instantly, route them automatically, and close more revenue. 7-day free trial.",
     canonical: "https://leadsrubix.com/",
+    jsonLd: [ORGANIZATION_JSONLD, SOFTWARE_JSONLD],
   });
 
   const { lead: headlineLead, accent: headlineAccent } = splitHeadline(hero.headline);

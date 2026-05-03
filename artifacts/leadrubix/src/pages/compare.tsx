@@ -5,6 +5,7 @@ import { Link } from "wouter";
 import { CheckCircle2, MinusCircle, ArrowRight, Trophy } from "lucide-react";
 import { Fragment } from "react";
 import { useSEO } from "@/lib/useSEO";
+import { ExitIntentModal } from "@/components/marketing/ExitIntentModal";
 
 export default function Compare() {
   useSEO({
@@ -167,6 +168,11 @@ export default function Compare() {
           </div>
         </div>
       </section>
+      <ExitIntentModal
+        storageKey="leadsrubix-exit-intent-compare"
+        title="Still comparing? Skip the spreadsheet"
+        body="Get a side-by-side walkthrough of Leads Rubix vs your current CRM in a 15-minute personalised demo."
+      />
     </Layout>
   );
 }

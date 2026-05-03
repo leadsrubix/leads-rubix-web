@@ -12,6 +12,16 @@
   <url><loc>https://leadsrubix.com/faq</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://leadsrubix.com/about</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://leadsrubix.com/contact</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://leadsrubix.com/blog</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://leadsrubix.com/industries</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://leadsrubix.com/industries/real-estate</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://leadsrubix.com/industries/education</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://leadsrubix.com/industries/healthcare</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://leadsrubix.com/industries/automotive</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://leadsrubix.com/industries/financial-services</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://leadsrubix.com/industries/travel</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://leadsrubix.com/industries/saas</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://leadsrubix.com/industries/manufacturing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://leadsrubix.com/privacy</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
   <url><loc>https://leadsrubix.com/terms</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
   <url><loc>https://leadsrubix.com/refund</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>

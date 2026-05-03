@@ -1,11 +1,13 @@
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle2, MinusCircle, ShieldCheck, Receipt, RefreshCw, ArrowRight, Calculator } from "lucide-react";
+import { CheckCircle2, MinusCircle, ShieldCheck, Receipt, RefreshCw } from "lucide-react";
 import { Link } from "wouter";
 import { useState, Fragment } from "react";
 import { useSEO } from "@/lib/useSEO";
 import { useContent } from "@/lib/useContent";
+import { RoiCalculator } from "@/components/marketing/RoiCalculator";
+import { ExitIntentModal } from "@/components/marketing/ExitIntentModal";
 
 type RawPlan = {
   name: string;
@@ -98,6 +100,37 @@ export default function Pricing() {
     description:
       "Simple, transparent pricing in INR. Starter ₹999/user/month, Growth ₹1,499/user/month, Enterprise custom. 7-day free trial, no credit card, cancel anytime. GST applied at checkout.",
     canonical: "https://leadsrubix.com/pricing",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: "Leads Rubix CRM",
+      description:
+        "CRM for India's high-velocity sales teams — Facebook/Instagram lead webhooks, automated rotation, GPS-verified calling, Razorpay bookings.",
+      brand: { "@type": "Brand", name: "Leads Rubix" },
+      offers: [
+        {
+          "@type": "Offer",
+          name: "Starter",
+          price: "999",
+          priceCurrency: "INR",
+          url: "https://leadsrubix.com/pricing",
+          availability: "https://schema.org/InStock",
+        },
+        {
+          "@type": "Offer",
+          name: "Growth",
+          price: "1499",
+          priceCurrency: "INR",
+          url: "https://leadsrubix.com/pricing",
+          availability: "https://schema.org/InStock",
+        },
+      ],
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: "4.8",
+        reviewCount: "120",
+      },
+    },
   });
 
   const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
@@ -354,23 +387,10 @@ export default function Pricing() {
         </div>
       </section>
 
-      {/* ROI mini-CTA */}
+      {/* ROI Calculator */}
       <section className="py-20 bg-slate-50 border-b">
         <div className="container mx-auto px-4 max-w-4xl">
-          <Card className="overflow-hidden">
-            <CardContent className="p-8 md:p-12 flex flex-col md:flex-row items-center gap-8">
-              <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center shrink-0">
-                <Calculator className="h-8 w-8 text-primary" />
-              </div>
-              <div className="flex-1 text-center md:text-left">
-                <h2 className="text-2xl font-bold mb-2">Not sure which plan fits?</h2>
-                <p className="text-muted-foreground">Tell us your team size and lead volume — we'll recommend a plan and walk you through the product live.</p>
-              </div>
-              <Button size="lg" asChild data-testid="btn-pricing-demo">
-                <Link href="/demo">Book a Demo <ArrowRight className="ml-2 h-5 w-5" /></Link>
-              </Button>
-            </CardContent>
-          </Card>
+          <RoiCalculator />
         </div>
       </section>
 
@@ -398,6 +418,11 @@ export default function Pricing() {
           </div>
         </div>
       </section>
+      <ExitIntentModal
+        storageKey="leadsrubix-exit-intent-pricing"
+        title="Before you compare — see it live"
+        body="Watch a 15-minute walkthrough tailored to your team size and industry. No credit card. No commitment."
+      />
     </Layout>
   );
 }

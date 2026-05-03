@@ -5,6 +5,7 @@ type SEOOptions = {
   description?: string;
   canonical?: string;
   ogImage?: string;
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 };
 
 function setMeta(name: string, content: string, isProperty = false) {
@@ -28,7 +29,24 @@ function setCanonical(href: string) {
   link.href = href;
 }
 
-export function useSEO({ title, description, canonical, ogImage }: SEOOptions) {
+const JSONLD_ATTR = "data-leadsrubix-jsonld";
+
+function setJsonLd(payload: SEOOptions["jsonLd"]) {
+  document.head
+    .querySelectorAll<HTMLScriptElement>(`script[${JSONLD_ATTR}]`)
+    .forEach((node) => node.remove());
+  if (!payload) return;
+  const items = Array.isArray(payload) ? payload : [payload];
+  items.forEach((item) => {
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.setAttribute(JSONLD_ATTR, "true");
+    script.textContent = JSON.stringify(item);
+    document.head.appendChild(script);
+  });
+}
+
+export function useSEO({ title, description, canonical, ogImage, jsonLd }: SEOOptions) {
   useEffect(() => {
     document.title = title;
     if (description) {
@@ -38,13 +56,19 @@ export function useSEO({ title, description, canonical, ogImage }: SEOOptions) {
     }
     setMeta("og:title", title, true);
     setMeta("twitter:title", title);
+    setMeta("og:site_name", "Leads Rubix", true);
+    setMeta("og:type", "website", true);
+    setMeta("twitter:card", "summary_large_image");
     if (canonical) {
       setCanonical(canonical);
       setMeta("og:url", canonical, true);
     }
-    if (ogImage) {
-      setMeta("og:image", ogImage, true);
-      setMeta("twitter:image", ogImage);
-    }
-  }, [title, description, canonical, ogImage]);
+    const finalOgImage = ogImage ?? "https://leadsrubix.com/opengraph.jpg";
+    setMeta("og:image", finalOgImage, true);
+    setMeta("twitter:image", finalOgImage);
+    setJsonLd(jsonLd);
+    return () => {
+      setJsonLd(undefined);
+    };
+  }, [title, description, canonical, ogImage, JSON.stringify(jsonLd)]);
 }

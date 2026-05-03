@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { LogoMark, useBrand } from "./Brand";
+import { ThemeToggle } from "./ThemeToggle";
 import { useContent } from "@/lib/useContent";
 import {
   DEFAULT_INDUSTRIES,
@@ -119,6 +120,7 @@ export function Navbar() {
 
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-4">
+          <ThemeToggle />
           <a
             href={appUrl}
             target="_blank"
