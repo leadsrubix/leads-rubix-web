@@ -44,7 +44,7 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden lg:flex items-center gap-6">
           <Link
             href="/features"
             className="text-sm font-medium text-[#252140]/70 hover:text-[#252140] transition-colors"
@@ -119,7 +119,7 @@ export function Navbar() {
         </nav>
 
         {/* Desktop Actions */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-4">
           <ThemeToggle />
           <a
             href={appUrl}
@@ -143,8 +143,8 @@ export function Navbar() {
 
         {/* Mobile Nav */}
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
-          <SheetTrigger asChild className="md:hidden">
-            <Button variant="ghost" size="icon" className="md:hidden text-[#252140] hover:text-[#252140]" data-testid="btn-mobile-menu">
+          <SheetTrigger asChild className="lg:hidden">
+            <Button variant="ghost" size="icon" className="lg:hidden text-[#252140] hover:text-[#252140]" data-testid="btn-mobile-menu">
               <Menu className="h-6 w-6" />
               <span className="sr-only">Toggle menu</span>
             </Button>

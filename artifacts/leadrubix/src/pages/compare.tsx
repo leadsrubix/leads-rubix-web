@@ -123,7 +123,7 @@ export default function Compare() {
         <div className="container mx-auto px-4 max-w-6xl">
           <h2 className="text-3xl font-bold text-center mb-12">Feature-by-feature</h2>
           <div className="overflow-x-auto rounded-xl border border-border">
-            <table className="w-full text-left text-sm">
+            <table className="w-full text-left text-sm min-w-[720px]">
               <thead className="bg-slate-50">
                 <tr>
                   <th className="p-4 font-semibold w-2/5">Capability</th>

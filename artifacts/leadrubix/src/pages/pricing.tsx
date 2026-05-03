@@ -422,7 +422,7 @@ export default function Pricing() {
           </div>
 
           <div className="overflow-x-auto rounded-xl border border-border">
-            <table className="w-full text-left text-sm">
+            <table className="w-full text-left text-sm min-w-[720px]">
               <thead className="bg-slate-50">
                 <tr>
                   <th className="p-4 font-semibold w-2/5">Feature</th>

@@ -42,6 +42,15 @@ export function ExitIntentModal({
       /* ignore */
     }
 
+    // Exit-intent (mouse leaving viewport top) only makes sense on devices
+    // with a fine pointer. Touch devices have no such gesture and the
+    // mouseout event fires noisily during normal scrolling.
+    if (typeof window !== "undefined" && typeof window.matchMedia === "function") {
+      if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+        return;
+      }
+    }
+
     const armTimer = window.setTimeout(() => {
       armedRef.current = true;
     }, delayMs);
@@ -63,6 +72,16 @@ export function ExitIntentModal({
       document.removeEventListener("mouseout", handleMouseOut);
     };
   }, [storageKey, delayMs]);
+
+  // Lock body scroll while the modal is open so the page behind doesn't shift
+  // on mobile when the address bar resizes.
+  useEffect(() => {
+    if (!open) return;
+    document.body.classList.add("lr-no-scroll");
+    return () => {
+      document.body.classList.remove("lr-no-scroll");
+    };
+  }, [open]);
 
   function close() {
     setOpen(false);
@@ -124,13 +143,13 @@ export function ExitIntentModal({
       role="dialog"
       aria-modal="true"
       aria-labelledby="exit-intent-title"
-      className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/60 backdrop-blur-sm animate-in fade-in"
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center px-3 sm:px-4 pb-[max(env(safe-area-inset-bottom),0.75rem)] sm:pb-4 bg-black/60 backdrop-blur-sm animate-in fade-in"
       data-testid="exit-intent-modal"
       onClick={close}
     >
       <div
         ref={dialogRef}
-        className="relative w-full max-w-md rounded-2xl bg-white dark:bg-[#16142B] dark:border dark:border-white/10 shadow-2xl p-7 md:p-8"
+        className="relative w-full max-w-md rounded-2xl bg-white dark:bg-[#16142B] dark:border dark:border-white/10 shadow-2xl p-5 sm:p-7 md:p-8 max-h-[90dvh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <button

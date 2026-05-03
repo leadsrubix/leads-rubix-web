@@ -38,8 +38,8 @@ export function LogoMark({ brand, variant = "navbar", testId }: LogoProps) {
     ? "bg-white text-[#252140] p-1.5 rounded-lg shrink-0 overflow-hidden"
     : "bg-[#252140] text-white p-1.5 rounded-lg shrink-0 overflow-hidden";
   const textClass = isFooter
-    ? "font-['Fraunces'] font-medium text-2xl tracking-tight text-white"
-    : "font-['Fraunces'] font-medium text-2xl tracking-tight text-[#252140]";
+    ? "font-['Fraunces'] font-medium text-2xl tracking-tight text-white whitespace-nowrap"
+    : "font-['Fraunces'] font-medium text-2xl tracking-tight text-[#252140] whitespace-nowrap";
 
   const url = brand.logoImageUrl?.trim();
 

@@ -63,3 +63,18 @@ The project is structured as a pnpm workspace monorepo, with each package managi
 - **Markdown Rendering**: `react-markdown`, `remark-gfm`, `rehype-sanitize`
 - **Tracking Pixels**: GA4, Meta Pixel, Taboola, Microsoft Clarity
 - **OpenAPI Spec Display**: Redoc CDN
+## v3.5 — Responsive UX polish + Hostinger deploy prep (May 2026)
+
+- **Cookie banner — compact mobile layout**: previously covered the entire mobile fold; now a slim strip with `Reject` / `Accept all` and a `Customise` toggle on `< sm`, full layout on `≥ sm`. Honors `env(safe-area-inset-bottom)`.
+- **Global responsive infra in `src/index.css`**: `html`/`body` get `overflow-x: hidden`, `scroll-behavior: smooth`, `scroll-padding-top: 5rem`, `text-size-adjust: 100%`. Touch devices get `touch-action: manipulation` for snappier taps. New `body.lr-no-scroll` class for modal scroll-lock and `.safe-bottom` utility for fixed bottom UI.
+- **ExitIntentModal hardening**: only arms on `(hover: hover) and (pointer: fine)` so touch devices never trigger it; locks body scroll while open via `lr-no-scroll`; bottom-sheet style on mobile (`items-end`) with `max-h-[90dvh]` for safe content overflow.
+- **Tables**: added `min-w-[640–720px]` to the 5 horizontally-scrolling tables (industry-detail, compare, pricing, vs, admin/Sources) so they remain readable inside their already-existing `overflow-x-auto` wrappers instead of compressing into illegible columns.
+- **Navbar breakpoint**: bumped from `md:` (768) to `lg:` (1024) so tablets now get the hamburger sheet instead of a cramped horizontal nav. Brand text gets `whitespace-nowrap` to prevent two-line wrap.
+- **Vite config portability**: `PORT` and `BASE_PATH` are now optional during `vite build` (only required for `dev` / `preview`). Lets the production build run in any CI / Hostinger pipeline.
+- **DEPLOY.md**: complete Hostinger Cloud Hosting deployment guide — external Postgres (Neon/Supabase) setup, build commands, Node.js app entry, env vars table, domain + HTTPS, smoke-test checklist, redeploy loop, rollback notes.
+
+### Hostinger deployment constraints (recorded for future agents)
+- Hostinger **Shared / Premium / Business** plans are PHP-only and **cannot run this app**. Cloud Hosting (with Node.js app feature) or VPS is required.
+- Hostinger Cloud ships **MySQL only**; the app uses **Postgres**, so an external Postgres (Neon free tier recommended) is mandatory.
+- **Object storage stays on Replit** via the existing `DEFAULT_OBJECT_STORAGE_BUCKET_ID`, `PRIVATE_OBJECT_DIR`, `PUBLIC_OBJECT_SEARCH_PATHS` env vars copied into hPanel.
+- Optional `LEAD_NOTIFICATION_WEBHOOK` for Slack/Make/Zapier notifications.

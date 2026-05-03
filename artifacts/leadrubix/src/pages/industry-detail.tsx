@@ -410,7 +410,7 @@ export default function IndustryDetail() {
             </div>
             {/* Desktop table */}
             <div className="hidden md:block overflow-x-auto rounded-2xl border border-[#252140]/10">
-              <table className="w-full text-sm">
+              <table className="w-full text-sm min-w-[640px]">
                 <thead>
                   <tr className="bg-slate-50 border-b border-[#252140]/10">
                     <th className="text-left p-5 font-semibold text-[#252140] w-1/3">

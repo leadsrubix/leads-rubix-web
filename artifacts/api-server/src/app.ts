@@ -1,5 +1,8 @@
-import express, { type Express } from "express";
+import express, { type Express, type Request, type Response, type NextFunction } from "express";
 import cors from "cors";
+import path from "node:path";
+import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import pinoHttp from "pino-http";
 import router from "./routes";
 import sitemapRouter from "./routes/sitemap";
@@ -43,5 +46,45 @@ app.use("/", sitemapRouter);
 app.use(sessionMiddleware);
 
 app.use("/api", router);
+
+// In production (e.g. on Hostinger Cloud) this single Node app serves both the
+// JSON API and the built SPA. The SPA is expected to live next to the bundled
+// server entry as `./public`. In development the Vite dev server serves the
+// SPA on its own port via the workspace proxy, so we skip this block.
+if (process.env["NODE_ENV"] === "production") {
+  const here = path.dirname(fileURLToPath(import.meta.url));
+  const spaDir = path.resolve(here, "public");
+
+  if (existsSync(spaDir)) {
+    app.use(
+      express.static(spaDir, {
+        index: false,
+        maxAge: "1y",
+        setHeaders: (res, filePath) => {
+          // index.html must always be revalidated so users get the latest
+          // bundle hashes; everything else is content-hashed and immutable.
+          if (filePath.endsWith("index.html")) {
+            res.setHeader("Cache-Control", "no-cache");
+          }
+        },
+      }),
+    );
+
+    // SPA history fallback: any non-API, non-asset GET serves index.html so
+    // wouter routes resolve on hard refresh / direct link.
+    app.get(
+      /^(?!\/api\/|\/sitemap\.xml).*/,
+      (req: Request, res: Response, next: NextFunction) => {
+        if (req.method !== "GET") return next();
+        res.sendFile(path.join(spaDir, "index.html"));
+      },
+    );
+  } else {
+    logger.warn(
+      { spaDir },
+      "Production mode but SPA build not found — API will respond but / will 404.",
+    );
+  }
+}
 
 export default app;

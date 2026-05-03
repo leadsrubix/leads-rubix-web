@@ -114,7 +114,7 @@ export default function AdminSources() {
       {data && data.rows.length > 0 ? (
         <Card>
           <CardContent className="p-0 overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-sm min-w-[640px]">
               <thead className="bg-slate-50 border-b">
                 <tr className="text-left">
                   <th className="px-4 py-3 font-semibold">Source</th>

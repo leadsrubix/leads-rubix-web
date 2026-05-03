@@ -217,8 +217,41 @@
     @apply border-border;
   }
 
+  html {
+    /* Prevent horizontal overflow from any single rogue element breaking the
+       whole page on mobile. */
+    overflow-x: hidden;
+    /* Smooth in-page anchor scroll, accounting for sticky navbar height. */
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    overflow-x: hidden;
+    /* Stop iOS / Android from inflating font sizes on rotation. */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Larger tap targets for primary controls on touch devices. */
+  @media (hover: none) and (pointer: coarse) {
+    button,
+    [role="button"],
+    a {
+      touch-action: manipulation;
+    }
+  }
+
+  /* Respect iPhone notch / Android gesture bar for fixed bottom UI. */
+  .safe-bottom {
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+
+  /* Prevent body scroll when a modal opens — added/removed via JS. */
+  body.lr-no-scroll {
+    overflow: hidden;
+    touch-action: none;
   }
 }
 
