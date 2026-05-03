@@ -10,6 +10,57 @@ export type SectionDefinition = {
 
 export const KNOWN_SECTIONS: SectionDefinition[] = [
   {
+    key: "brand_identity",
+    label: "Brand — Logo & identity",
+    description:
+      "Logo and brand identity used in the navbar and footer. Set logoImageUrl to a full https:// URL (e.g. an uploaded image) to replace the default building icon. Leave logoImageUrl empty to use the icon. appUrl is the 'Sign In / Start Free Trial' destination.",
+    defaultValue: {
+      brandName: "Leads Rubix",
+      logoImageUrl: "",
+      footerTagline:
+        "The purpose-built CRM for Indian real estate sales teams. Capture, manage, and convert leads from first contact through booking.",
+      bottomLine: "Made in India  ·  Built for Indian Real Estate",
+      appUrl: "https://app.leadsrubix.com/",
+      signInLabel: "Sign In",
+      ctaLabel: "Start Free Trial",
+    },
+  },
+  {
+    key: "footer_links",
+    label: "Footer — Link columns",
+    description:
+      "Three columns of links shown in the footer. Each item has a label and href. Use a relative path like /pricing for internal links, or full https:// URLs for external links.",
+    defaultValue: {
+      productHeading: "Product",
+      productLinks: [
+        { label: "Features", href: "/features" },
+        { label: "Solutions", href: "/solutions" },
+        { label: "Integrations", href: "/integrations" },
+        { label: "Pricing", href: "/pricing" },
+        { label: "Security", href: "/security" },
+        { label: "Login", href: "https://app.leadsrubix.com/" },
+        { label: "Start Free Trial", href: "https://app.leadsrubix.com/" },
+      ],
+      companyHeading: "Company",
+      companyLinks: [
+        { label: "About Us", href: "/about" },
+        { label: "Compare", href: "/compare" },
+        { label: "Case Studies", href: "/case-studies" },
+        { label: "Book a Demo", href: "/demo" },
+        { label: "Contact", href: "/contact" },
+        { label: "FAQ", href: "/faq" },
+        { label: "Blog", href: "/blog" },
+      ],
+      legalHeading: "Legal",
+      legalLinks: [
+        { label: "Privacy Policy", href: "/privacy" },
+        { label: "Terms & Conditions", href: "/terms" },
+        { label: "Refund Policy", href: "/refund" },
+        { label: "Cookie Policy", href: "/cookies" },
+      ],
+    },
+  },
+  {
     key: "home_hero",
     label: "Home — Hero",
     description: "Main headline at the top of the homepage.",

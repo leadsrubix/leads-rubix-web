@@ -1,6 +1,7 @@
 import { Link } from "wouter";
-import { Building2, Linkedin, Facebook, Instagram, Youtube, Twitter } from "lucide-react";
+import { Linkedin, Facebook, Instagram, Youtube, Twitter } from "lucide-react";
 import { useContent } from "@/lib/useContent";
+import { LogoMark, useBrand } from "./Brand";
 
 interface FooterContact {
   legalEntity: string;
@@ -16,6 +17,20 @@ interface SocialLinks {
   instagram?: string;
   twitter?: string;
   youtube?: string;
+}
+
+interface LinkItem {
+  label: string;
+  href: string;
+}
+
+interface FooterLinks {
+  productHeading?: string;
+  productLinks?: LinkItem[];
+  companyHeading?: string;
+  companyLinks?: LinkItem[];
+  legalHeading?: string;
+  legalLinks?: LinkItem[];
 }
 
 const DEFAULT_CONTACT: FooterContact = {
@@ -34,6 +49,36 @@ const DEFAULT_SOCIAL: SocialLinks = {
   youtube: "",
 };
 
+const DEFAULT_FOOTER_LINKS: FooterLinks = {
+  productHeading: "Product",
+  productLinks: [
+    { label: "Features", href: "/features" },
+    { label: "Solutions", href: "/solutions" },
+    { label: "Integrations", href: "/integrations" },
+    { label: "Pricing", href: "/pricing" },
+    { label: "Security", href: "/security" },
+    { label: "Login", href: "https://app.leadsrubix.com/" },
+    { label: "Start Free Trial", href: "https://app.leadsrubix.com/" },
+  ],
+  companyHeading: "Company",
+  companyLinks: [
+    { label: "About Us", href: "/about" },
+    { label: "Compare", href: "/compare" },
+    { label: "Case Studies", href: "/case-studies" },
+    { label: "Book a Demo", href: "/demo" },
+    { label: "Contact", href: "/contact" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Blog", href: "/blog" },
+  ],
+  legalHeading: "Legal",
+  legalLinks: [
+    { label: "Privacy Policy", href: "/privacy" },
+    { label: "Terms & Conditions", href: "/terms" },
+    { label: "Refund Policy", href: "/refund" },
+    { label: "Cookie Policy", href: "/cookies" },
+  ],
+};
+
 const SOCIAL_ICONS: Array<{ key: keyof SocialLinks; Icon: typeof Linkedin; label: string; testId: string }> = [
   { key: "linkedin", Icon: Linkedin, label: "Leads Rubix on LinkedIn", testId: "link-social-li" },
   { key: "facebook", Icon: Facebook, label: "Leads Rubix on Facebook", testId: "link-social-fb" },
@@ -42,25 +87,52 @@ const SOCIAL_ICONS: Array<{ key: keyof SocialLinks; Icon: typeof Linkedin; label
   { key: "youtube", Icon: Youtube, label: "Leads Rubix on YouTube", testId: "link-social-yt" },
 ];
 
+function isExternal(href: string): boolean {
+  return /^https?:\/\//i.test(href) || href.startsWith("mailto:") || href.startsWith("tel:");
+}
+
+function FooterLink({ item, testId }: { item: LinkItem; testId: string }) {
+  const cls = "text-white/65 hover:text-white transition-colors";
+  if (isExternal(item.href)) {
+    return (
+      <a href={item.href} target="_blank" rel="noopener noreferrer" className={cls} data-testid={testId}>
+        {item.label}
+      </a>
+    );
+  }
+  return (
+    <Link href={item.href} className={cls} data-testid={testId}>
+      {item.label}
+    </Link>
+  );
+}
+
 export function Footer() {
+  const brand = useBrand();
   const contact = useContent<FooterContact>("footer_contact", DEFAULT_CONTACT);
   const social = useContent<SocialLinks>("social_links", DEFAULT_SOCIAL);
+  const footerLinks = useContent<FooterLinks>("footer_links", DEFAULT_FOOTER_LINKS);
+
+  const productLinks = footerLinks.productLinks ?? DEFAULT_FOOTER_LINKS.productLinks!;
+  const companyLinks = footerLinks.companyLinks ?? DEFAULT_FOOTER_LINKS.companyLinks!;
+  const legalLinks = footerLinks.legalLinks ?? DEFAULT_FOOTER_LINKS.legalLinks!;
+
+  const tagline = brand.footerTagline?.trim() || "";
+  const bottomLine = brand.bottomLine?.trim() || "";
+  const year = new Date().getFullYear();
 
   return (
     <footer className="bg-[#16142B] text-white/70 py-16 border-t border-white/5">
       <div className="container mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-2 mb-6" data-testid="link-footer-logo">
-              <div className="bg-white text-[#252140] p-1.5 rounded-lg">
-                <Building2 size={24} />
-              </div>
-              <span className="font-['Fraunces'] font-medium text-2xl tracking-tight text-white">Leads Rubix</span>
+            <Link href="/" className="mb-6 inline-block" data-testid="link-footer-logo">
+              <LogoMark brand={brand} variant="footer" />
             </Link>
-            <p className="text-white/60 mb-6 max-w-sm leading-relaxed">
-              The purpose-built CRM for Indian real estate sales teams. Capture, manage, and convert leads from first contact through booking.
-            </p>
-            <div className="flex gap-4 mb-6">
+            {tagline ? (
+              <p className="text-white/60 mb-6 max-w-sm leading-relaxed mt-4">{tagline}</p>
+            ) : null}
+            <div className="flex gap-4 mb-6 mt-2">
               {SOCIAL_ICONS.map(({ key, Icon, label, testId }) => {
                 const href = social?.[key];
                 if (!href || !href.trim()) return null;
@@ -91,49 +163,44 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold text-white mb-4">Product</h4>
+            <h4 className="font-semibold text-white mb-4">{footerLinks.productHeading || "Product"}</h4>
             <ul className="flex flex-col gap-3">
-              <li><Link href="/features" className="text-white/65 hover:text-white transition-colors" data-testid="link-footer-features">Features</Link></li>
-              <li><Link href="/solutions" className="text-white/65 hover:text-white transition-colors" data-testid="link-footer-solutions">Solutions</Link></li>
-              <li><Link href="/integrations" className="text-white/65 hover:text-white transition-colors" data-testid="link-footer-integrations">Integrations</Link></li>
-              <li><Link href="/pricing" className="text-white/65 hover:text-white transition-colors" data-testid="link-footer-pricing">Pricing</Link></li>
-              <li><Link href="/security" className="text-white/65 hover:text-white transition-colors" data-testid="link-footer-security">Security</Link></li>
-              <li><a href="https://app.leadsrubix.com/" target="_blank" rel="noopener noreferrer" className="text-white/65 hover:text-white transition-colors" data-testid="link-footer-login">Login</a></li>
-              <li><a href="https://app.leadsrubix.com/" target="_blank" rel="noopener noreferrer" className="text-white/65 hover:text-white transition-colors" data-testid="link-footer-signup">Start Free Trial</a></li>
+              {productLinks.map((item, i) => (
+                <li key={`p-${i}`}>
+                  <FooterLink item={item} testId={`link-footer-product-${i}`} />
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="font-semibold text-white mb-4">Company</h4>
+            <h4 className="font-semibold text-white mb-4">{footerLinks.companyHeading || "Company"}</h4>
             <ul className="flex flex-col gap-3">
-              <li><Link href="/about" className="text-white/65 hover:text-white transition-colors" data-testid="link-footer-about">About Us</Link></li>
-              <li><Link href="/compare" className="text-white/65 hover:text-white transition-colors" data-testid="link-footer-compare">Compare</Link></li>
-              <li><Link href="/case-studies" className="text-white/65 hover:text-white transition-colors" data-testid="link-footer-case-studies">Case Studies</Link></li>
-              <li><Link href="/demo" className="text-white/65 hover:text-white transition-colors" data-testid="link-footer-demo">Book a Demo</Link></li>
-              <li><Link href="/contact" className="text-white/65 hover:text-white transition-colors" data-testid="link-footer-contact">Contact</Link></li>
-              <li><Link href="/faq" className="text-white/65 hover:text-white transition-colors" data-testid="link-footer-faq">FAQ</Link></li>
-              <li><Link href="/blog" className="text-white/65 hover:text-white transition-colors" data-testid="link-footer-blog">Blog</Link></li>
+              {companyLinks.map((item, i) => (
+                <li key={`c-${i}`}>
+                  <FooterLink item={item} testId={`link-footer-company-${i}`} />
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
-            <h4 className="font-semibold text-white mb-4">Legal</h4>
+            <h4 className="font-semibold text-white mb-4">{footerLinks.legalHeading || "Legal"}</h4>
             <ul className="flex flex-col gap-3">
-              <li><Link href="/privacy" className="text-white/65 hover:text-white transition-colors" data-testid="link-footer-privacy">Privacy Policy</Link></li>
-              <li><Link href="/terms" className="text-white/65 hover:text-white transition-colors" data-testid="link-footer-terms">Terms & Conditions</Link></li>
-              <li><Link href="/refund" className="text-white/65 hover:text-white transition-colors" data-testid="link-footer-refund">Refund Policy</Link></li>
-              <li><Link href="/cookies" className="text-white/65 hover:text-white transition-colors" data-testid="link-footer-cookies">Cookie Policy</Link></li>
+              {legalLinks.map((item, i) => (
+                <li key={`l-${i}`}>
+                  <FooterLink item={item} testId={`link-footer-legal-${i}`} />
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
         <div className="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-white/55 text-sm">
-            © 2026 {contact.legalEntity}. All rights reserved.
+            © {year} {contact.legalEntity}. All rights reserved.
           </p>
-          <p className="text-white/55 text-sm">
-            Made in India  ·  Built for Indian Real Estate
-          </p>
+          {bottomLine ? <p className="text-white/55 text-sm">{bottomLine}</p> : null}
         </div>
       </div>
     </footer>
