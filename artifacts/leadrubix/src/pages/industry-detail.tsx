@@ -26,6 +26,7 @@ import {
 import { useSEO } from "@/lib/useSEO";
 import { useContent } from "@/lib/useContent";
 import { InlineLeadForm } from "@/components/marketing/InlineLeadForm";
+import { SocialProofTicker } from "@/components/marketing/SocialProofTicker";
 import {
   DEFAULT_INDUSTRIES,
   getIndustryIcon,
@@ -134,10 +135,13 @@ export default function IndustryDetail() {
                 {item.description}
               </p>
               {item.longDescription ? (
-                <p className="text-base text-foreground/80 mb-8 leading-relaxed">
+                <p className="text-base text-foreground/80 mb-6 leading-relaxed">
                   {item.longDescription}
                 </p>
               ) : null}
+              <div className="mb-6">
+                <SocialProofTicker />
+              </div>
               <div className="flex flex-wrap gap-3">
                 <Button asChild size="lg" data-testid="btn-industry-cta">
                   {ctaIsExternal ? (

@@ -91,7 +91,14 @@ router.post("/", async (req, res) => {
       payload: { slug: row!.slug, status: row!.status },
     });
     if (row!.status === "published") {
-      void pingIndexNow([`https://leadsrubix.com/blog/${row!.slug}`], req.log);
+      void pingIndexNow(
+        [
+          `https://leadsrubix.com/blog/${row!.slug}`,
+          "https://leadsrubix.com/sitemap.xml",
+          "https://leadsrubix.com/blog",
+        ],
+        req.log,
+      );
     }
     res.json({ ok: true, post: row });
   } catch (err: unknown) {
@@ -157,7 +164,15 @@ router.patch("/:id", async (req, res) => {
       parsed.data.slug !== undefined &&
       parsed.data.slug !== existing.slug;
     if (transitionedToPublished || slugChangedWhilePublished) {
-      void pingIndexNow([`https://leadsrubix.com/blog/${row!.slug}`], req.log);
+      const urls = [
+        `https://leadsrubix.com/blog/${row!.slug}`,
+        "https://leadsrubix.com/sitemap.xml",
+        "https://leadsrubix.com/blog",
+      ];
+      if (slugChangedWhilePublished && existing.slug !== row!.slug) {
+        urls.push(`https://leadsrubix.com/blog/${existing.slug}`);
+      }
+      void pingIndexNow(urls, req.log);
     }
     res.json({ ok: true, post: row });
   } catch (err: unknown) {

@@ -44,6 +44,10 @@ interface HomeHero {
 }
 
 interface Testimonial {
+  logo?: string | null;
+  city?: string | null;
+  industry?: string | null;
+  illustrative?: boolean;
   name: string;
   role: string;
   company: string;
@@ -64,19 +68,55 @@ const DEFAULT_TESTIMONIALS: Testimonial[] = [
     name: "Rajeev K.",
     role: "VP Sales",
     company: "Horizon Developers",
+    city: "Mumbai",
+    industry: "Real Estate",
+    illustrative: true,
     body: "Before Leads Rubix, we were losing 30% of our Facebook leads just because agents didn't check the sheet in time. Now every lead is called within 5 minutes — our site visits have doubled.",
   },
   {
     name: "Anuradha S.",
     role: "Director of Admissions",
     company: "Tier-1 Management Institute",
+    city: "Pune",
+    industry: "Education",
+    illustrative: true,
     body: "Counsellor response time dropped from 2.4 hours to 8 minutes. Application volume nearly tripled in one cycle — without adding a single counsellor. Cadence automation effectively replaced four FTEs.",
   },
   {
     name: "Vikram M.",
     role: "Head of Sales Ops",
     company: "Series-B SaaS",
+    city: "Bengaluru",
+    industry: "SaaS",
+    illustrative: true,
     body: "We replaced HubSpot Sales Hub plus a tangle of Notion docs. Forecast accuracy went from ±32% to ±9% in one quarter. The stakeholder map and per-stage confidence are killer features.",
+  },
+  {
+    name: "Dr. Meera P.",
+    role: "Operations Head",
+    company: "Aarogya Multispecialty",
+    city: "Hyderabad",
+    industry: "Healthcare",
+    illustrative: true,
+    body: "Procedure-specific nurture journeys cut our IVF no-show rate from 22% to under 10% in two quarters. Patients now hear from us within minutes of an enquiry, on the channel they used.",
+  },
+  {
+    name: "Sunil A.",
+    role: "Head of Distribution",
+    company: "Aksh Capital NBFC",
+    city: "Delhi",
+    industry: "BFSI",
+    illustrative: true,
+    body: "Immutable advisor logs closed every regulator-flagged audit gap in our last cycle. Native Aadhaar e-KYC plus bureau pulls cut our KYC turnaround by a third — without compliance risk.",
+  },
+  {
+    name: "Kavita R.",
+    role: "Head of Marketing",
+    company: "Lumen Manufacturing",
+    city: "Ahmedabad",
+    industry: "Manufacturing",
+    illustrative: true,
+    body: "Distributor enquiries used to bounce between five inboxes. Now every RFQ lands with the right regional sales engineer in under 90 seconds — our sample-to-order rate is up 41%.",
   },
 ];
 

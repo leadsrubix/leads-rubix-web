@@ -41,6 +41,24 @@ export default function CaseStudies() {
     description:
       "How Indian sales teams across real estate, education, healthcare, BFSI, SaaS, automotive and manufacturing use Leads Rubix to capture leads instantly, route them automatically and close more revenue.",
     canonical: "https://leadsrubix.com/case-studies",
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://leadsrubix.com/" },
+          { "@type": "ListItem", position: 2, name: "Case Studies", item: "https://leadsrubix.com/case-studies" },
+        ],
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: "Leads Rubix Case Studies",
+        url: "https://leadsrubix.com/case-studies",
+        about: "Customer success stories across Indian real estate, education, healthcare, BFSI, SaaS, automotive and manufacturing",
+        inLanguage: "en-IN",
+      },
+    ],
   });
 
   const stories = [

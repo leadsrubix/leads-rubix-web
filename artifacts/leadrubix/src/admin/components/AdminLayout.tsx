@@ -95,6 +95,13 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             <ExternalLink className="size-3.5" /> View site
           </a>
           <Link
+            href="/admin/security"
+            className="block px-2 py-1 text-xs text-slate-400 hover:text-white"
+            data-testid="link-security"
+          >
+            Security &amp; 2FA
+          </Link>
+          <Link
             href="/admin/change-password"
             className="block px-2 py-1 text-xs text-slate-400 hover:text-white"
             data-testid="link-change-password"

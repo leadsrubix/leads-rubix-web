@@ -10,12 +10,14 @@ import {
   ACCOUNT_LOCK_DURATION_MS,
 } from "../../lib/login-throttle";
 import { writeAudit } from "../../lib/audit";
+import { verifyTotpOrRecovery } from "./totp";
 
 const router: IRouter = Router();
 
 const LoginSchema = z.object({
   email: z.string().email().max(200),
   password: z.string().min(1).max(200),
+  totpCode: z.string().min(6).max(20).optional(),
 });
 
 function getClientIp(req: Request): string {
@@ -41,7 +43,7 @@ router.post("/login", async (req, res) => {
     return;
   }
 
-  const { email, password } = parsed.data;
+  const { email, password, totpCode } = parsed.data;
   const [user] = await db
     .select()
     .from(adminUsersTable)
@@ -88,6 +90,56 @@ router.post("/login", async (req, res) => {
     );
     res.status(401).json({ ok: false, error: "Invalid email or password" });
     return;
+  }
+
+  // Password OK. If 2FA is enabled, the request must include a valid TOTP /
+  // recovery code before we issue a session. Failed 2FA attempts feed the
+  // same per-account lockout counter as bad passwords so brute-forcing the
+  // second factor can't bypass account lockout.
+  if (user.totpEnabled) {
+    if (!totpCode) {
+      res.status(401).json({
+        ok: false,
+        requiresTotp: true,
+        error: "Enter the 6-digit code from your authenticator app.",
+      });
+      return;
+    }
+    const totpOk = await verifyTotpOrRecovery(user.id, totpCode);
+    if (!totpOk) {
+      const lockUntilExpr = sql`CASE WHEN ${adminUsersTable.failedLoginAttempts} + 1 >= ${ACCOUNT_LOCK_THRESHOLD}
+        THEN NOW() + (${ACCOUNT_LOCK_DURATION_MS} || ' milliseconds')::interval
+        ELSE NULL END`;
+      const [updated] = await db
+        .update(adminUsersTable)
+        .set({
+          failedLoginAttempts: sql`${adminUsersTable.failedLoginAttempts} + 1`,
+          lockedUntil: lockUntilExpr,
+          updatedAt: new Date(),
+        })
+        .where(eq(adminUsersTable.id, user.id))
+        .returning({
+          fails: adminUsersTable.failedLoginAttempts,
+          lockedUntil: adminUsersTable.lockedUntil,
+        });
+      req.log.warn(
+        { userId: user.id, fails: updated?.fails, locked: !!updated?.lockedUntil },
+        "admin login: bad totp",
+      );
+      if (updated?.lockedUntil) {
+        res.status(423).json({
+          ok: false,
+          error: "Account temporarily locked due to too many failed attempts. Try again later.",
+        });
+        return;
+      }
+      res.status(401).json({
+        ok: false,
+        requiresTotp: true,
+        error: "That code didn't match. Try a fresh code or a recovery code.",
+      });
+      return;
+    }
   }
 
   // success — reset failure counter, start session.

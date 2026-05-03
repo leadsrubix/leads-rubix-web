@@ -23,11 +23,16 @@ export async function api<T = unknown>(
     throw new Error(`Request failed (${res.status})`);
   }
   if (!res.ok) {
-    const body = data as ApiError;
+    const body = data as ApiError & { requiresTotp?: boolean };
     const error = body?.error ?? `Request failed (${res.status})`;
-    const err = new Error(error) as Error & { status: number; code?: string };
+    const err = new Error(error) as Error & {
+      status: number;
+      code?: string;
+      requiresTotp?: boolean;
+    };
     err.status = res.status;
     err.code = body?.code;
+    err.requiresTotp = body?.requiresTotp === true;
     // Force-change-password interceptor — redirect anywhere except the change page itself.
     if (
       res.status === 409 &&
@@ -43,10 +48,29 @@ export async function api<T = unknown>(
 }
 
 export const adminApi = {
-  login: (email: string, password: string) =>
+  login: (email: string, password: string, totpCode?: string) =>
     api<{ ok: true; user: AdminUser }>("/admin/auth/login", {
       method: "POST",
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify(totpCode ? { email, password, totpCode } : { email, password }),
+    }),
+  totpStatus: () => api<{ ok: true; enabled: boolean }>("/admin/totp/status"),
+  totpSetup: () =>
+    api<{
+      ok: true;
+      secret: string;
+      otpauth: string;
+      qrDataUrl: string;
+      recoveryCodes: string[];
+    }>("/admin/totp/setup", { method: "POST" }),
+  totpEnable: (code: string) =>
+    api<{ ok: true; alreadyEnabled?: boolean }>("/admin/totp/enable", {
+      method: "POST",
+      body: JSON.stringify({ code }),
+    }),
+  totpDisable: (password: string) =>
+    api<{ ok: true }>("/admin/totp/disable", {
+      method: "POST",
+      body: JSON.stringify({ password }),
     }),
   logout: () => api<{ ok: true }>("/admin/auth/logout", { method: "POST" }),
   me: () => api<{ ok: true; user: AdminUser }>("/admin/auth/me"),

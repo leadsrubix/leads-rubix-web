@@ -8,6 +8,7 @@ import usersRouter from "./users";
 import analyticsRouter from "./analytics";
 import auditRouter from "./audit";
 import uploadsRouter from "./uploads";
+import totpRouter from "./totp";
 
 const router: IRouter = Router();
 
@@ -28,5 +29,6 @@ router.use("/users", usersRouter);
 router.use("/analytics", analyticsRouter);
 router.use("/audit", auditRouter);
 router.use("/uploads", uploadsRouter);
+router.use("/totp", totpRouter);
 
 export default router;

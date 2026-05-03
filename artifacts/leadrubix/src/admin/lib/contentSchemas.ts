@@ -122,12 +122,17 @@ export const KNOWN_SECTIONS: SectionDefinition[] = [
   {
     key: "testimonials",
     label: "Home — Testimonials",
-    description: "Quotes shown on the homepage.",
+    description:
+      "Quotes shown on the homepage. Optional fields per entry: logo (URL or upload path), city, industry, illustrative (boolean — set true while you're using a placeholder customer name).",
     defaultValue: [
       {
         name: "Priya Sharma",
         role: "Sales Head",
         company: "Skyline Developers",
+        city: "Mumbai",
+        industry: "Real Estate",
+        logo: null,
+        illustrative: true,
         body: "Round-robin rotation alone saved us hours every day. We stopped fighting over leads in WhatsApp.",
       },
     ],

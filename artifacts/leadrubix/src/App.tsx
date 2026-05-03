@@ -52,6 +52,7 @@ const AdminPostEdit = lazy(() => import("@/admin/pages/PostEdit"));
 const AdminUsers = lazy(() => import("@/admin/pages/Users"));
 const AdminAudit = lazy(() => import("@/admin/pages/Audit"));
 const AdminSources = lazy(() => import("@/admin/pages/Sources"));
+const AdminSecurity = lazy(() => import("@/admin/pages/Security"));
 
 const queryClient = new QueryClient();
 
@@ -166,6 +167,13 @@ function Router() {
         <RequireAuth>
           <Suspense fallback={<AdminFallback />}>
             <AdminSources />
+          </Suspense>
+        </RequireAuth>
+      </Route>
+      <Route path="/admin/security">
+        <RequireAuth>
+          <Suspense fallback={<AdminFallback />}>
+            <AdminSecurity />
           </Suspense>
         </RequireAuth>
       </Route>
