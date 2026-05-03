@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Download, Search, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { adminApi, type Lead, type AdminUser } from "../lib/api";
@@ -273,11 +274,18 @@ export default function AdminLeads() {
             </thead>
             <tbody>
               {loading ? (
-                <tr>
-                  <td colSpan={8} className="px-4 py-6 text-center text-muted-foreground">
-                    Loading…
-                  </td>
-                </tr>
+                Array.from({ length: 5 }).map((_, i) => (
+                  <tr key={`s-${i}`} className="border-t" data-testid={`leads-skeleton-row-${i}`}>
+                    <td className="px-4 py-3"><Skeleton className="h-4 w-4" /></td>
+                    <td className="px-4 py-3"><Skeleton className="h-4 w-32" /></td>
+                    <td className="px-4 py-3"><Skeleton className="h-4 w-28 mb-1" /><Skeleton className="h-3 w-40" /></td>
+                    <td className="px-4 py-3"><Skeleton className="h-4 w-24 mb-1" /><Skeleton className="h-3 w-20" /></td>
+                    <td className="px-4 py-3"><Skeleton className="h-4 w-16" /></td>
+                    <td className="px-4 py-3"><Skeleton className="h-5 w-16 rounded-full" /></td>
+                    <td className="px-4 py-3"><Skeleton className="h-4 w-20" /></td>
+                    <td className="px-4 py-3 text-right"><Skeleton className="h-7 w-12 ml-auto" /></td>
+                  </tr>
+                ))
               ) : rows.length === 0 ? (
                 <tr>
                   <td colSpan={8} className="px-4 py-10 text-center text-muted-foreground">
@@ -339,7 +347,13 @@ export default function AdminLeads() {
           {/* mobile cards */}
           <ul className="md:hidden divide-y">
             {loading ? (
-              <li className="px-4 py-6 text-center text-muted-foreground">Loading…</li>
+              Array.from({ length: 4 }).map((_, i) => (
+                <li key={`ms-${i}`} className="px-4 py-3" data-testid={`leads-skeleton-mobile-${i}`}>
+                  <Skeleton className="h-5 w-3/5 mb-2" />
+                  <Skeleton className="h-3 w-2/5 mb-1" />
+                  <Skeleton className="h-3 w-1/2" />
+                </li>
+              ))
             ) : rows.length === 0 ? (
               <li className="px-4 py-10 text-center text-muted-foreground">No leads found.</li>
             ) : (

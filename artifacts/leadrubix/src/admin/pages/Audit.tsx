@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import { adminApi, type AuditEvent } from "../lib/api";
 
 const PAGE_SIZE = 50;
@@ -87,11 +88,15 @@ export default function AdminAudit() {
             </thead>
             <tbody>
               {loading ? (
-                <tr>
-                  <td colSpan={5} className="px-4 py-6 text-center text-muted-foreground">
-                    Loading…
-                  </td>
-                </tr>
+                Array.from({ length: 6 }).map((_, i) => (
+                  <tr key={`as-${i}`} className="border-t" data-testid={`audit-skeleton-row-${i}`}>
+                    <td className="px-4 py-3"><Skeleton className="h-4 w-32" /></td>
+                    <td className="px-4 py-3"><Skeleton className="h-4 w-24 mb-1" /><Skeleton className="h-3 w-32" /></td>
+                    <td className="px-4 py-3"><Skeleton className="h-4 w-28" /></td>
+                    <td className="px-4 py-3"><Skeleton className="h-4 w-20" /></td>
+                    <td className="px-4 py-3"><Skeleton className="h-4 w-48" /></td>
+                  </tr>
+                ))
               ) : rows.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-4 py-10 text-center text-muted-foreground">
@@ -129,7 +134,13 @@ export default function AdminAudit() {
           {/* mobile cards */}
           <ul className="md:hidden divide-y">
             {loading ? (
-              <li className="px-4 py-6 text-center text-muted-foreground">Loading…</li>
+              Array.from({ length: 4 }).map((_, i) => (
+                <li key={`ams-${i}`} className="px-4 py-3 space-y-1.5" data-testid={`audit-skeleton-mobile-${i}`}>
+                  <Skeleton className="h-3 w-32" />
+                  <Skeleton className="h-4 w-2/3" />
+                  <Skeleton className="h-3 w-1/2" />
+                </li>
+              ))
             ) : rows.length === 0 ? (
               <li className="px-4 py-10 text-center text-muted-foreground">No audit events.</li>
             ) : (

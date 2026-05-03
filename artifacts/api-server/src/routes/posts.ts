@@ -46,6 +46,65 @@ router.get("/posts", async (req, res) => {
   res.json({ ok: true, total: count ?? 0, page, pageSize, posts: rows });
 });
 
+router.get("/blog/rss.xml", async (_req, res) => {
+  const rows = await db
+    .select({
+      slug: postsTable.slug,
+      title: postsTable.title,
+      excerpt: postsTable.excerpt,
+      publishedAt: postsTable.publishedAt,
+    })
+    .from(postsTable)
+    .where(eq(postsTable.status, "published"))
+    .orderBy(desc(postsTable.publishedAt))
+    .limit(50);
+
+  const escape = (s: string) =>
+    s
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+
+  const SITE = "https://leadsrubix.com";
+  const lastBuild = rows[0]?.publishedAt ? new Date(rows[0].publishedAt).toUTCString() : new Date().toUTCString();
+  const items = rows
+    .map((r) => {
+      const link = `${SITE}/blog/${r.slug}`;
+      const pub = r.publishedAt ? new Date(r.publishedAt).toUTCString() : "";
+      return [
+        "    <item>",
+        `      <title>${escape(r.title)}</title>`,
+        `      <link>${link}</link>`,
+        `      <guid isPermaLink="true">${link}</guid>`,
+        pub ? `      <pubDate>${pub}</pubDate>` : "",
+        `      <description>${escape(r.excerpt ?? "")}</description>`,
+        "    </item>",
+      ]
+        .filter(Boolean)
+        .join("\n");
+    })
+    .join("\n");
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Leads Rubix Blog</title>
+    <link>${SITE}/blog</link>
+    <atom:link href="${SITE}/api/blog/rss.xml" rel="self" type="application/rss+xml" />
+    <description>Notes on lead management, sales operations and CRM best practices for India's high-velocity sales teams.</description>
+    <language>en-in</language>
+    <lastBuildDate>${lastBuild}</lastBuildDate>
+${items}
+  </channel>
+</rss>`;
+
+  res.setHeader("Content-Type", "application/rss+xml; charset=utf-8");
+  res.setHeader("Cache-Control", "public, max-age=300, stale-while-revalidate=600");
+  res.send(xml);
+});
+
 router.get("/posts/:slug", async (req, res) => {
   const [row] = await db
     .select()

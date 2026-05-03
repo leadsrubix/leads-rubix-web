@@ -1,4 +1,5 @@
 import { Switch, Route, Router as WouterRouter } from "wouter";
+import { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -21,94 +22,137 @@ import Security from "@/pages/security";
 import Faq from "@/pages/faq";
 import Demo from "@/pages/demo";
 import CaseStudies from "@/pages/case-studies";
+import CaseStudyDetail from "@/pages/case-study-detail";
 import Compare from "@/pages/compare";
 import Blog from "@/pages/blog";
 import BlogPost from "@/pages/blog-post";
+import StatusPage from "@/pages/status";
+import Changelog from "@/pages/changelog";
 
 import { AuthProvider } from "@/admin/contexts/AuthContext";
 import RequireAuth from "@/admin/components/RequireAuth";
-import AdminLogin from "@/admin/pages/Login";
-import AdminChangePassword from "@/admin/pages/ChangePassword";
-import AdminDashboard from "@/admin/pages/Dashboard";
-import AdminLeads from "@/admin/pages/Leads";
-import AdminLeadDetail from "@/admin/pages/LeadDetail";
-import AdminContent from "@/admin/pages/Content";
-import AdminContentEdit from "@/admin/pages/ContentEdit";
-import AdminContentHistory from "@/admin/pages/ContentHistory";
-import AdminPosts from "@/admin/pages/Posts";
-import AdminPostEdit from "@/admin/pages/PostEdit";
-import AdminUsers from "@/admin/pages/Users";
-import AdminAudit from "@/admin/pages/Audit";
+
+// Admin routes are lazy-loaded so public visitors don't pay the bundle cost.
+const AdminLogin = lazy(() => import("@/admin/pages/Login"));
+const AdminChangePassword = lazy(() => import("@/admin/pages/ChangePassword"));
+const AdminDashboard = lazy(() => import("@/admin/pages/Dashboard"));
+const AdminLeads = lazy(() => import("@/admin/pages/Leads"));
+const AdminLeadDetail = lazy(() => import("@/admin/pages/LeadDetail"));
+const AdminContent = lazy(() => import("@/admin/pages/Content"));
+const AdminContentEdit = lazy(() => import("@/admin/pages/ContentEdit"));
+const AdminContentHistory = lazy(() => import("@/admin/pages/ContentHistory"));
+const AdminPosts = lazy(() => import("@/admin/pages/Posts"));
+const AdminPostEdit = lazy(() => import("@/admin/pages/PostEdit"));
+const AdminUsers = lazy(() => import("@/admin/pages/Users"));
+const AdminAudit = lazy(() => import("@/admin/pages/Audit"));
 
 const queryClient = new QueryClient();
+
+function AdminFallback() {
+  return (
+    <div className="min-h-[60vh] flex items-center justify-center text-sm text-muted-foreground" data-testid="admin-loading">
+      Loading admin…
+    </div>
+  );
+}
 
 function Router() {
   return (
     <Switch>
-      <Route path="/admin/login" component={AdminLogin} />
+      <Route path="/admin/login">
+        <Suspense fallback={<AdminFallback />}>
+          <AdminLogin />
+        </Suspense>
+      </Route>
       <Route path="/admin/change-password">
         <RequireAuth bare>
-          <AdminChangePassword />
+          <Suspense fallback={<AdminFallback />}>
+            <AdminChangePassword />
+          </Suspense>
         </RequireAuth>
       </Route>
       <Route path="/admin">
         <RequireAuth>
-          <AdminDashboard />
+          <Suspense fallback={<AdminFallback />}>
+            <AdminDashboard />
+          </Suspense>
         </RequireAuth>
       </Route>
       <Route path="/admin/dashboard">
         <RequireAuth>
-          <AdminDashboard />
+          <Suspense fallback={<AdminFallback />}>
+            <AdminDashboard />
+          </Suspense>
         </RequireAuth>
       </Route>
       <Route path="/admin/analytics">
         <RequireAuth>
-          <AdminDashboard />
+          <Suspense fallback={<AdminFallback />}>
+            <AdminDashboard />
+          </Suspense>
         </RequireAuth>
       </Route>
       <Route path="/admin/leads">
         <RequireAuth>
-          <AdminLeads />
+          <Suspense fallback={<AdminFallback />}>
+            <AdminLeads />
+          </Suspense>
         </RequireAuth>
       </Route>
       <Route path="/admin/leads/:id">
         <RequireAuth>
-          <AdminLeadDetail />
+          <Suspense fallback={<AdminFallback />}>
+            <AdminLeadDetail />
+          </Suspense>
         </RequireAuth>
       </Route>
       <Route path="/admin/content">
         <RequireAuth>
-          <AdminContent />
+          <Suspense fallback={<AdminFallback />}>
+            <AdminContent />
+          </Suspense>
         </RequireAuth>
       </Route>
       <Route path="/admin/content/:key/history">
         <RequireAuth>
-          <AdminContentHistory />
+          <Suspense fallback={<AdminFallback />}>
+            <AdminContentHistory />
+          </Suspense>
         </RequireAuth>
       </Route>
       <Route path="/admin/content/:key">
         <RequireAuth>
-          <AdminContentEdit />
+          <Suspense fallback={<AdminFallback />}>
+            <AdminContentEdit />
+          </Suspense>
         </RequireAuth>
       </Route>
       <Route path="/admin/posts">
         <RequireAuth>
-          <AdminPosts />
+          <Suspense fallback={<AdminFallback />}>
+            <AdminPosts />
+          </Suspense>
         </RequireAuth>
       </Route>
       <Route path="/admin/posts/:id">
         <RequireAuth>
-          <AdminPostEdit />
+          <Suspense fallback={<AdminFallback />}>
+            <AdminPostEdit />
+          </Suspense>
         </RequireAuth>
       </Route>
       <Route path="/admin/users">
         <RequireAuth>
-          <AdminUsers />
+          <Suspense fallback={<AdminFallback />}>
+            <AdminUsers />
+          </Suspense>
         </RequireAuth>
       </Route>
       <Route path="/admin/audit">
         <RequireAuth>
-          <AdminAudit />
+          <Suspense fallback={<AdminFallback />}>
+            <AdminAudit />
+          </Suspense>
         </RequireAuth>
       </Route>
 
@@ -122,6 +166,7 @@ function Router() {
       <Route path="/pricing" component={Pricing} />
       <Route path="/compare" component={Compare} />
       <Route path="/case-studies" component={CaseStudies} />
+      <Route path="/case-studies/:slug" component={CaseStudyDetail} />
       <Route path="/demo" component={Demo} />
       <Route path="/faq" component={Faq} />
       <Route path="/about" component={About} />
@@ -132,6 +177,8 @@ function Router() {
       <Route path="/cookies" component={Cookies} />
       <Route path="/blog" component={Blog} />
       <Route path="/blog/:slug" component={BlogPost} />
+      <Route path="/status" component={StatusPage} />
+      <Route path="/changelog" component={Changelog} />
       <Route component={NotFound} />
     </Switch>
   );

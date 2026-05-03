@@ -5,6 +5,7 @@ import { Link } from "wouter";
 import { ArrowRight, Building2, GraduationCap, Stethoscope, Banknote, Server, Factory, Car, Plane, Briefcase, TrendingUp, Clock, Users } from "lucide-react";
 import { useSEO } from "@/lib/useSEO";
 import { useContent } from "@/lib/useContent";
+import { buildCaseStudySlugs } from "@/lib/slug";
 
 function iconForTag(tag: string) {
   const t = tag.toLowerCase();
@@ -132,11 +133,15 @@ export default function CaseStudies() {
 
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4 max-w-5xl space-y-8">
-          {cms.length > 0
+          {(() => {
+            const cmsSlugs = buildCaseStudySlugs(cms.map((s) => s.tag));
+            const fallbackSlugs = buildCaseStudySlugs(stories.map((s) => s.tag));
+            return cms.length > 0
             ? cms.map((s, i) => {
                 const TagIcon = iconForTag(s.tag);
+                const slug = cmsSlugs[i]!;
                 return (
-                <Card key={i} className="border-border overflow-hidden" data-testid={`case-cms-${i}`}>
+                <Card key={i} className="border-border overflow-hidden hover:shadow-md transition-shadow" data-testid={`case-cms-${i}`}>
                   <CardContent className="p-8 md:p-10 flex flex-col md:flex-row gap-8">
                     <div className="md:w-2/3">
                       <div className="flex items-center gap-2 mb-4">
@@ -145,8 +150,13 @@ export default function CaseStudies() {
                         </div>
                         <span className="text-xs font-bold tracking-wider uppercase text-primary">{s.tag}</span>
                       </div>
-                      <h2 className="text-2xl font-bold mb-3">{s.title}</h2>
-                      <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{s.body}</p>
+                      <Link href={`/case-studies/${slug}`} className="hover:underline" data-testid={`link-case-${slug}`}>
+                        <h2 className="text-2xl font-bold mb-3">{s.title}</h2>
+                      </Link>
+                      <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap line-clamp-4">{s.body}</p>
+                      <Link href={`/case-studies/${slug}`} className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary hover:underline" data-testid={`link-case-read-${slug}`}>
+                        Read full story <ArrowRight className="h-3.5 w-3.5" />
+                      </Link>
                     </div>
                     <div className="md:w-1/3 grid grid-cols-3 md:grid-cols-1 gap-4 md:border-l md:border-border md:pl-8">
                       {[s.metric1, s.metric2, s.metric3]
@@ -162,8 +172,10 @@ export default function CaseStudies() {
                 </Card>
                 );
               })
-            : stories.map((s) => (
-            <Card key={s.headline} className="border-border overflow-hidden">
+            : stories.map((s, i) => {
+              const slug = fallbackSlugs[i]!;
+              return (
+            <Card key={s.headline} className="border-border overflow-hidden hover:shadow-md transition-shadow">
               <CardContent className="p-8 md:p-10 flex flex-col md:flex-row gap-8">
                 <div className="md:w-2/3">
                   <div className="flex items-center gap-2 mb-4">
@@ -172,8 +184,13 @@ export default function CaseStudies() {
                     </div>
                     <span className="text-xs font-bold tracking-wider uppercase text-primary">{s.tag}</span>
                   </div>
-                  <h2 className="text-2xl font-bold mb-3">{s.headline}</h2>
+                  <Link href={`/case-studies/${slug}`} className="hover:underline" data-testid={`link-case-${slug}`}>
+                    <h2 className="text-2xl font-bold mb-3">{s.headline}</h2>
+                  </Link>
                   <p className="text-muted-foreground leading-relaxed">{s.summary}</p>
+                  <Link href={`/case-studies/${slug}`} className="inline-flex items-center gap-1 mt-3 text-sm font-medium text-primary hover:underline" data-testid={`link-case-read-${slug}`}>
+                    Read full story <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
                 </div>
                 <div className="md:w-1/3 grid grid-cols-3 md:grid-cols-1 gap-4 md:border-l md:border-border md:pl-8">
                   {s.metrics.map((m) => (
@@ -185,7 +202,9 @@ export default function CaseStudies() {
                 </div>
               </CardContent>
             </Card>
-          ))}
+              );
+            });
+          })()}
         </div>
       </section>
 

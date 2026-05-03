@@ -45,6 +45,17 @@ export default function IndustryDetail() {
       : "Industry — Leads Rubix CRM",
     description: item?.description ?? "",
     canonical: `https://leadsrubix.com/industries/${slug}`,
+    jsonLd: item
+      ? {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://leadsrubix.com/" },
+            { "@type": "ListItem", position: 2, name: "Industries", item: "https://leadsrubix.com/industries" },
+            { "@type": "ListItem", position: 3, name: item.name, item: `https://leadsrubix.com/industries/${slug}` },
+          ],
+        }
+      : undefined,
   });
 
   if (!item) {
@@ -64,6 +75,10 @@ export default function IndustryDetail() {
   const ctaLabel = item.ctaLabel?.trim() || "Book a Demo";
   const ctaHref = item.ctaHref?.trim() || "/demo";
   const ctaIsExternal = /^https?:\/\//i.test(ctaHref);
+  const industryDemoHref =
+    !ctaIsExternal && (ctaHref === "/demo" || ctaHref.startsWith("/demo"))
+      ? `/demo?industry=${encodeURIComponent(slug)}`
+      : ctaHref;
 
   return (
     <Layout>
@@ -101,11 +116,11 @@ export default function IndustryDetail() {
               <div className="flex flex-wrap gap-3">
                 <Button asChild size="lg" data-testid="btn-industry-cta">
                   {ctaIsExternal ? (
-                    <a href={ctaHref} target="_blank" rel="noopener noreferrer">
+                    <a href={industryDemoHref} target="_blank" rel="noopener noreferrer">
                       {ctaLabel} <ArrowRight className="ml-2 h-5 w-5" />
                     </a>
                   ) : (
-                    <Link href={ctaHref}>
+                    <Link href={industryDemoHref}>
                       {ctaLabel} <ArrowRight className="ml-2 h-5 w-5" />
                     </Link>
                   )}

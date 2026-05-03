@@ -8,11 +8,19 @@
   <url><loc>https://leadsrubix.com/security</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://leadsrubix.com/compare</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://leadsrubix.com/case-studies</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://leadsrubix.com/case-studies/real-estate</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://leadsrubix.com/case-studies/education</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://leadsrubix.com/case-studies/healthcare</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://leadsrubix.com/case-studies/bfsi</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://leadsrubix.com/case-studies/saas</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://leadsrubix.com/case-studies/manufacturing</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://leadsrubix.com/demo</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://leadsrubix.com/faq</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://leadsrubix.com/about</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://leadsrubix.com/contact</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://leadsrubix.com/blog</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://leadsrubix.com/changelog</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://leadsrubix.com/status</loc><changefreq>daily</changefreq><priority>0.5</priority></url>
   <url><loc>https://leadsrubix.com/industries</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
   <url><loc>https://leadsrubix.com/industries/real-estate</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://leadsrubix.com/industries/education</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>

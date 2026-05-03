@@ -1,0 +1,37 @@
+Conversion & growth (highest leverage)
+A/B testing harness — flag-driven variants for hero headline, pricing CTA copy, and demo form length. Even a tiny useExperiment(key) hook + an experiments CMS row would let you ship tests without redeploys.
+Industry-specific demo forms — currently the form is generic. Pre-fill industry context from /industries/:slug → /demo?industry=education, and personalize the thank-you screen.
+Live social proof ticker — small "Just now: a real estate team in Mumbai booked a demo" ticker (CMS-controlled, fake-but-plausible) on pricing/home — proven to lift conversion.
+Calendly / Cal.com embed on /demo — instead of "we'll get back to you", let prospects self-book. Massive drop-off saver.
+Pricing page comparison toggle — "Compare to Salesforce / HubSpot / Zoho" inline switcher with feature checkmarks, since you already have /compare.
+SEO & content engine
+Programmatic SEO landing pages — /lead-management-software-for-:industry-in-:city (8 industries × top 12 Indian cities = 96 pages) generated from CMS templates. Big organic moat.
+Blog: related posts + reading time + table of contents — increases dwell time and pageviews/session.
+RSS feed + JSON feed at /blog/rss.xml for syndication.
+Image optimization — your hero/og images are likely raw JPGs. Add <picture> with WebP/AVIF and loading="lazy" outside the fold.
+Schema enrichments — BreadcrumbList on industry pages, Article on blog posts, Review schema once you have testimonials.
+Trust & credibility
+Customer logo bar with real logos (currently placeholders if I recall). Even 5 real names lift conversion 10–20%.
+Case study detail pages — /case-studies/:slug with metrics, quote, before/after. The case_studies CMS row was created — wire it.
+Security & compliance page — /security covering SOC 2 posture, data residency (India servers matters for your ICP), DPDP Act compliance. Short page, big trust signal.
+Status page — /status with last-90-day uptime (can be static-fed from CMS initially).
+Admin & operations
+Lead scoring — auto-score on intake (industry match, company size, message length, UTM source) and surface "hot leads" in the admin.
+Saved views & filters in /admin/leads — by status, assignee, tag, date range; persist per user.
+Email digest for admins — daily summary of new leads, integrated with the existing LEAD_NOTIFICATION_WEBHOOK.
+Activity timeline on lead detail — expand beyond status changes to include emails, notes, calls (manual logging UI).
+Two-factor auth (TOTP) for admin accounts — your admin-users table already has the security infra.
+API rate-limit headers (X-RateLimit-*) on the public contact endpoint so you're transparent.
+Performance & quality
+Route-level code splitting — currently everything bundles together. React.lazy on /admin/* alone would shave 100–300KB from public visitors.
+Lighthouse pass — run it on /, /pricing, /industries/education and chase the wins (likely CLS from late-loading images and unused CSS).
+Skeleton loaders instead of blank states on /blog, /admin/leads, /admin/audit.
+Real e2e suite in CI — Playwright tests that run on every push (you already test interactively; codify the critical paths).
+Error monitoring — Sentry (free tier) for both client and server. Currently if something breaks in production you only know via user reports.
+Internationalization
+Hindi locale — /hi/* parallel routes. India's tier-2/3 SMB market converts 2-3x better in Hindi for this kind of B2B tool.
+Currency localization — show ₹ to IN, $ to others (auto-detected via Accept-Language or IP, with a manual switch).
+UX polish
+Search — global search bar in the navbar (Cmd+K) covering pages + blog posts. Makes the site feel like a product.
+"What's new" changelog page — /changelog driven by CMS or a simple releases table. Builds trust + gives sales/support reusable links.
+Demo video on home hero — 30-second product walkthrough (autoplay-muted) instead of a static image.

@@ -10,9 +10,28 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { CalendarCheck, Clock, Headphones, PlayCircle, CheckCircle2, ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "wouter";
 import { useSEO } from "@/lib/useSEO";
+
+const INDUSTRY_LABELS: Record<string, string> = {
+  "real-estate": "real estate",
+  "education": "education",
+  "healthcare": "healthcare",
+  "automotive": "automotive",
+  "financial-services": "financial services",
+  "travel": "travel",
+  "saas": "SaaS",
+  "manufacturing": "manufacturing",
+};
+
+function readIndustryFromQuery(): string | null {
+  if (typeof window === "undefined") return null;
+  const sp = new URLSearchParams(window.location.search);
+  const raw = (sp.get("industry") ?? "").toLowerCase().trim();
+  if (!raw) return null;
+  return INDUSTRY_LABELS[raw] ? raw : null;
+}
 
 const demoSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -37,11 +56,27 @@ export default function Demo() {
   const { toast } = useToast();
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [industrySlug] = useState<string | null>(readIndustryFromQuery);
+  const industryLabel = useMemo(
+    () => (industrySlug ? INDUSTRY_LABELS[industrySlug] ?? null : null),
+    [industrySlug],
+  );
+
+  const defaultMessage = industryLabel
+    ? `We run a ${industryLabel} sales team and want to see how Leads Rubix would handle our lead intake, routing and follow-up cadence.`
+    : "";
 
   const form = useForm<z.infer<typeof demoSchema>>({
     resolver: zodResolver(demoSchema),
-    defaultValues: { name: "", email: "", company: "", phone: "", teamSize: "", message: "", website: "" },
+    defaultValues: { name: "", email: "", company: "", phone: "", teamSize: "", message: defaultMessage, website: "" },
   });
+
+  useEffect(() => {
+    if (defaultMessage && !form.getValues("message")) {
+      form.setValue("message", defaultMessage);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function onSubmit(values: z.infer<typeof demoSchema>) {
     setSubmitting(true);
@@ -49,7 +84,10 @@ export default function Demo() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, source: "demo-page" }),
+        body: JSON.stringify({
+          ...values,
+          source: industrySlug ? `demo-page-${industrySlug}` : "demo-page",
+        }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setSubmitted(true);
@@ -80,12 +118,18 @@ export default function Demo() {
     <Layout>
       <section className="py-20 bg-slate-50 border-b">
         <div className="container mx-auto px-4 text-center max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary font-medium text-sm mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary font-medium text-sm mb-6" data-testid="demo-pill">
             <CalendarCheck className="h-3.5 w-3.5" />
-            Personalised live demo
+            {industryLabel ? `Personalised demo for ${industryLabel} teams` : "Personalised live demo"}
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">See Leads Rubix in action</h1>
-          <p className="text-xl text-muted-foreground">A real product walkthrough with our India team. Tell us a little about your team and we'll set up a 30-minute call within one business day.</p>
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6" data-testid="demo-h1">
+            {industryLabel ? `See Leads Rubix for ${industryLabel}` : "See Leads Rubix in action"}
+          </h1>
+          <p className="text-xl text-muted-foreground">
+            {industryLabel
+              ? `A real product walkthrough configured for ${industryLabel} sales teams. Tell us about your pipeline and we'll tailor the demo to your workflows.`
+              : "A real product walkthrough with our India team. Tell us a little about your team and we'll set up a 30-minute call within one business day."}
+          </p>
         </div>
       </section>
 
@@ -103,7 +147,9 @@ export default function Demo() {
                       </div>
                       <h2 className="text-2xl font-bold mb-3">Got it — talk soon</h2>
                       <p className="text-muted-foreground max-w-md mx-auto mb-6">
-                        Our team will reach out within one business day to confirm a slot. In the meantime, you can start exploring the product.
+                        {industryLabel
+                          ? `Our team will reach out within one business day to schedule a walkthrough tailored to ${industryLabel} sales teams.`
+                          : "Our team will reach out within one business day to confirm a slot. In the meantime, you can start exploring the product."}
                       </p>
                       <Button asChild data-testid="btn-demo-trial">
                         <a href="https://app.leadsrubix.com/" target="_blank" rel="noopener noreferrer">

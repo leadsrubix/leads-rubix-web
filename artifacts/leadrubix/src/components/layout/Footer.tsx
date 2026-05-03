@@ -70,6 +70,8 @@ const DEFAULT_FOOTER_LINKS: FooterLinks = {
     { label: "Contact", href: "/contact" },
     { label: "FAQ", href: "/faq" },
     { label: "Blog", href: "/blog" },
+    { label: "Changelog", href: "/changelog" },
+    { label: "Status", href: "/status" },
   ],
   legalHeading: "Legal",
   legalLinks: [

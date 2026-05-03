@@ -4,6 +4,7 @@ import { Layout } from "@/components/layout/Layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useSEO } from "@/lib/useSEO";
 
 interface BlogPostListItem {
@@ -106,7 +107,19 @@ export default function Blog() {
           </div>
 
           {posts === null ? (
-            <p className="text-center text-muted-foreground">Loading…</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5" data-testid="blog-skeleton">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <Card key={i}>
+                  <CardContent className="p-6">
+                    <Skeleton className="aspect-[16/9] w-full rounded-md mb-4" />
+                    <Skeleton className="h-6 w-3/4 mb-3" />
+                    <Skeleton className="h-4 w-full mb-1.5" />
+                    <Skeleton className="h-4 w-5/6 mb-1.5" />
+                    <Skeleton className="h-4 w-2/3" />
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           ) : posts.length === 0 ? (
             <p className="text-center text-muted-foreground">No posts yet — check back soon.</p>
           ) : (
