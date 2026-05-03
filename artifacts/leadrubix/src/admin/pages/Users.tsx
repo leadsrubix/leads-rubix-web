@@ -157,7 +157,8 @@ export default function AdminUsers() {
 
       <Card>
         <CardContent className="p-0 overflow-x-auto">
-          <table className="w-full text-sm">
+          {/* desktop table */}
+          <table className="w-full text-sm hidden md:table">
             <thead className="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
               <tr>
                 <th className="px-4 py-3">Email</th>
@@ -199,6 +200,37 @@ export default function AdminUsers() {
               )}
             </tbody>
           </table>
+
+          {/* mobile cards */}
+          <ul className="md:hidden divide-y">
+            {loading ? (
+              <li className="px-4 py-6 text-center text-muted-foreground">Loading…</li>
+            ) : users.length === 0 ? (
+              <li className="px-4 py-10 text-center text-muted-foreground">No admins yet.</li>
+            ) : (
+              users.map((u) => (
+                <li key={u.id} className="px-4 py-3 flex items-start justify-between gap-3">
+                  <div className="min-w-0 flex-1">
+                    <div className="font-medium truncate">{u.name}</div>
+                    <div className="text-xs text-slate-500 truncate">{u.email}</div>
+                    <div className="text-[11px] text-slate-500 mt-1">
+                      <span className="capitalize">{u.role}</span>
+                      {u.createdAt ? ` · ${new Date(u.createdAt).toLocaleDateString()}` : ""}
+                    </div>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    disabled={u.id === me?.id}
+                    onClick={() => void remove(u)}
+                    data-testid={`btn-delete-user-${u.id}`}
+                  >
+                    <Trash2 className="size-4" />
+                  </Button>
+                </li>
+              ))
+            )}
+          </ul>
         </CardContent>
       </Card>
     </div>

@@ -35,7 +35,8 @@ export default function AdminPosts() {
 
       <Card>
         <CardContent className="p-0 overflow-x-auto">
-          <table className="w-full text-sm">
+          {/* desktop table */}
+          <table className="w-full text-sm hidden md:table">
             <thead className="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
               <tr>
                 <th className="px-4 py-3">Title</th>
@@ -86,6 +87,43 @@ export default function AdminPosts() {
               )}
             </tbody>
           </table>
+
+          {/* mobile cards */}
+          <ul className="md:hidden divide-y">
+            {loading ? (
+              <li className="px-4 py-6 text-center text-muted-foreground">Loading…</li>
+            ) : posts.length === 0 ? (
+              <li className="px-4 py-10 text-center text-muted-foreground">No posts yet.</li>
+            ) : (
+              posts.map((p) => (
+                <li key={p.id} className="px-4 py-3 flex items-start justify-between gap-3">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Badge
+                        variant={p.status === "published" ? "default" : "outline"}
+                        className="text-[10px]"
+                      >
+                        {p.status}
+                      </Badge>
+                      <span className="text-[11px] text-slate-500 tabular-nums">
+                        {new Date(p.updatedAt).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <div className="font-medium truncate">{p.title}</div>
+                    <div className="font-mono text-[11px] text-slate-500 truncate">{p.slug}</div>
+                  </div>
+                  <Button
+                    asChild
+                    size="sm"
+                    variant="outline"
+                    data-testid={`btn-edit-post-${p.id}`}
+                  >
+                    <Link href={`/admin/posts/${p.id}`}>Edit</Link>
+                  </Button>
+                </li>
+              ))
+            )}
+          </ul>
         </CardContent>
       </Card>
     </div>
