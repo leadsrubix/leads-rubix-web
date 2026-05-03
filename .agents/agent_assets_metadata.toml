@@ -66,3 +66,27 @@ id = "k0E01kBboTY7ghogasBqk"
 uri = "file://artifacts/leadrubix/public/feature-analytics.png"
 type = "image"
 title = "analytics and reporting dashboard"
+
+[[generated]]
+id = "3FfQreFM-bagIzxL3VB31"
+uri = "file://attached_assets/generated_images/generated_image.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "dBzq8vRZt2CLh7MF1Pt5K"
+uri = "file://artifacts/leadrubix/public/blog-covers/round-robin-lead-routing.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "Z3-vKugR2mDOZIGVbwyXK"
+uri = "file://artifacts/leadrubix/public/blog-covers/whatsapp-first-lead-capture.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "R-ROHB_P1t1V5n3a5uCIo"
+uri = "file://artifacts/leadrubix/public/blog-covers/gst-compliant-pricing-in-crm.png"
+type = "image"
+title = "generated_image"

@@ -14,6 +14,14 @@ I prefer to work iteratively. Please ask before making major changes. I value cl
 
 The project is structured as a pnpm workspace monorepo, with each package managing its own dependencies. Key packages include `@workspace/api-server` for the backend, `@workspace/leadrubix` for the frontend, and shared libraries.
 
+## Recent updates (v3.3 — May 2026, pre-launch polish batch)
+
+- **Blog cover images** — Generated 3 brand-aligned editorial illustrations under `artifacts/leadrubix/public/blog-covers/*.png` (round-robin routing, WhatsApp-first capture, GST-compliant pricing) and attached them as both `cover_image` and `og_image` on the corresponding posts so listings, detail pages, and social-share previews all light up.
+- **Dynamic `/sitemap.xml`** — New `artifacts/api-server/src/routes/sitemap.ts` serves a sitemap at the canonical root path (not under `/api`). It enumerates all marketing/static URLs plus every published-and-past-`publishedAt` post (so scheduled drafts stay private), with `lastmod` and per-section change frequencies. The api-server artifact's `paths = ["/api", "/sitemap.xml"]` claims the route through the shared proxy. Output validated end-to-end via `curl localhost:80/sitemap.xml`.
+- **Branded 404** — `src/pages/not-found.tsx` rewritten to use the global `Layout`, with three primary CTAs (home / blog / contact) and a quick-link grid covering the eight most-trafficked sections, so misdirected traffic recovers to a useful page instead of bouncing.
+- **In-article lead magnet** — New `BlogLeadMagnet` component wraps `InlineLeadForm` with a "download the playbook" framing and a `placement={`blog-${slug}`}` source tag. Mounted between the post body and related-reads grid in `blog-post.tsx` so every long-form read has an inline conversion path with per-post attribution.
+- **Industry-page lead capture** — `industry-detail.tsx` gained an `InlineLeadForm` (placement-tagged `industry-${slug}`, copy templated from `item.name`) immediately above the dark closing CTA, giving each vertical its own trackable conversion surface in admin analytics without disrupting the existing demo / contact CTAs.
+
 ## Recent updates (v3.2 — May 2026, pre-launch fixes)
 
 - **CMS-driven phone & WhatsApp** — `footer_contact` content section now carries `phone` (international format, e.g. `+91-9871633838`) and `whatsapp` (digits-only international, e.g. `919871633838`). Both validated server-side in `content-validators.ts` and editable via the admin Content tab. The home + contact `LocalBusiness` JSON-LD now reads the CMS phone via `useContent`; the floating `WhatsAppFab` reads the CMS number and hides itself entirely when blank (no more placeholder `919999999999`). Real Leads Rubix numbers seeded.

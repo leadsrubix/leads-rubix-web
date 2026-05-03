@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, Clock, ListTree } from "lucide-react";
 import { useSEO } from "@/lib/useSEO";
 import { extractToc, readingTimeMinutes, type TocHeading } from "@/lib/readingTime";
+import { BlogLeadMagnet } from "@/components/marketing/BlogLeadMagnet";
 
 interface BlogPost {
   id: string;
@@ -222,6 +223,10 @@ export default function BlogPostPage() {
                     {post.body}
                   </ReactMarkdown>
                 </div>
+
+                {/* In-article lead magnet — sits between body end and related
+                    reads. Conversion-tagged per slug. */}
+                <BlogLeadMagnet slug={post.slug} />
 
                 {related.length > 0 ? (
                   <section className="mt-16 pt-10 border-t" data-testid="related-posts">

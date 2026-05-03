@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { useSEO } from "@/lib/useSEO";
 import { useContent } from "@/lib/useContent";
+import { InlineLeadForm } from "@/components/marketing/InlineLeadForm";
 import {
   DEFAULT_INDUSTRIES,
   getIndustryIcon,
@@ -714,6 +715,20 @@ export default function IndustryDetail() {
           </div>
         </section>
       ) : null}
+
+      {/* Inline lead capture — placement-tagged per industry so admin
+          analytics can split conversion by vertical. */}
+      <section className="py-16 md:py-20 bg-white border-b">
+        <div className="container mx-auto px-4 max-w-3xl">
+          <InlineLeadForm
+            placement={`industry-${slug}`}
+            title={`See Leads Rubix configured for ${item.name.toLowerCase()}`}
+            subtitle={`Tell us where to reach you — a specialist who knows ${item.name.toLowerCase()} workflows will set up a 20-minute walkthrough on your data.`}
+            ctaLabel="Book my walkthrough"
+            message={`Inline enquiry from /industries/${slug} — please contact me about Leads Rubix for ${item.name}.`}
+          />
+        </div>
+      </section>
 
       {/* CTA */}
       <section className="py-20 md:py-24 bg-gradient-to-br from-[#252140] to-[#16142B] text-white">

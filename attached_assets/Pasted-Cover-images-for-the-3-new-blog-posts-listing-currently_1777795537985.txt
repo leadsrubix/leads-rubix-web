@@ -1,0 +1,21 @@
+Cover images for the 3 new blog posts — listing currently shows blank tiles. I can generate brand-aligned hero illustrations (#252140 palette) and attach them as coverImage + ogImage so social shares look premium.
+Sitemap + robots.txt sanity check — confirm /sitemap.xml is auto-rebuilding to include the 3 new posts and is referenced from robots.txt. Critical for indexing.
+404 + 500 pages — verify they exist, are on-brand, and have a "Back to home" CTA so accidental link rot doesn't bleed conversions.
+Open Graph default image — check /opengraph.jpg exists at the URL referenced in JSON-LD; if not, generate one. Right now LinkedIn/WhatsApp shares may show no preview.
+Medium impact
+5. Industry page polish (you're on /industries/education) — add industry-specific testimonial + case-study cross-link + tailored InlineLeadForm pre-fill (source=industry-education). Same for the other 7 industries you have.
+
+Lead magnet on the blog — the 3 new posts are good; add a soft inline CTA card mid-article ("Get the WhatsApp template pack" → captures email). Higher conversion than a generic "Book a demo" footer.
+Pricing page schema — add Product + Offer JSON-LD with the actual ₹ tiers so Google can show price-rich results.
+Email-deliverability hygiene — verify SPF/DKIM/DMARC for hello@leadsrubix.com and support@leadsrubix.com so contact-form replies don't land in spam.
+Pre-deploy checklist
+9. Lighthouse pass — run perf/SEO/a11y audit on home + pricing + a blog post; fix anything red.
+
+Production secrets review — make sure SESSION_SECRET is rotated for prod, LEAD_NOTIFICATION_WEBHOOK is set, real tracking IDs are in tracking_pixels CMS.
+Admin password rotation — confirm the admin@leadsrubix.com first-login force-change actually fires before the site goes public.
+Custom domain + HTTPS — wire leadsrubix.com DNS to the Replit deployment, verify the cert.
+Nice-to-have, deferrable
+13. Author pages on the blog (so each post has a credible byline + LinkedIn link → trust signal).
+
+Reading-time estimate + table of contents on long posts.
+RSS-to-LinkedIn auto-post (Make.com / Zapier off the existing /rss.xml).
