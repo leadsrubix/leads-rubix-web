@@ -55,7 +55,7 @@ export function Navbar() {
             href="https://app.leadsrubix.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-[#252140] text-[#FFFFFF] px-6 py-2.5 rounded-full text-sm font-medium hover:bg-[#252140] shadow-lg shadow-slate-900/5 transition-all duration-300"
+            className="bg-[#252140] text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-[#16142B] shadow-lg shadow-[#252140]/20 transition-all duration-300"
             data-testid="btn-freetrial"
           >
             Start Free Trial
@@ -97,7 +97,7 @@ export function Navbar() {
                   href="https://app.leadsrubix.com/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full text-center bg-[#252140] text-[#FFFFFF] px-6 py-2.5 rounded-full text-sm font-medium hover:bg-[#252140] transition-colors"
+                  className="w-full text-center bg-[#252140] text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-[#16142B] transition-colors"
                   data-testid="btn-mobile-freetrial"
                 >
                   Start Free Trial

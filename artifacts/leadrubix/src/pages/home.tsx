@@ -394,7 +394,7 @@ export default function Home() {
         <section className="py-32 bg-[#252140] text-[#FFFFFF]">
           <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#252140]/20 rounded-full text-xs font-semibold tracking-widest uppercase text-[#E4E4EF] mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 border border-white/20 rounded-full text-xs font-semibold tracking-widest uppercase text-white/90 mb-6">
                 Core Technology
               </div>
               <h2 className="font-['Fraunces'] text-4xl md:text-5xl mb-8 font-medium">Never let a lead go cold again.</h2>
@@ -428,7 +428,7 @@ export default function Home() {
                     <div className="text-sm font-semibold mb-1 text-[#F1F1F9]">Incoming: Facebook Ads</div>
                     <div className="text-xs text-[#F1F1F9]/60 font-medium">Project: Horizon Towers</div>
                   </div>
-                  <div className="text-xs bg-[#252140] text-[#FFFFFF] px-3 py-1.5 rounded-full font-semibold shadow-sm">Just Now</div>
+                  <div className="text-xs bg-white text-[#252140] px-3 py-1.5 rounded-full font-semibold shadow-sm">Just Now</div>
                 </div>
                 <div className="flex justify-center my-3">
                   <ArrowRight className="w-6 h-6 text-[#252140] rotate-90 opacity-80" />
@@ -669,7 +669,7 @@ export default function Home() {
               href="https://app.leadsrubix.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-[#252140] text-[#FFFFFF] px-10 py-5 rounded-full text-lg font-bold hover:bg-[#FFFFFF] hover:text-[#252140] shadow-xl shadow-slate-900/20 hover:-translate-y-1 transition-all duration-300"
+              className="inline-block bg-white text-[#252140] px-10 py-5 rounded-full text-lg font-bold hover:bg-[#F1F1F9] shadow-xl shadow-black/30 hover:-translate-y-1 transition-all duration-300"
             >
               Start Your Free Trial
             </a>
