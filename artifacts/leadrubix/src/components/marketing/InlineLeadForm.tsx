@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { annotateSource } from "@/lib/utm";
+import { trackEvent } from "@/lib/ab";
 import { CheckCircle2 } from "lucide-react";
 
 const formSchema = z.object({
@@ -56,6 +57,7 @@ export function InlineLeadForm({
 
   async function onSubmit(values: FormValues) {
     setSubmitting(true);
+    trackEvent("form_submit", { form_placement: placement });
     try {
       // Server requires message ≥ 10 chars — pad short overrides defensively.
       const fallbackMsg = `Inline lead via ${placement} — please contact me.`;
@@ -76,6 +78,7 @@ export function InlineLeadForm({
         body: JSON.stringify(body),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      trackEvent("form_submit_success", { form_placement: placement });
       setDone(true);
       toast({
         title: "Got it — talk soon",
@@ -83,6 +86,7 @@ export function InlineLeadForm({
       });
       form.reset();
     } catch {
+      trackEvent("form_submit_error", { form_placement: placement });
       toast({
         title: "Couldn't submit",
         description: "Please email hello@leadsrubix.com and we'll respond shortly.",

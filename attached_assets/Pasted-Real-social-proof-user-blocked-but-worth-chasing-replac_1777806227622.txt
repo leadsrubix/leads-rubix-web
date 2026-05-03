@@ -1,0 +1,28 @@
+Real social proof (user-blocked but worth chasing) — replace placeholder logos, fake G2 badges, and stub case studies with 2–3 real ones. Even one signed case study with a customer photo + numeric outcome doubles demo conversion.
+Pricing transparency — current /pricing lists tiers but no India-specific add-ons (WhatsApp BSP costs, GST, per-seat overages). A simple "what's included / what's extra" table reduces sales-cycle friction.
+Exit-intent offer — exit-intent modal exists but only collects emails. Swap to a real magnet: "Free 30-min lead-ops audit" or downloadable "CRM RFP template (.docx)" — captures higher-intent leads.
+Lead routing on the admin side — scoring is now in the DB but nobody's acting on it. Add an assigned_to flow on /admin/leads so hot leads auto-route to a sales user with an SLA timer.
+Calendly/Cal.com confirmation flow — when a demo is booked via the Cal embed, fire a webhook back to our API to mark the lead score += 20 and set status = 'demo_booked'.
+Tier 2 — Trust & SEO depth
+Publish those 4 blog drafts — they're seeded as drafts; needs human review + hero images + author bio. Each is targeted at a real Indian search query.
+Schema.org rich snippets — add Product + AggregateRating JSON-LD on /pricing and FAQPage on industry pages so Google shows star ratings + Q&A in SERP.
+Internal linking pass — glossary is live but no blog post or industry page links into it. A 30-min sweep adding 2–3 contextual glossary links per major page lifts every glossary URL.
+Sitemap freshness + IndexNow — auto-ping Bing/Yandex IndexNow when a post publishes; current sitemap is static-ish.
+/compare pages depth — competitor pages exist but are thin. Add a real feature matrix vs Zoho/Freshsales/HubSpot — these rank fast for "X alternative" searches.
+Tier 3 — Product polish
+Lighthouse pass — hero image is preloaded but not fetchpriority="high"; some unused JS in the route bundle. Realistic LCP win: 0.8s → 1.4s on 3G.
+Dark-mode QA — toggle exists but a few CMS-driven sections (testimonials, glossary tables) have low contrast in dark mode.
+404 page upgrade — current 404 is plain. Add top-3 popular posts + glossary search box so bounces convert.
+Form analytics — instrument every step of the contact form (field focus, abandon, validation error) into GA4 events. We'll see exactly where leads drop off.
+A/B test framework — add a tiny client-side variant assigner keyed by visitor ID so we can A/B headlines on / and /pricing without a third-party tool.
+Tier 4 — Ops & reliability
+Wire LEAD_NOTIFICATION_WEBHOOK — the Slack/Make webhook secret is still missing. Without it the score/band data we just added isn't reaching sales.
+Wire the synthetic monitor — script is built; needs to actually run on cron-job.org or GitHub Actions every 5 min.
+Rate-limit the contact endpoint — DPDP route is rate-limited but /api/contact isn't; one bot can flood the leads table.
+Backup job for the Postgres — Hostinger external Postgres needs a daily pg_dump to object storage with 30-day retention.
+Audit log + admin 2FA — admin panel still uses single-factor login; add TOTP and audit-log every CMS edit (table already exists).
+Tier 5 — Brand & content (what the user is currently viewing)
+You're looking at /industries/education — that page (and its siblings: real-estate, healthcare, manufacturing) all share a templated layout with stock-style copy. Two specific fixes:
+
+Industry-specific data points — e.g. for education: "Average 47% of admission enquiries lost to slow follow-up (NIEPA 2024)". Each industry page should have at least 3 cited stats. Massive SERP credibility win.
+Industry-specific testimonials — even one real quote per vertical, with name + designation + institution, beats a generic carousel.

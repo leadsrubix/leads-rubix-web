@@ -842,7 +842,16 @@ export default function Home() {
           </div>
         </section>
       </div>
-      <ExitIntentModal storageKey="leadsrubix-exit-intent-home" />
+      <ExitIntentModal
+        storageKey="leadsrubix-exit-intent-home"
+        title="Before you go — free CRM RFP template"
+        body="10 questions every Indian sales team should ask their next CRM, plus a printable vendor scoring sheet. No email required."
+        magnet={{
+          label: "Download RFP template",
+          href: "/leadsrubix-crm-rfp-template.html",
+          downloadAs: "leadsrubix-crm-rfp-template.html",
+        }}
+      />
     </Layout>
   );
 }

@@ -8,6 +8,7 @@ import socialProofRouter from "./social-proof";
 import telemetryRouter from "./telemetry";
 import ogRouter from "./og";
 import dataRequestRouter from "./data-request";
+import calWebhookRouter from "./cal-webhook";
 import adminRouter from "./admin";
 
 const router: IRouter = Router();
@@ -21,6 +22,7 @@ router.use(socialProofRouter);
 router.use(telemetryRouter);
 router.use(ogRouter);
 router.use(dataRequestRouter);
+router.use(calWebhookRouter);
 router.use("/admin", adminRouter);
 
 export default router;

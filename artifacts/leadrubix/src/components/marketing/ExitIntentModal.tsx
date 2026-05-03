@@ -9,15 +9,24 @@ interface ExitIntentModalProps {
   ctaLabel?: string;
   ctaHref?: string;
   delayMs?: number;
+  /**
+   * When provided, swaps the CTA to a free downloadable lead-magnet (e.g. an
+   * RFP template). The href should point at a public asset; we set the
+   * `download` attribute so browsers save instead of navigating.
+   */
+  magnet?: { label: string; href: string; downloadAs?: string };
+  secondaryLabel?: string;
 }
 
 export function ExitIntentModal({
   storageKey,
-  title = "Wait — see it before you go",
-  body = "Get a personalised 15-minute walkthrough of Leads Rubix, tailored to your industry and team size. No credit card needed.",
+  title = "Before you go — grab the free RFP template",
+  body = "10 questions every Indian real-estate / education / financial-services team should ask their next CRM. Filled-in sample plus a blank Word version. No email required.",
   ctaLabel = "Book a free demo",
   ctaHref = "/demo",
   delayMs = 5000,
+  magnet,
+  secondaryLabel = "Not now",
 }: ExitIntentModalProps) {
   const [open, setOpen] = useState(false);
   const armedRef = useRef(false);
@@ -173,22 +182,44 @@ export function ExitIntentModal({
         </h2>
         <p className="text-sm text-muted-foreground mb-6">{body}</p>
         <div className="flex flex-col sm:flex-row gap-3">
-          <Link
-            ref={ctaRef as unknown as React.Ref<HTMLAnchorElement>}
-            href={ctaHref}
-            onClick={close}
-            className="inline-flex items-center justify-center gap-2 bg-[#252140] hover:bg-[#16142B] text-white text-sm font-semibold px-5 py-3 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
-            data-testid="exit-intent-cta"
-          >
-            {ctaLabel} <ArrowRight className="h-4 w-4" />
-          </Link>
+          {magnet ? (
+            <a
+              ref={ctaRef as unknown as React.Ref<HTMLAnchorElement>}
+              href={magnet.href}
+              download={magnet.downloadAs ?? true}
+              onClick={() => {
+                try {
+                  const w = window as unknown as { dataLayer?: unknown[] };
+                  w.dataLayer = w.dataLayer || [];
+                  w.dataLayer.push({ event: "magnet_download", magnet_href: magnet.href });
+                } catch {
+                  /* noop */
+                }
+                close();
+              }}
+              className="inline-flex items-center justify-center gap-2 bg-[#252140] hover:bg-[#16142B] text-white text-sm font-semibold px-5 py-3 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
+              data-testid="exit-intent-cta"
+            >
+              {magnet.label} <ArrowRight className="h-4 w-4" />
+            </a>
+          ) : (
+            <Link
+              ref={ctaRef as unknown as React.Ref<HTMLAnchorElement>}
+              href={ctaHref}
+              onClick={close}
+              className="inline-flex items-center justify-center gap-2 bg-[#252140] hover:bg-[#16142B] text-white text-sm font-semibold px-5 py-3 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
+              data-testid="exit-intent-cta"
+            >
+              {ctaLabel} <ArrowRight className="h-4 w-4" />
+            </Link>
+          )}
           <button
             type="button"
             onClick={close}
             className="inline-flex items-center justify-center text-sm font-medium text-muted-foreground hover:text-foreground px-5 py-3 rounded-full"
             data-testid="exit-intent-dismiss"
           >
-            Not now
+            {secondaryLabel}
           </button>
         </div>
         <p className="text-xs text-muted-foreground mt-4">

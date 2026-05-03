@@ -4,6 +4,7 @@ import { desc, eq } from "drizzle-orm";
 import { db, postsTable, POST_STATUSES } from "@workspace/db";
 import { requirePasswordOk } from "../../middlewares/auth";
 import { writeAudit } from "../../lib/audit";
+import { pingIndexNow } from "../../lib/indexnow";
 
 const router: IRouter = Router();
 router.use(requirePasswordOk);
@@ -89,6 +90,9 @@ router.post("/", async (req, res) => {
       entityId: row!.id,
       payload: { slug: row!.slug, status: row!.status },
     });
+    if (row!.status === "published") {
+      void pingIndexNow([`https://leadsrubix.com/blog/${row!.slug}`], req.log);
+    }
     res.json({ ok: true, post: row });
   } catch (err: unknown) {
     if ((err as { code?: string }).code === "23505") {
@@ -146,6 +150,15 @@ router.patch("/:id", async (req, res) => {
       entityId: row!.id,
       payload: { changes: Object.keys(parsed.data) },
     });
+    const transitionedToPublished =
+      existing.status !== "published" && row!.status === "published";
+    const slugChangedWhilePublished =
+      row!.status === "published" &&
+      parsed.data.slug !== undefined &&
+      parsed.data.slug !== existing.slug;
+    if (transitionedToPublished || slugChangedWhilePublished) {
+      void pingIndexNow([`https://leadsrubix.com/blog/${row!.slug}`], req.log);
+    }
     res.json({ ok: true, post: row });
   } catch (err: unknown) {
     if ((err as { code?: string }).code === "23505") {

@@ -17,7 +17,8 @@ The project is structured as a pnpm workspace monorepo, with each package managi
 - **Stack**: React + Vite, wouter routing, shadcn/ui, Tailwind v4, lucide-react.
 - **Design**: Emphasizes a clean, professional UI with consistent branding and no emojis. All interactive elements use `data-testid`.
 - **SEO**: Comprehensive SEO via `useSEO` hook (per-page title/description/canonical, OG/Twitter tags, default `og:image`, and JSON-LD). Features sitemap.xml, robots.txt, and manifest.webmanifest. Includes per-page locale and geo meta tags.
-- **Conversion Components**: Includes `StickyDemoCTA`, `RoiCalculator`, `ExitIntentModal`, and `WhatsAppFab` for lead generation and user engagement.
+- **Conversion Components**: Includes `StickyDemoCTA`, `RoiCalculator`, `ExitIntentModal` (with optional lead-magnet variant pointing to `/leadsrubix-crm-rfp-template.html`), and `WhatsAppFab` for lead generation and user engagement.
+- **Analytics & Experimentation**: `src/lib/ab.ts` provides a session-scoped A/B variant assigner and a `trackEvent` helper that pushes GA4 dataLayer events. Lead forms emit `form_submit`, `form_submit_success`, and `form_submit_error` events with a `form_placement` dimension.
 - **Dynamic Content**: Industry-aware demo pages, case study detail pages, and enhanced blog features with reading time, table of contents, and related posts.
 - **Admin Panel UI**: Integrated within the marketing site with a dark sidebar, structured forms for content editing, and detailed views for leads, posts, and users.
 - **Performance**: Route-level code splitting, skeleton loaders, and idle callbacks for non-critical components improve load times and user experience. Tracking pixels are deferred to idle and injected based on user consent.
@@ -42,7 +43,11 @@ The project is structured as a pnpm workspace monorepo, with each package managi
 - **Audit Logging**: Records all state-changing admin actions.
 - **Image Uploads**: Uses presigned GCS PUT URLs via Replit's App Storage sidecar, with secure public image reads.
 - **Streaming Export**: `GET /api/admin/leads/export.csv` streams CSV data for large exports, including Excel formula injection protection.
-- **Telemetry**: 404 telemetry pipeline captures pathname and referrer to identify broken links.
+- **Telemetry**: 404 telemetry pipeline captures pathname and referrer to identify broken links. The 404 page also surfaces a search box (routes to `/blog?q=`) and the four most recent posts.
+- **Cal.com Webhook**: `POST /api/cal/webhook` accepts Cal booking events, verifies HMAC via `CAL_WEBHOOK_SECRET` (when set), and on `BOOKING_CREATED`/`BOOKING_RESCHEDULED` flips the matching lead to `demo_booked` (+20 score) and writes a `lead_activities` row. `BOOKING_CANCELLED` deducts 10 points.
+- **IndexNow**: `lib/indexnow.ts` posts newly published or slug-changed blog URLs to `api.indexnow.org` (best-effort, requires `INDEXNOW_KEY`).
+- **Pricing add-ons**: `/pricing` includes an India-specific add-ons table (WhatsApp BSP, per-seat overage, GST e-invoicing, dedicated IP, Razorpay routing, on-site implementation).
+- **Backups**: `pnpm --filter @workspace/scripts run backup` invokes `pg_dump --format=custom` into `./backups`, prunes older than `RETAIN_DAYS` (default 14). Designed for host cron (Hostinger Cloud).
 
 ## Database
 

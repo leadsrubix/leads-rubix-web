@@ -1,11 +1,22 @@
-import { useEffect } from "react";
-import { Link } from "wouter";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "wouter";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useSEO } from "@/lib/useSEO";
-import { ArrowLeft, Home, MessageSquare, BookOpen } from "lucide-react";
+import { ArrowLeft, Home, MessageSquare, BookOpen, Search } from "lucide-react";
+
+interface PostStub {
+  slug: string;
+  title: string;
+  excerpt?: string | null;
+}
 
 export default function NotFound() {
+  const [, navigate] = useLocation();
+  const [query, setQuery] = useState("");
+  const [popular, setPopular] = useState<PostStub[]>([]);
+
   // Fire-and-forget telemetry so we can see what users are looking for.
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -31,6 +42,23 @@ export default function NotFound() {
     }
   }, []);
 
+  // Pull a small "popular posts" list from the public posts feed. Failing
+  // silently is fine — the page works without it.
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/posts?limit=4")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (!alive || !data) return;
+        const items: PostStub[] = Array.isArray(data?.posts) ? data.posts : [];
+        setPopular(items.slice(0, 4));
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
+
   useSEO({
     title: "Page not found — Leads Rubix",
     description:
@@ -38,39 +66,82 @@ export default function NotFound() {
     canonical: "https://leadsrubix.com/404",
   });
 
+  function handleSearch(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const q = query.trim();
+    if (!q) return;
+    navigate(`/blog?q=${encodeURIComponent(q)}`);
+  }
+
   return (
     <Layout>
       <section className="py-20 md:py-28">
         <div className="container max-w-3xl text-center">
-          <p className="text-sm font-mono uppercase tracking-wider text-muted-foreground">
-            404
-          </p>
+          <p className="text-sm font-mono uppercase tracking-wider text-muted-foreground">404</p>
           <h1 className="mt-4 text-4xl md:text-5xl font-bold tracking-tight text-[#252140]">
             We couldn't find that page.
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
-            The link may be old, the page may have moved, or you may have typed the
-            URL by hand. Pick one of the routes below — most visitors find what they
-            need within a click.
+            The link may be old, the page may have moved, or you may have typed the URL by hand.
+            Search the blog &amp; glossary, or pick one of the routes below.
           </p>
+
+          <form
+            onSubmit={handleSearch}
+            className="mt-8 flex max-w-md mx-auto gap-2"
+            role="search"
+            aria-label="Search the site"
+          >
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" aria-hidden />
+              <Input
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search articles, glossary, features…"
+                className="pl-9"
+                aria-label="Search query"
+                data-testid="input-404-search"
+              />
+            </div>
+            <Button type="submit" data-testid="btn-404-search">Search</Button>
+          </form>
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Button asChild size="lg" data-testid="btn-404-home">
-              <Link href="/">
-                <Home className="size-4 mr-2" /> Back to home
-              </Link>
+              <Link href="/"><Home className="size-4 mr-2" /> Back to home</Link>
             </Button>
             <Button asChild size="lg" variant="outline" data-testid="btn-404-blog">
-              <Link href="/blog">
-                <BookOpen className="size-4 mr-2" /> Read the blog
-              </Link>
+              <Link href="/blog"><BookOpen className="size-4 mr-2" /> Read the blog</Link>
             </Button>
             <Button asChild size="lg" variant="outline" data-testid="btn-404-contact">
-              <Link href="/contact">
-                <MessageSquare className="size-4 mr-2" /> Talk to sales
-              </Link>
+              <Link href="/contact"><MessageSquare className="size-4 mr-2" /> Talk to sales</Link>
             </Button>
           </div>
+
+          {popular.length > 0 && (
+            <div className="mt-12 text-left">
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4 text-center">
+                Popular reads
+              </h2>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {popular.map((p) => (
+                  <li key={p.slug}>
+                    <Link
+                      href={`/blog/${p.slug}`}
+                      className="block rounded-lg border bg-card p-4 hover:border-[#252140] transition-colors"
+                      data-testid={`link-404-post-${p.slug}`}
+                    >
+                      <p className="font-semibold text-[#252140] dark:text-white">{p.title}</p>
+                      {p.excerpt && (
+                        <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{p.excerpt}</p>
+                      )}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
             {[
@@ -79,7 +150,7 @@ export default function NotFound() {
               { href: "/industries", label: "Industries" },
               { href: "/case-studies", label: "Case studies" },
               { href: "/integrations", label: "Integrations" },
-              { href: "/security", label: "Security" },
+              { href: "/glossary", label: "Glossary" },
               { href: "/about", label: "About" },
               { href: "/faq", label: "FAQ" },
             ].map((l) => (

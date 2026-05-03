@@ -459,6 +459,70 @@ export default function Pricing() {
         </div>
       </section>
 
+      {/* India-specific add-ons */}
+      <section className="py-20 bg-background border-b" id="add-ons">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <h2 className="text-3xl font-bold mb-2 text-center text-[#252140]">India add-ons</h2>
+          <p className="text-muted-foreground text-center mb-10 max-w-2xl mx-auto">
+            Optional usage-based extras that plug straight into your plan. Billed monthly in INR with GST.
+          </p>
+          <div className="overflow-x-auto rounded-lg border bg-card">
+            <table className="w-full text-sm">
+              <thead className="bg-muted/40">
+                <tr className="text-left">
+                  <th className="p-4 font-semibold">Add-on</th>
+                  <th className="p-4 font-semibold">What you get</th>
+                  <th className="p-4 font-semibold text-right">Price (ex-GST)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  {
+                    name: "WhatsApp Business API (BSP)",
+                    desc: "Verified green-tick number, template approvals, and conversation-based pricing pass-through. Routed via Meta-approved BSP.",
+                    price: "₹1,499 / mo + Meta conversation fees",
+                  },
+                  {
+                    name: "Per-seat overage",
+                    desc: "Add agents mid-cycle without changing plans. Pro-rated to your renewal date.",
+                    price: "₹399 / seat / mo",
+                  },
+                  {
+                    name: "GST e-invoicing",
+                    desc: "Auto-generated GST-compliant invoices with your GSTIN, HSN codes, and IRN registration support.",
+                    price: "Included on Growth & Scale",
+                  },
+                  {
+                    name: "Dedicated IP for transactional email",
+                    desc: "Reserved sending IP with warm-up and delivery monitoring — useful for high-volume teams.",
+                    price: "₹2,499 / mo",
+                  },
+                  {
+                    name: "Custom Razorpay / payment-gateway routing",
+                    desc: "Multi-account routing rules and reconciliation for builder-developer setups handling multiple legal entities.",
+                    price: "₹1,999 / mo",
+                  },
+                  {
+                    name: "On-site implementation (NCR / Mumbai / Bengaluru)",
+                    desc: "One-day on-site kick-off with CRM admin training and data migration assistance.",
+                    price: "₹25,000 one-time",
+                  },
+                ].map((row) => (
+                  <tr key={row.name} className="border-t border-border align-top">
+                    <td className="p-4 font-medium text-[#252140] dark:text-white">{row.name}</td>
+                    <td className="p-4 text-muted-foreground">{row.desc}</td>
+                    <td className="p-4 text-right whitespace-nowrap font-mono text-xs md:text-sm">{row.price}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-xs text-muted-foreground text-center mt-4">
+            Prices indicative — final quote shared after a discovery call. GST charged as per your billing state.
+          </p>
+        </div>
+      </section>
+
       {/* ROI Calculator */}
       <section className="py-20 bg-slate-50 border-b">
         <div className="container mx-auto px-4 max-w-4xl">
@@ -505,8 +569,13 @@ export default function Pricing() {
       </section>
       <ExitIntentModal
         storageKey="leadsrubix-exit-intent-pricing"
-        title="Before you compare — see it live"
-        body="Watch a 15-minute walkthrough tailored to your team size and industry. No credit card. No commitment."
+        title="Before you compare — grab the free RFP template"
+        body="A printable 10-question CRM RFP plus a vendor scoring sheet, tuned for Indian sales teams. No email required."
+        magnet={{
+          label: "Download RFP template",
+          href: "/leadsrubix-crm-rfp-template.html",
+          downloadAs: "leadsrubix-crm-rfp-template.html",
+        }}
       />
     </Layout>
   );

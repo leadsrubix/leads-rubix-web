@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Layout } from "@/components/layout/Layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSEO } from "@/lib/useSEO";
 
@@ -20,11 +21,13 @@ interface BlogPostListItem {
 const PAGE_SIZE = 12;
 
 function readQuery() {
-  if (typeof window === "undefined") return { page: 1, tag: undefined as string | undefined };
+  if (typeof window === "undefined")
+    return { page: 1, tag: undefined as string | undefined, q: "" };
   const sp = new URLSearchParams(window.location.search);
   return {
     page: Math.max(1, Number(sp.get("page")) || 1),
     tag: sp.get("tag") ?? undefined,
+    q: sp.get("q") ?? "",
   };
 }
 
@@ -37,13 +40,18 @@ export default function Blog() {
   });
 
   const [, navigate] = useLocation();
-  const [{ page, tag }, setQ] = useState(readQuery);
+  const [{ page, tag, q }, setQ] = useState(readQuery);
+  const [searchInput, setSearchInput] = useState(q);
   const [posts, setPosts] = useState<BlogPostListItem[] | null>(null);
   const [total, setTotal] = useState(0);
 
   // Sync state when user uses back/forward.
   useEffect(() => {
-    const handler = () => setQ(readQuery());
+    const handler = () => {
+      const next = readQuery();
+      setQ(next);
+      setSearchInput(next.q);
+    };
     window.addEventListener("popstate", handler);
     return () => window.removeEventListener("popstate", handler);
   }, []);
@@ -51,8 +59,11 @@ export default function Blog() {
   useEffect(() => {
     setPosts(null);
     const sp = new URLSearchParams();
-    sp.set("page", String(page));
-    sp.set("pageSize", String(PAGE_SIZE));
+    // When a search query is active we fetch a wider page so the client-side
+    // filter has enough rows to look across. Server-side full-text search is
+    // a future enhancement.
+    sp.set("page", String(q ? 1 : page));
+    sp.set("pageSize", String(q ? 100 : PAGE_SIZE));
     if (tag) sp.set("tag", tag);
     fetch(`/api/posts?${sp.toString()}`)
       .then((r) => (r.ok ? r.json() : { posts: [], total: 0 }))
@@ -64,19 +75,43 @@ export default function Blog() {
         setPosts([]);
         setTotal(0);
       });
-  }, [page, tag]);
+  }, [page, tag, q]);
 
-  function go(nextPage: number, nextTag?: string) {
+  const filtered = useMemo<BlogPostListItem[] | null>(() => {
+    if (!posts) return null;
+    if (!q.trim()) return posts;
+    const needle = q.trim().toLowerCase();
+    return posts.filter((p) => {
+      const hay = [
+        p.title,
+        p.excerpt,
+        ...(Array.isArray(p.tags) ? p.tags : []),
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      return hay.includes(needle);
+    });
+  }, [posts, q]);
+
+  function go(nextPage: number, nextTag?: string, nextQ?: string) {
     const sp = new URLSearchParams();
     if (nextPage > 1) sp.set("page", String(nextPage));
     if (nextTag) sp.set("tag", nextTag);
+    if (nextQ && nextQ.trim()) sp.set("q", nextQ.trim());
     const suffix = sp.toString();
     navigate(`/blog${suffix ? `?${suffix}` : ""}`);
-    setQ({ page: nextPage, tag: nextTag });
+    setQ({ page: nextPage, tag: nextTag, q: nextQ?.trim() ?? "" });
     if (typeof window !== "undefined") window.scrollTo({ top: 0 });
   }
 
+  function onSearchSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    go(1, tag, searchInput);
+  }
+
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const showPagination = !q;
 
   return (
     <Layout>
@@ -90,13 +125,48 @@ export default function Blog() {
             <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">
               Lessons from working with sales teams across real estate, education, healthcare, BFSI, automotive, travel, SaaS and manufacturing in India.
             </p>
+            <form
+              onSubmit={onSearchSubmit}
+              role="search"
+              aria-label="Search the blog"
+              className="mt-6 flex max-w-lg mx-auto gap-2"
+            >
+              <Input
+                type="search"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                placeholder="Search articles by title, summary or tag…"
+                aria-label="Search blog"
+                data-testid="input-blog-search"
+              />
+              <Button type="submit" data-testid="btn-blog-search">Search</Button>
+              {q ? (
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setSearchInput("");
+                    go(1, tag, "");
+                  }}
+                  data-testid="btn-blog-search-clear"
+                >
+                  Clear
+                </Button>
+              ) : null}
+            </form>
+            {q ? (
+              <p className="mt-3 text-sm text-muted-foreground">
+                Showing matches for <span className="font-medium text-foreground">"{q}"</span>
+                {filtered ? ` · ${filtered.length} result${filtered.length === 1 ? "" : "s"}` : ""}
+              </p>
+            ) : null}
             {tag ? (
               <div className="mt-4 inline-flex items-center gap-2 text-sm text-muted-foreground">
                 <span>Showing posts tagged</span>
                 <Badge variant="secondary">{tag}</Badge>
                 <button
                   type="button"
-                  onClick={() => go(1, undefined)}
+                  onClick={() => go(1, undefined, q)}
                   className="underline"
                   data-testid="btn-clear-tag"
                 >
@@ -106,95 +176,95 @@ export default function Blog() {
             ) : null}
           </div>
 
-          {posts === null ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5" data-testid="blog-skeleton">
+          {filtered === null ? (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {Array.from({ length: 6 }).map((_, i) => (
-                <Card key={i}>
-                  <CardContent className="p-6">
-                    <Skeleton className="aspect-[16/9] w-full rounded-md mb-4" />
-                    <Skeleton className="h-6 w-3/4 mb-3" />
-                    <Skeleton className="h-4 w-full mb-1.5" />
-                    <Skeleton className="h-4 w-5/6 mb-1.5" />
-                    <Skeleton className="h-4 w-2/3" />
-                  </CardContent>
-                </Card>
+                <Skeleton key={i} className="h-64 w-full" />
               ))}
             </div>
-          ) : posts.length === 0 ? (
-            <p className="text-center text-muted-foreground">No posts yet — check back soon.</p>
+          ) : filtered.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-muted-foreground">
+                {q
+                  ? `No posts matched "${q}". Try fewer words or browse the full archive.`
+                  : "No posts yet — check back soon."}
+              </p>
+            </div>
           ) : (
-            <>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {posts.map((p) => (
-                  <Card key={p.id} className="hover:shadow-md transition-shadow">
-                    <CardContent className="p-6">
-                      {p.coverImage ? (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {filtered.map((post) => (
+                <Link key={post.id} href={`/blog/${post.slug}`}>
+                  <Card
+                    className="h-full overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+                    data-testid={`card-blog-${post.slug}`}
+                  >
+                    {post.coverImage ? (
+                      <div className="aspect-video w-full overflow-hidden bg-muted">
                         <img
-                          src={p.coverImage}
+                          src={post.coverImage}
                           alt=""
-                          className="rounded-md mb-4 aspect-[16/9] object-cover w-full"
                           loading="lazy"
+                          className="h-full w-full object-cover"
                         />
-                      ) : null}
-                      <Link
-                        href={`/blog/${p.slug}`}
-                        className="text-xl font-semibold hover:underline"
-                        data-testid={`link-post-${p.slug}`}
-                      >
-                        {p.title}
-                      </Link>
-                      <p className="text-sm text-muted-foreground mt-2 line-clamp-3">{p.excerpt}</p>
-                      <div className="flex flex-wrap gap-2 mt-3 items-center">
-                        {p.publishedAt ? (
-                          <p className="text-xs text-muted-foreground">
-                            {new Date(p.publishedAt).toLocaleDateString()}
-                          </p>
-                        ) : null}
-                        {(p.tags ?? []).slice(0, 3).map((t) => (
-                          <button
-                            key={t}
-                            type="button"
-                            onClick={() => go(1, t)}
-                            data-testid={`btn-tag-${t}`}
-                          >
-                            <Badge variant="outline" className="text-[10px] cursor-pointer">
+                      </div>
+                    ) : null}
+                    <CardContent className="p-5">
+                      {Array.isArray(post.tags) && post.tags.length > 0 ? (
+                        <div className="mb-3 flex flex-wrap gap-1.5">
+                          {post.tags.slice(0, 3).map((t) => (
+                            <Badge key={t} variant="secondary" className="text-xs">
                               {t}
                             </Badge>
-                          </button>
-                        ))}
-                      </div>
+                          ))}
+                        </div>
+                      ) : null}
+                      <h2 className="text-lg font-semibold leading-tight text-[#252140] dark:text-white">
+                        {post.title}
+                      </h2>
+                      {post.excerpt ? (
+                        <p className="mt-2 text-sm text-muted-foreground line-clamp-3">
+                          {post.excerpt}
+                        </p>
+                      ) : null}
+                      {post.publishedAt ? (
+                        <p className="mt-3 text-xs text-muted-foreground">
+                          {new Date(post.publishedAt).toLocaleDateString("en-IN", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                          })}
+                        </p>
+                      ) : null}
                     </CardContent>
                   </Card>
-                ))}
-              </div>
-
-              <div className="flex items-center justify-between mt-10 text-sm">
-                <span className="text-muted-foreground">
-                  Page {page} of {totalPages} · {total} post{total === 1 ? "" : "s"}
-                </span>
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    disabled={page <= 1}
-                    onClick={() => go(page - 1, tag)}
-                    data-testid="btn-blog-prev"
-                  >
-                    Previous
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    disabled={page >= totalPages}
-                    onClick={() => go(page + 1, tag)}
-                    data-testid="btn-blog-next"
-                  >
-                    Next
-                  </Button>
-                </div>
-              </div>
-            </>
+                </Link>
+              ))}
+            </div>
           )}
+
+          {showPagination && totalPages > 1 && filtered && filtered.length > 0 ? (
+            <div className="mt-10 flex justify-center gap-2">
+              <Button
+                variant="outline"
+                disabled={page <= 1}
+                onClick={() => go(page - 1, tag, q)}
+                data-testid="btn-blog-prev"
+              >
+                Previous
+              </Button>
+              <span className="self-center text-sm text-muted-foreground px-3">
+                Page {page} of {totalPages}
+              </span>
+              <Button
+                variant="outline"
+                disabled={page >= totalPages}
+                onClick={() => go(page + 1, tag, q)}
+                data-testid="btn-blog-next"
+              >
+                Next
+              </Button>
+            </div>
+          ) : null}
         </div>
       </section>
     </Layout>
