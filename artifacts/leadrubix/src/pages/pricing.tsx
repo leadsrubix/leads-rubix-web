@@ -134,6 +134,13 @@ export default function Pricing() {
   });
 
   const [billing, setBilling] = useState<"monthly" | "annual">("monthly");
+  const [currency, setCurrency] = useState<"INR" | "USD" | "AED">("INR");
+  // Static rates — adjust periodically. Disclaimer rendered next to switcher.
+  const RATES: Record<"INR" | "USD" | "AED", { rate: number; symbol: string; locale: string }> = {
+    INR: { rate: 1, symbol: "₹", locale: "en-IN" },
+    USD: { rate: 1 / 83, symbol: "$", locale: "en-US" },
+    AED: { rate: 1 / 22.6, symbol: "AED ", locale: "en-AE" },
+  };
   const pricing = useContent<PricingContent>("pricing_plans", DEFAULT_PRICING);
   const annualDiscount =
     typeof pricing.annualDiscount === "number" && pricing.annualDiscount > 0
@@ -162,7 +169,11 @@ export default function Pricing() {
 
   function priceLabel(plan: Plan): string {
     if (plan.monthly === null) return "Custom";
-    return `₹${(billing === "monthly" ? plan.monthly : plan.annual!).toLocaleString("en-IN")}`;
+    const inr = billing === "monthly" ? plan.monthly : plan.annual!;
+    const cur = RATES[currency];
+    const converted = inr * cur.rate;
+    const rounded = currency === "INR" ? Math.round(converted) : Math.round(converted);
+    return `${cur.symbol}${rounded.toLocaleString(cur.locale)}`;
   }
 
   function priceSubtext(plan: Plan): string {
@@ -244,8 +255,8 @@ export default function Pricing() {
             <p className="text-xl text-muted-foreground">No hidden fees. No surprise tier-jumps. Pricing built for Indian sales teams.</p>
           </div>
 
-          {/* Billing toggle */}
-          <div className="flex justify-center mb-12">
+          {/* Billing toggle + currency switcher */}
+          <div className="flex flex-col items-center gap-4 mb-12">
             <div className="inline-flex items-center bg-white border border-border rounded-full p-1 shadow-sm">
               <button
                 type="button"
@@ -264,6 +275,26 @@ export default function Pricing() {
                 Annual
                 <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${billing === "annual" ? "bg-secondary text-secondary-foreground" : "bg-secondary/15 text-secondary"}`}>Save 20%</span>
               </button>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="inline-flex items-center bg-white border border-border rounded-full p-1 shadow-sm" role="group" aria-label="Currency">
+                {(["INR", "USD", "AED"] as const).map((c) => (
+                  <button
+                    key={c}
+                    type="button"
+                    onClick={() => setCurrency(c)}
+                    className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-all ${currency === c ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+                    data-testid={`btn-currency-${c.toLowerCase()}`}
+                  >
+                    {c}
+                  </button>
+                ))}
+              </div>
+              {currency !== "INR" ? (
+                <p className="text-xs text-muted-foreground" data-testid="currency-disclaimer">
+                  Indicative — billed in INR. Conversion approximate.
+                </p>
+              ) : null}
             </div>
           </div>
 

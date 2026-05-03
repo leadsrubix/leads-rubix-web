@@ -1,0 +1,50 @@
+1. Conversion lifts (highest ROI)
+
+Comparison pages vs Salesforce / HubSpot / Zoho / Sell.do (/vs/<competitor>) with side-by-side feature tables — strong intent traffic.
+Lead magnets: gated "Real Estate CRM buyer's guide" / "Education CRM playbook" PDFs, one per industry, behind the same form so they double as content + lead source.
+Embedded Calendly (or your own slot picker) on /demo so qualified visitors can book a time without a sales hop.
+"Trusted by" logo bar + 1-2 video testimonials on the home + industry pages.
+Currency switcher (INR / USD / AED) on /pricing since you target multiple regions.
+2. SEO depth
+
+Programmatic pages: /crm-for/<industry>/<city> (Mumbai, Bengaluru, Pune…) — huge long-tail surface.
+Blog category pages, author pages, tag archives — currently posts only have slug routes.
+Image optimisation: WebP/AVIF + srcset + loading="lazy" everywhere, preconnect to API + storage.
+Core Web Vitals pass (LCP image preload on hero, defer non-critical JS).
+Schema additions: Review aggregate on case studies, VideoObject if you add product video, HowTo on selected blog posts.
+3. Trust & compliance
+
+Privacy Policy, Terms, DPA, Security pages (DPDP Act 2023 is now in force in India — you should have a compliance page).
+Cookie consent banner with category opt-in (also DPDP requirement).
+2FA for admin accounts (TOTP) + optional Google Workspace SSO.
+Public security.txt + status page RSS (you already have /status, just add an Atom feed).
+4. Product depth signals
+
+Interactive product tour (no-signup) — a 4-5 step animated walk-through of the admin.
+Integrations directory page — even just logos of WhatsApp, Gmail, Calendar, Zapier, Slack.
+Public API docs page (you already generate from OpenAPI — render Redoc/Stoplight at /docs/api).
+Mobile app screenshots + Play Store / App Store badges on home.
+5. Admin / CMS power features
+
+Scheduled publishing + draft preview links for blog posts.
+Lead scoring rules + saved segments + CSV import.
+Slack / WhatsApp / email digest of new leads (the webhook already exists, add a UI for it).
+Role-based permissions (editor vs admin vs viewer).
+Weekly email digest to admins.
+6. Analytics & measurement
+
+PostHog or Plausible event tracking with a typed track() helper across CTAs.
+UTM capture stored on every lead (utm_source/medium/campaign) and shown in lead detail.
+Microsoft Clarity (free heatmaps + session replay).
+Funnel dashboards in /admin/analytics (visit → demo form view → submit → qualified).
+7. Accessibility & polish
+
+Full axe a11y pass — focus rings, skip-to-content link, contrast in dark mode.
+prefers-reduced-motion honoring across animations.
+Hindi locale (i18n scaffolding) — meaningful for the India market.
+Suggested next sprint (highest impact, ~1-2 days each)
+
+Privacy/Terms/DPA + cookie banner (legal blocker for serious B2B sales).
+/vs/<competitor> pages — 4 of them.
+PostHog + UTM capture + funnel view in admin.
+Image optimisation pass (WebP + srcset + lazy).

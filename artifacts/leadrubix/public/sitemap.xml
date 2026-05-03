@@ -7,6 +7,11 @@
   <url><loc>https://leadsrubix.com/pricing</loc><changefreq>monthly</changefreq><priority>0.95</priority></url>
   <url><loc>https://leadsrubix.com/security</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://leadsrubix.com/compare</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://leadsrubix.com/vs/salesforce</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://leadsrubix.com/vs/hubspot</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://leadsrubix.com/vs/zoho</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://leadsrubix.com/vs/sell-do</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://leadsrubix.com/docs/api</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://leadsrubix.com/case-studies</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://leadsrubix.com/case-studies/real-estate</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://leadsrubix.com/case-studies/education</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>

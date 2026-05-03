@@ -13,6 +13,7 @@ import { CalendarCheck, Clock, Headphones, PlayCircle, CheckCircle2, ArrowRight 
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "wouter";
 import { useSEO } from "@/lib/useSEO";
+import { annotateSource } from "@/lib/utm";
 
 const INDUSTRY_LABELS: Record<string, string> = {
   "real-estate": "real estate",
@@ -86,7 +87,7 @@ export default function Demo() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...values,
-          source: industrySlug ? `demo-page-${industrySlug}` : "demo-page",
+          source: annotateSource(industrySlug ? `demo-page-${industrySlug}` : "demo-page"),
         }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);

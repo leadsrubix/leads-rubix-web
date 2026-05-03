@@ -14,6 +14,18 @@ I prefer to work iteratively. Please ask before making major changes. I value cl
 
 The project is structured as a pnpm workspace monorepo, with each package managing its own dependencies. Key packages include `@workspace/api-server` for the backend, `@workspace/leadrubix` for the frontend, and shared libraries.
 
+## Recent updates (v2.7 — May 2026, current batch)
+
+- **/vs/:slug competitor pages** — Dedicated head-to-head pages for `salesforce`, `hubspot`, `zoho`, and `sell-do`. Each renders a hero, "in one paragraph" summary, "why teams pick Leads Rubix" cards, when-to-pick split, full feature matrix (with `boolean` / `"partial"` / free-text cells), cross-links to the other comparisons, BreadcrumbList JSON-LD, and an exit-intent modal. Unknown slugs redirect to `/compare`. Data lives in `src/lib/competitors.ts`.
+- **Cookie consent banner** — DPDP-style banner with Accept all / Reject non-essential / Customise (Essential always-on, Analytics, Marketing). Persists choice to `localStorage` under `lr_cookie_consent_v1`. Mounted globally via `Layout`.
+- **UTM capture** — `src/lib/utm.ts` captures `utm_source/medium/campaign/term/content`, `gclid`, and `fbclid` into `sessionStorage` on first page load (called from `Layout`). `/demo` and `/contact` form submissions append captured UTMs to the lead `source` string (no schema change required).
+- **Pricing currency switcher** — `/pricing` now lets visitors view prices in INR (default), USD (~/83), or AED (~/22.6). Indicative-only disclaimer renders alongside the switcher when a non-INR currency is selected. Billing remains INR.
+- **Public API reference (`/docs/api`)** — Renders the OpenAPI spec via Redoc CDN. The yaml ships from `artifacts/leadrubix/public/openapi.yaml` (kept in sync with `lib/api-spec/openapi.yaml`).
+- **`security.txt`** — RFC 9116-compliant disclosure file at `/.well-known/security.txt` with a 2027-12-31 expiry.
+- **`TrustedBy` component** — CMS-driven (`useContent("trusted_by", …)`) wordmark/logo strip available for marketing sections; defaults seeded with placeholder names.
+- **Reduced motion + LCP polish** — Global `@media (prefers-reduced-motion: reduce)` rule disables animations and smooth scroll. `index.html` preloads `/hero-dashboard.png` with `fetchpriority="high"` and DNS-prefetches the Redoc CDN.
+- **Sitemap** — Added `/vs/{salesforce,hubspot,zoho,sell-do}` and `/docs/api` entries.
+
 ## Frontend (Leads Rubix Marketing Site & Admin Panel)
 
 - **Stack**: React + Vite, wouter routing, shadcn/ui, Tailwind v4, lucide-react.

@@ -28,6 +28,8 @@ import Blog from "@/pages/blog";
 import BlogPost from "@/pages/blog-post";
 import StatusPage from "@/pages/status";
 import Changelog from "@/pages/changelog";
+import VsPage from "@/pages/vs";
+import ApiDocs from "@/pages/api-docs";
 
 import { AuthProvider } from "@/admin/contexts/AuthContext";
 import RequireAuth from "@/admin/components/RequireAuth";
@@ -165,6 +167,8 @@ function Router() {
       <Route path="/security" component={Security} />
       <Route path="/pricing" component={Pricing} />
       <Route path="/compare" component={Compare} />
+      <Route path="/vs/:slug" component={VsPage} />
+      <Route path="/docs/api" component={ApiDocs} />
       <Route path="/case-studies" component={CaseStudies} />
       <Route path="/case-studies/:slug" component={CaseStudyDetail} />
       <Route path="/demo" component={Demo} />

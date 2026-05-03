@@ -1,11 +1,16 @@
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import { Announcement } from "./Announcement";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { StickyDemoCTA } from "@/components/marketing/StickyDemoCTA";
 import { WhatsAppFab } from "@/components/marketing/WhatsAppFab";
+import { CookieConsent } from "@/components/marketing/CookieConsent";
+import { captureUtmFromUrl } from "@/lib/utm";
 
 export function Layout({ children }: { children: ReactNode }) {
+  useEffect(() => {
+    captureUtmFromUrl();
+  }, []);
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Announcement />
@@ -16,6 +21,7 @@ export function Layout({ children }: { children: ReactNode }) {
       <Footer />
       <StickyDemoCTA />
       <WhatsAppFab />
+      <CookieConsent />
     </div>
   );
 }

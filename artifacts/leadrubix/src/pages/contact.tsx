@@ -12,6 +12,7 @@ import { Mail, MapPin, Clock } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
 import { useSEO } from "@/lib/useSEO";
+import { annotateSource } from "@/lib/utm";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -44,7 +45,7 @@ export default function Contact() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, source: "contact-page" }),
+        body: JSON.stringify({ ...values, source: annotateSource("contact-page") }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       toast({
