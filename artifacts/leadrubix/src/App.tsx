@@ -31,6 +31,9 @@ import Changelog from "@/pages/changelog";
 import VsPage from "@/pages/vs";
 import ApiDocs from "@/pages/api-docs";
 import ResponseTimeCalculator from "@/pages/response-time-calculator";
+import Glossary from "@/pages/glossary";
+import GlossaryDetail from "@/pages/glossary-detail";
+import DataRequest from "@/pages/data-request";
 
 import { AuthProvider } from "@/admin/contexts/AuthContext";
 import RequireAuth from "@/admin/components/RequireAuth";
@@ -191,6 +194,9 @@ function Router() {
       <Route path="/cookies" component={Cookies} />
       <Route path="/blog" component={Blog} />
       <Route path="/blog/:slug" component={BlogPost} />
+      <Route path="/glossary" component={Glossary} />
+      <Route path="/glossary/:slug" component={GlossaryDetail} />
+      <Route path="/privacy/data-request" component={DataRequest} />
       <Route path="/status" component={StatusPage} />
       <Route path="/changelog" component={Changelog} />
       <Route component={NotFound} />

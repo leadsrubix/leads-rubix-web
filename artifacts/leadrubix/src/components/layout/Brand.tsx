@@ -9,6 +9,9 @@ export interface BrandIdentity {
   appUrl?: string;
   signInLabel?: string;
   ctaLabel?: string;
+  /** Cal.com booking URL (e.g. https://cal.com/leadsrubix/30min). When set,
+   *  the /demo page swaps the contact form for an embedded calendar. */
+  calBookingUrl?: string;
 }
 
 export const DEFAULT_BRAND: BrandIdentity = {

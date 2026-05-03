@@ -13,7 +13,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { useSEO } from "@/lib/useSEO";
 import { useContent } from "@/lib/useContent";
-import { annotateSource } from "@/lib/utm";
+import { annotateSource, buildLeadContext } from "@/lib/utm";
 
 interface FooterContact {
   phone?: string;
@@ -89,7 +89,11 @@ export default function Contact() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, source: annotateSource("contact-page") }),
+        body: JSON.stringify({
+          ...values,
+          source: annotateSource("contact-page"),
+          ...buildLeadContext(),
+        }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       toast({

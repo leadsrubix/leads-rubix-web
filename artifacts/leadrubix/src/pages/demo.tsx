@@ -13,7 +13,8 @@ import { CalendarCheck, Clock, Headphones, PlayCircle, CheckCircle2, ArrowRight 
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "wouter";
 import { useSEO } from "@/lib/useSEO";
-import { annotateSource } from "@/lib/utm";
+import { annotateSource, buildLeadContext } from "@/lib/utm";
+import { useBrand } from "@/components/layout/Brand";
 
 const INDUSTRY_LABELS: Record<string, string> = {
   "real-estate": "real estate",
@@ -55,8 +56,11 @@ export default function Demo() {
   });
 
   const { toast } = useToast();
+  const brand = useBrand();
+  const calUrl = (brand.calBookingUrl ?? "").trim();
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [showFormFallback, setShowFormFallback] = useState(false);
   const [industrySlug] = useState<string | null>(readIndustryFromQuery);
   const industryLabel = useMemo(
     () => (industrySlug ? INDUSTRY_LABELS[industrySlug] ?? null : null),
@@ -88,6 +92,7 @@ export default function Demo() {
         body: JSON.stringify({
           ...values,
           source: annotateSource(industrySlug ? `demo-page-${industrySlug}` : "demo-page"),
+          ...buildLeadContext(),
         }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -141,7 +146,34 @@ export default function Demo() {
             <div className="md:col-span-2">
               <Card>
                 <CardContent className="p-8">
-                  {submitted ? (
+                  {calUrl && !showFormFallback && !submitted ? (
+                    <div data-testid="demo-cal-embed">
+                      <h2 className="text-2xl font-bold mb-2">Pick a time that works</h2>
+                      <p className="text-muted-foreground mb-6">
+                        30-minute live walkthrough with our India team. Slots typically available within 1–2 business days.
+                      </p>
+                      <div className="rounded-lg overflow-hidden border bg-white">
+                        <iframe
+                          src={calUrl}
+                          title="Book a demo"
+                          className="w-full"
+                          style={{ height: "720px", minHeight: "640px", border: 0 }}
+                          loading="lazy"
+                          allow="camera; microphone; fullscreen; clipboard-read; clipboard-write"
+                        />
+                      </div>
+                      <div className="mt-4 text-center">
+                        <button
+                          type="button"
+                          onClick={() => setShowFormFallback(true)}
+                          className="text-sm text-muted-foreground hover:text-foreground underline underline-offset-2"
+                          data-testid="btn-demo-fallback-form"
+                        >
+                          Or fill the form below and we'll reach out
+                        </button>
+                      </div>
+                    </div>
+                  ) : submitted ? (
                     <div className="text-center py-12" data-testid="demo-success">
                       <div className="mx-auto w-14 h-14 bg-secondary/10 rounded-full flex items-center justify-center mb-6">
                         <CheckCircle2 className="h-7 w-7 text-secondary" />

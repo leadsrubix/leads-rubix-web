@@ -50,7 +50,12 @@ export default function BlogPostPage() {
     title: post ? `${post.title} — Leads Rubix Blog` : "Loading…",
     description: post?.metaDescription || post?.excerpt,
     canonical: post ? `https://leadsrubix.com/blog/${post.slug}` : undefined,
-    ogImage: post?.ogImage || post?.coverImage || undefined,
+    ogImage:
+      post?.ogImage ||
+      post?.coverImage ||
+      (post?.title
+        ? `/api/og?title=${encodeURIComponent(post.title)}&category=${encodeURIComponent((post.tags ?? [])[0] ?? "Blog")}`
+        : undefined),
     jsonLd: post
       ? [
           {

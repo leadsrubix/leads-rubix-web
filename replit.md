@@ -78,3 +78,35 @@ The project is structured as a pnpm workspace monorepo, with each package managi
 - Hostinger Cloud ships **MySQL only**; the app uses **Postgres**, so an external Postgres (Neon free tier recommended) is mandatory.
 - **Object storage stays on Replit** via the existing `DEFAULT_OBJECT_STORAGE_BUCKET_ID`, `PRIVATE_OBJECT_DIR`, `PUBLIC_OBJECT_SEARCH_PATHS` env vars copied into hPanel.
 - Optional `LEAD_NOTIFICATION_WEBHOOK` for Slack/Make/Zapier notifications.
+
+## v3.6 — Conversion + content + compliance batch (May 2026)
+
+- **Cal.com demo embed**: `/demo` swaps the form for an embedded Cal.com calendar when `brand_identity.calBookingUrl` is set in the admin CMS. Form remains as fallback (one-click toggle below the embed). Hides automatically when no URL configured. WhatsApp FAB already shipped in v3.5; reads `footer_contact.whatsapp` from CMS.
+- **UTM capture + lead scoring + structured webhook fire**:
+  - Schema: added `utm_source/medium/campaign/term/content`, `gclid`, `fbclid`, `referrer`, `landing_path`, `score`, `score_band` columns to `leads` table.
+  - Client (`src/lib/utm.ts`): new `captureLandingContext()` (called once in Layout) stores landing path + cross-domain referrer in sessionStorage; new `buildLeadContext()` returns `{ utm, referrer, landingPath }` for the contact + demo form submits.
+  - Server (`src/lib/scoring.ts`): rule-based 0–100 scorer. Factors: business email +10, team size 5/15/20/25/30, high-intent landing/source +15, organic/referral/email medium +10 (paid +5), msg ≥200 +10 / ≥500 +15, intl phone +5. Bands: hot ≥70, warm 45–69, cold <45.
+  - `routes/contact.ts`: validates UTM struct, persists all new columns, computes score, passes full payload (including factors) to `notifyNewLead`. Slack message includes 🔥/☀️/❄️ band icon and UTM line.
+- **Glossary** (`/glossary`, `/glossary/:slug`): 7 SEO-targeted entries (lead-response-time, speed-to-lead, lead-routing, lead-scoring, icp, sla, whatsapp-business-api). Content lives in `src/lib/glossary.ts`. Custom mini-markdown renderer supports paragraphs, **bold**, `[text](url)` internal/external links, `-`/`*`/numbered lists, pipe-tables. Glossary→demo CTA on every detail page. Glossary linked from footer "Company" column.
+- **DPDP Act 2023 compliance** — `/privacy/data-request`:
+  - Page with form for export / correction / deletion / consent_withdrawal.
+  - `POST /api/privacy/data-request` (rate-limited 3/h/IP) persists as a tagged lead (`tags: ["dpdp", "dpdp:<type>"]`, source `dpdp_<type>`), fires the same webhook so Ops sees it instantly.
+  - Linked from footer "Legal" column.
+- **OG image generator** — `GET /api/og?title=...&category=...&author=...` returns a 1200×630 SVG with brand gradient + accent glow + truncated headline. Cached 1h client / 1d edge. `useSEO` in `blog-post.tsx` falls back to this when a post has no explicit `ogImage` or `coverImage`. Zero new dependencies.
+- **Synthetic monitor** (`scripts/src/synthetic-monitor.ts`): pings 6 critical endpoints (homepage, healthz, sitemap, pricing, demo, blog) with content + header assertions; POSTs Slack-shaped alert to `MONITOR_WEBHOOK_URL` on failure; exits non-zero for cron alerting. Run via `pnpm --filter @workspace/scripts run synthetic-monitor`. Designed for cron-job.org / GitHub Actions / Hostinger cron at 5-min cadence.
+- **Accessibility**: skip-to-main-content link in Layout (visually-hidden until focused). All admin / form components already use focus-visible rings via shadcn primitives.
+- **Blog content seed** (`scripts/src/seed-blog-posts.ts`): 4 long-form draft posts inserted to DB (idempotent on slug):
+  - `/blog/crm-for-real-estate-mumbai`
+  - `/blog/whatsapp-lead-capture-india-2026`
+  - `/blog/lead-response-time-benchmarks-india-2026`
+  - `/blog/gst-compliant-crm-india`
+  - All `status='draft'` — admin must publish via `/admin/posts/:id` after review.
+- **CMS additions**:
+  - `brand_identity.calBookingUrl` — Cal.com booking URL (demo page reads).
+  - `footer_contact.whatsapp` — already used by WhatsAppFab; FAB hides if blank.
+
+### What's still user-blocked
+- Real customer logos (placeholder logos still in place).
+- Real G2 / SoftwareSuggest badges.
+- 2–3 real customer case studies (`/case-studies/:slug` framework exists, content stubbed).
+- Email DNS for `info@leadsrubix.com` / `privacy@leadsrubix.com`.

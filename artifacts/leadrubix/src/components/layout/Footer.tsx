@@ -70,6 +70,7 @@ const DEFAULT_FOOTER_LINKS: FooterLinks = {
     { label: "Contact", href: "/contact" },
     { label: "FAQ", href: "/faq" },
     { label: "Blog", href: "/blog" },
+    { label: "Glossary", href: "/glossary" },
     { label: "Changelog", href: "/changelog" },
     { label: "Status", href: "/status" },
   ],
@@ -79,6 +80,7 @@ const DEFAULT_FOOTER_LINKS: FooterLinks = {
     { label: "Terms & Conditions", href: "/terms" },
     { label: "Refund Policy", href: "/refund" },
     { label: "Cookie Policy", href: "/cookies" },
+    { label: "Data Subject Request", href: "/privacy/data-request" },
   ],
 };
 

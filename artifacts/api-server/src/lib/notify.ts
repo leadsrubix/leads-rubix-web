@@ -15,6 +15,26 @@ type LeadPayload = {
   teamSize: string | null;
   messageLen: number;
   createdAt: string;
+  score?: number | null;
+  scoreBand?: "hot" | "warm" | "cold" | null;
+  utm?: {
+    source?: string | null;
+    medium?: string | null;
+    campaign?: string | null;
+    term?: string | null;
+    content?: string | null;
+    gclid?: string | null;
+    fbclid?: string | null;
+  };
+  referrer?: string | null;
+  landingPath?: string | null;
+  factors?: string[];
+};
+
+const BAND_EMOJI: Record<NonNullable<LeadPayload["scoreBand"]>, string> = {
+  hot: "🔥",
+  warm: "☀️",
+  cold: "❄️",
 };
 
 export function notifyNewLead(lead: LeadPayload, log: Logger): void {
@@ -23,9 +43,23 @@ export function notifyNewLead(lead: LeadPayload, log: Logger): void {
   // fire-and-forget
   void (async () => {
     try {
+      const bandIcon = lead.scoreBand ? `${BAND_EMOJI[lead.scoreBand]} ${lead.scoreBand.toUpperCase()}` : "";
+      const scoreLine =
+        lead.score != null
+          ? `Score: ${lead.score}/100 ${bandIcon}\n`
+          : "";
+      const utmLine =
+        lead.utm && (lead.utm.source || lead.utm.medium || lead.utm.campaign)
+          ? `UTM: ${[lead.utm.source, lead.utm.medium, lead.utm.campaign].filter(Boolean).join(" / ")}\n`
+          : "";
+      const landingLine = lead.landingPath ? `Landing: ${lead.landingPath}\n` : "";
+      const referrerLine = lead.referrer ? `Referrer: ${lead.referrer}\n` : "";
       const text =
-        `New lead from ${lead.name} (${lead.company})\n` +
+        `${scoreLine}New lead from ${lead.name} (${lead.company})\n` +
         `Email: ${lead.email}\nPhone: ${lead.phone}\nSource: ${lead.source}\n` +
+        utmLine +
+        landingLine +
+        referrerLine +
         `Team size: ${lead.teamSize ?? "n/a"}\nMessage length: ${lead.messageLen} chars\n` +
         `Lead id: ${lead.id}`;
       const res = await fetch(webhook, {

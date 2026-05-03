@@ -4,8 +4,22 @@ import { appendFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { db, leadsTable } from "@workspace/db";
 import { notifyNewLead } from "../lib/notify";
+import { scoreLead } from "../lib/scoring";
 
 const router: IRouter = Router();
+
+const UtmSchema = z
+  .object({
+    utm_source: z.string().max(120).optional(),
+    utm_medium: z.string().max(120).optional(),
+    utm_campaign: z.string().max(180).optional(),
+    utm_term: z.string().max(180).optional(),
+    utm_content: z.string().max(180).optional(),
+    gclid: z.string().max(180).optional(),
+    fbclid: z.string().max(180).optional(),
+  })
+  .partial()
+  .optional();
 
 const ContactSchema = z.object({
   name: z.string().min(2).max(100),
@@ -14,7 +28,10 @@ const ContactSchema = z.object({
   phone: z.string().min(10).max(20),
   teamSize: z.string().max(50).optional(),
   message: z.string().min(10).max(5000),
-  source: z.string().max(50).optional(),
+  source: z.string().max(80).optional(),
+  utm: UtmSchema,
+  referrer: z.string().max(500).optional(),
+  landingPath: z.string().max(500).optional(),
   // honeypot — must be empty; bots tend to fill every field
   website: z.string().max(0).optional(),
 });
@@ -65,11 +82,24 @@ router.post("/contact", async (req, res) => {
     return;
   }
 
-  const { website, ...data } = parsed.data;
+  const { website, utm, referrer, landingPath, ...data } = parsed.data;
   if (website && website.length > 0) {
     res.json({ ok: true, message: "Submission received" });
     return;
   }
+
+  const utmRec = utm ?? {};
+  const sourceVal = data.source ?? "contact";
+
+  const { score, band, factors } = scoreLead({
+    email: data.email,
+    phone: data.phone,
+    message: data.message,
+    teamSize: data.teamSize ?? null,
+    source: sourceVal,
+    utm: utmRec,
+    landingPath: landingPath ?? null,
+  });
 
   const ipHash = hashShort(ip);
   let id: string;
@@ -77,7 +107,7 @@ router.post("/contact", async (req, res) => {
     const [row] = await db
       .insert(leadsTable)
       .values({
-        source: data.source ?? "contact",
+        source: sourceVal,
         name: data.name,
         email: data.email,
         company: data.company,
@@ -86,6 +116,17 @@ router.post("/contact", async (req, res) => {
         message: data.message,
         ipHash,
         messageLength: data.message.length,
+        utmSource: utmRec.utm_source ?? null,
+        utmMedium: utmRec.utm_medium ?? null,
+        utmCampaign: utmRec.utm_campaign ?? null,
+        utmTerm: utmRec.utm_term ?? null,
+        utmContent: utmRec.utm_content ?? null,
+        gclid: utmRec.gclid ?? null,
+        fbclid: utmRec.fbclid ?? null,
+        referrer: referrer ?? null,
+        landingPath: landingPath ?? null,
+        score,
+        scoreBand: band,
       })
       .returning({ id: leadsTable.id });
     id = row!.id;
@@ -102,7 +143,12 @@ router.post("/contact", async (req, res) => {
         id,
         receivedAt: new Date().toISOString(),
         ipHash,
+        score,
+        band,
         ...data,
+        utm: utmRec,
+        referrer: referrer ?? null,
+        landingPath: landingPath ?? null,
       };
       await mkdir(path.dirname(SUBMISSIONS_FILE), { recursive: true });
       await appendFile(SUBMISSIONS_FILE, JSON.stringify(submission) + "\n", "utf8");
@@ -115,10 +161,14 @@ router.post("/contact", async (req, res) => {
   req.log.info(
     {
       id,
-      source: data.source ?? "contact",
+      source: sourceVal,
       company: data.company,
       teamSize: data.teamSize ?? null,
       messageLen: data.message.length,
+      score,
+      band,
+      utmMedium: utmRec.utm_medium ?? null,
+      utmSource: utmRec.utm_source ?? null,
       ipHash,
     },
     "contact: new submission persisted",
@@ -128,7 +178,7 @@ router.post("/contact", async (req, res) => {
   notifyNewLead(
     {
       id,
-      source: data.source ?? "contact",
+      source: sourceVal,
       name: data.name,
       email: data.email,
       company: data.company,
@@ -136,6 +186,20 @@ router.post("/contact", async (req, res) => {
       teamSize: data.teamSize ?? null,
       messageLen: data.message.length,
       createdAt: new Date().toISOString(),
+      score,
+      scoreBand: band,
+      utm: {
+        source: utmRec.utm_source ?? null,
+        medium: utmRec.utm_medium ?? null,
+        campaign: utmRec.utm_campaign ?? null,
+        term: utmRec.utm_term ?? null,
+        content: utmRec.utm_content ?? null,
+        gclid: utmRec.gclid ?? null,
+        fbclid: utmRec.fbclid ?? null,
+      },
+      referrer: referrer ?? null,
+      landingPath: landingPath ?? null,
+      factors,
     },
     req.log,
   );

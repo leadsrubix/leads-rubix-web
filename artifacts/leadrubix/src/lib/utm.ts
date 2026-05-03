@@ -63,6 +63,63 @@ const SHORT_KEYS: Record<string, string> = {
   fbclid: "f",
 };
 
+/** Capture the page the visitor first landed on this session. */
+const LANDING_KEY = "lr_landing";
+const REFERRER_KEY = "lr_referrer";
+
+export function captureLandingContext(): void {
+  if (typeof window === "undefined") return;
+  try {
+    if (!sessionStorage.getItem(LANDING_KEY)) {
+      sessionStorage.setItem(LANDING_KEY, window.location.pathname + window.location.search);
+    }
+    if (!sessionStorage.getItem(REFERRER_KEY) && document.referrer) {
+      // Don't store our own domain as the referrer.
+      try {
+        const ref = new URL(document.referrer);
+        if (ref.host !== window.location.host) {
+          sessionStorage.setItem(REFERRER_KEY, document.referrer.slice(0, 500));
+        }
+      } catch {
+        /* ignore */
+      }
+    }
+  } catch {
+    /* ignore */
+  }
+}
+
+export function getLandingPath(): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    return sessionStorage.getItem(LANDING_KEY);
+  } catch {
+    return null;
+  }
+}
+
+export function getReferrer(): string | null {
+  if (typeof window === "undefined") return null;
+  try {
+    return sessionStorage.getItem(REFERRER_KEY);
+  } catch {
+    return null;
+  }
+}
+
+/** Build a structured payload to send to /api/contact. */
+export function buildLeadContext(): {
+  utm: UtmRecord;
+  referrer: string | null;
+  landingPath: string | null;
+} {
+  return {
+    utm: getUtm(),
+    referrer: getReferrer(),
+    landingPath: getLandingPath(),
+  };
+}
+
 export function annotateSource(baseSource: string): string {
   const utm = getUtm();
   // Order keys by signal value so the most useful ones survive truncation.
