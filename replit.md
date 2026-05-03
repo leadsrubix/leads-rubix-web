@@ -14,7 +14,15 @@ I prefer to work iteratively. Please ask before making major changes. I value cl
 
 The project is structured as a pnpm workspace monorepo, with each package managing its own dependencies. Key packages include `@workspace/api-server` for the backend, `@workspace/leadrubix` for the frontend, and shared libraries.
 
-## Recent updates (v2.7 — May 2026, current batch)
+## Recent updates (v2.8 — May 2026, SEO / AEO / GEO batch)
+
+- **Per-page locale + geo meta** — `useSEO` now also sets `<html lang="en-IN">` and emits `geo.region` (`IN-MH`), `geo.placename` (`Mumbai`), `geo.position`, `ICBM`, and `og:locale=en_IN` meta tags on every page. We deliberately do **not** emit self-referential `hreflang` link tags — per Google's guidance, hreflang is only valid when ≥ 2 language/region versions exist, and we are a single-locale (en-IN) site.
+- **GEO / Local SEO** — Home page emits a `LocalBusiness` JSON-LD entity (Mumbai HQ with `PostalAddress`, `GeoCoordinates`, `openingHoursSpecification`, and an `areaServed` array covering the eight major Indian metros) plus the existing Organization. Contact page emits `ContactPage` + `LocalBusiness` JSON-LD. Organization JSON-LD now includes `address` and a second `customer support` ContactPoint.
+- **AEO / answer-engine schema** — Home now ships `WebSite` (with `SearchAction`), `WebPage` with `SpeakableSpecification` (h1 + speakable selectors), and `FAQPage` (drawn from `home_faq_items` CMS or fallback). `/pricing` emits a `FAQPage` mirroring its visible Pricing-FAQ section (4 questions). `/industries/:slug` emits `BreadcrumbList` + `Service` (provider, areaServed=India) + `FAQPage` (when the industry CMS entry has FAQs).
+- **`llms.txt`** — New `/llms.txt` file describing the product, key URLs, industry pages, comparisons, policies, and developer resources for AI crawlers and answer engines.
+- **`robots.txt` overhaul** — Explicitly allowed `GPTBot`, `ChatGPT-User`, `OAI-SearchBot`, `PerplexityBot`, `Google-Extended`, `ClaudeBot`, `anthropic-ai`, and `Applebot-Extended`. Added `Disallow: /admin/`.
+
+## Recent updates (v2.7 — May 2026)
 
 - **/vs/:slug competitor pages** — Dedicated head-to-head pages for `salesforce`, `hubspot`, `zoho`, and `sell-do`. Each renders a hero, "in one paragraph" summary, "why teams pick Leads Rubix" cards, when-to-pick split, full feature matrix (with `boolean` / `"partial"` / free-text cells), cross-links to the other comparisons, BreadcrumbList JSON-LD, and an exit-intent modal. Unknown slugs redirect to `/compare`. Data lives in `src/lib/competitors.ts`.
 - **Cookie consent banner** — DPDP-style banner with Accept all / Reject non-essential / Customise (Essential always-on, Analytics, Marketing). Persists choice to `localStorage` under `lr_cookie_consent_v1`. Mounted globally via `Layout`.

@@ -29,6 +29,24 @@ function setCanonical(href: string) {
   link.href = href;
 }
 
+const HREFLANG_ATTR = "data-leadsrubix-hreflang";
+
+/**
+ * Set the document language. We're a single-locale site (en-IN), so per
+ * Google's hreflang guidance ("A page must have at least two language/locale
+ * versions to use hreflang"), we set <html lang> instead of emitting
+ * self-referential hreflang link tags. The attribute below is retained so
+ * any previously-injected hreflang nodes are cleaned up on navigation.
+ */
+function setLang(_canonical: string) {
+  document.head
+    .querySelectorAll<HTMLLinkElement>(`link[${HREFLANG_ATTR}]`)
+    .forEach((node) => node.remove());
+  if (document.documentElement.getAttribute("lang") !== "en-IN") {
+    document.documentElement.setAttribute("lang", "en-IN");
+  }
+}
+
 const JSONLD_ATTR = "data-leadsrubix-jsonld";
 
 function setJsonLd(payload: SEOOptions["jsonLd"]) {
@@ -62,7 +80,14 @@ export function useSEO({ title, description, canonical, ogImage, jsonLd }: SEOOp
     if (canonical) {
       setCanonical(canonical);
       setMeta("og:url", canonical, true);
+      setLang(canonical);
     }
+    // Geo signals — Mumbai HQ, services across India.
+    setMeta("geo.region", "IN-MH");
+    setMeta("geo.placename", "Mumbai");
+    setMeta("geo.position", "19.0760;72.8777");
+    setMeta("ICBM", "19.0760, 72.8777");
+    setMeta("og:locale", "en_IN", true);
     const finalOgImage = ogImage ?? "https://leadsrubix.com/opengraph.jpg";
     setMeta("og:image", finalOgImage, true);
     setMeta("twitter:image", finalOgImage);

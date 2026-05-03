@@ -101,6 +101,14 @@ const ORGANIZATION_JSONLD = {
     "https://www.linkedin.com/company/leadsrubix",
     "https://twitter.com/leadsrubix",
   ],
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Lower Parel",
+    addressLocality: "Mumbai",
+    addressRegion: "MH",
+    postalCode: "400013",
+    addressCountry: "IN",
+  },
   contactPoint: [
     {
       "@type": "ContactPoint",
@@ -109,7 +117,92 @@ const ORGANIZATION_JSONLD = {
       areaServed: "IN",
       availableLanguage: ["en", "hi"],
     },
+    {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      email: "support@leadsrubix.com",
+      areaServed: "IN",
+      availableLanguage: ["en", "hi"],
+    },
   ],
+};
+
+const LOCAL_BUSINESS_JSONLD = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://leadsrubix.com/#localbusiness",
+  name: "Leads Rubix Technologies Pvt. Ltd.",
+  url: "https://leadsrubix.com",
+  image: "https://leadsrubix.com/opengraph.jpg",
+  telephone: "+91-22-0000-0000",
+  email: "hello@leadsrubix.com",
+  priceRange: "₹₹",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Lower Parel",
+    addressLocality: "Mumbai",
+    addressRegion: "MH",
+    postalCode: "400013",
+    addressCountry: "IN",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 19.076,
+    longitude: 72.8777,
+  },
+  areaServed: [
+    { "@type": "Country", name: "India" },
+    { "@type": "City", name: "Mumbai" },
+    { "@type": "City", name: "Delhi" },
+    { "@type": "City", name: "Bengaluru" },
+    { "@type": "City", name: "Hyderabad" },
+    { "@type": "City", name: "Chennai" },
+    { "@type": "City", name: "Pune" },
+    { "@type": "City", name: "Kolkata" },
+    { "@type": "City", name: "Ahmedabad" },
+  ],
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      opens: "10:00",
+      closes: "19:00",
+    },
+  ],
+  sameAs: [
+    "https://www.linkedin.com/company/leadsrubix",
+    "https://twitter.com/leadsrubix",
+  ],
+};
+
+const WEBSITE_JSONLD = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Leads Rubix",
+  url: "https://leadsrubix.com",
+  inLanguage: "en-IN",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: "https://leadsrubix.com/blog?tag={search_term_string}",
+    },
+    "query-input": "required name=search_term_string",
+  },
+};
+
+const SPEAKABLE_JSONLD = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://leadsrubix.com/#webpage",
+  url: "https://leadsrubix.com/",
+  name: "Leads Rubix — The CRM for India's high-velocity sales teams",
+  inLanguage: "en-IN",
+  speakable: {
+    "@type": "SpeakableSpecification",
+    cssSelector: ["h1", '[data-speakable="hero-sub"]', '[data-speakable="value-prop"]'],
+  },
+  isPartOf: { "@id": "https://leadsrubix.com/#localbusiness" },
 };
 
 const SOFTWARE_JSONLD = {
@@ -153,7 +246,22 @@ export default function Home() {
     description:
       "Purpose-built CRM for Indian sales teams across real estate, education, healthcare, BFSI, automotive, travel, SaaS and manufacturing. Capture leads instantly, route them automatically, and close more revenue. 7-day free trial.",
     canonical: "https://leadsrubix.com/",
-    jsonLd: [ORGANIZATION_JSONLD, SOFTWARE_JSONLD],
+    jsonLd: [
+      ORGANIZATION_JSONLD,
+      LOCAL_BUSINESS_JSONLD,
+      SOFTWARE_JSONLD,
+      WEBSITE_JSONLD,
+      SPEAKABLE_JSONLD,
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: homeFaqs.slice(0, 10).map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: { "@type": "Answer", text: f.answer },
+        })),
+      },
+    ],
   });
 
   const { lead: headlineLead, accent: headlineAccent } = splitHeadline(hero.headline);

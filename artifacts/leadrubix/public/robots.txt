@@ -1,5 +1,50 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /admin/
+
+# AI / answer-engine crawlers — explicitly allowed for the public site,
+# but admin and API surfaces are still off-limits. Each bot needs its own
+# Disallow lines because most crawlers apply only the most specific
+# matching User-agent group and ignore the wildcard rules.
+User-agent: GPTBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /api/
+Disallow: /admin/
 
 Sitemap: https://leadsrubix.com/sitemap.xml

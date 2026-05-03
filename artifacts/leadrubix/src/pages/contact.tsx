@@ -29,6 +29,43 @@ export default function Contact() {
     description:
       "Get in touch with Leads Rubix. Email hello@leadsrubix.com, write to support, or send a message — our India team typically responds within one business day.",
     canonical: "https://leadsrubix.com/contact",
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        url: "https://leadsrubix.com/contact",
+        name: "Contact Leads Rubix",
+        inLanguage: "en-IN",
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "@id": "https://leadsrubix.com/#localbusiness",
+        name: "Leads Rubix Technologies Pvt. Ltd.",
+        url: "https://leadsrubix.com",
+        email: "hello@leadsrubix.com",
+        telephone: "+91-22-0000-0000",
+        priceRange: "₹₹",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "Lower Parel",
+          addressLocality: "Mumbai",
+          addressRegion: "MH",
+          postalCode: "400013",
+          addressCountry: "IN",
+        },
+        geo: { "@type": "GeoCoordinates", latitude: 19.076, longitude: 72.8777 },
+        openingHoursSpecification: [
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            opens: "10:00",
+            closes: "19:00",
+          },
+        ],
+        areaServed: { "@type": "Country", name: "India" },
+      },
+    ],
   });
 
   const { toast } = useToast();

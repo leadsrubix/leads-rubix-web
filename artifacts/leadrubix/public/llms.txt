@@ -1,0 +1,58 @@
+# Leads Rubix
+
+> Leads Rubix is a CRM purpose-built for India's high-velocity sales teams across real estate, education, healthcare, BFSI, automotive, travel, SaaS, and manufacturing. We capture leads from Facebook & Instagram lead ads in real time, automatically rotate them via round-robin, and provide GPS-verified call tracking, Razorpay-native bookings, and auto-generated GST invoices.
+
+The product is offered as a SaaS subscription. Pricing starts at ₹999 per user per month (Starter), ₹1,499 per user per month (Growth), with a custom Enterprise tier. A 7-day free trial is available with no credit card. The company is headquartered in Mumbai, Maharashtra, India.
+
+## Core pages
+
+- [Home](https://leadsrubix.com/): Product overview and primary value proposition.
+- [Pricing](https://leadsrubix.com/pricing): All three plans, an interactive ROI calculator, comparison matrix, and pricing FAQ. Listed in INR; switchable to USD/AED for reference.
+- [Features](https://leadsrubix.com/features): Lead capture, routing, calling, bookings, payments, analytics.
+- [Industries](https://leadsrubix.com/solutions): Index of the eight verticals supported.
+- [Compare](https://leadsrubix.com/compare): Honest comparison hub for vendor selection.
+- [FAQ](https://leadsrubix.com/faq): Categorised answers to common product questions.
+
+## Industry pages
+
+- [Real Estate CRM](https://leadsrubix.com/industries/real-estate)
+- [Education / EdTech CRM](https://leadsrubix.com/industries/education)
+- [Healthcare CRM](https://leadsrubix.com/industries/healthcare)
+- [Automotive CRM](https://leadsrubix.com/industries/automotive)
+- [Financial Services CRM](https://leadsrubix.com/industries/financial-services)
+- [Travel & Hospitality CRM](https://leadsrubix.com/industries/travel)
+- [SaaS CRM](https://leadsrubix.com/industries/saas)
+- [Manufacturing CRM](https://leadsrubix.com/industries/manufacturing)
+
+## Comparisons
+
+- [vs Salesforce](https://leadsrubix.com/vs/salesforce)
+- [vs HubSpot](https://leadsrubix.com/vs/hubspot)
+- [vs Zoho CRM](https://leadsrubix.com/vs/zoho)
+- [vs Sell.do](https://leadsrubix.com/vs/sell-do)
+
+## Trust and policy
+
+- [Security](https://leadsrubix.com/security): Encryption, access controls, data residency.
+- [Privacy Policy](https://leadsrubix.com/privacy)
+- [Terms of Service](https://leadsrubix.com/terms)
+- [Refund Policy](https://leadsrubix.com/refund)
+- [Cookie Policy](https://leadsrubix.com/cookies)
+- [security.txt](https://leadsrubix.com/.well-known/security.txt)
+
+## Developer resources
+
+- [API Reference](https://leadsrubix.com/docs/api): Public REST API documentation rendered from our OpenAPI spec.
+- [OpenAPI Spec](https://leadsrubix.com/openapi.yaml)
+- [Status](https://leadsrubix.com/status): Service uptime grid.
+- [Changelog](https://leadsrubix.com/changelog): Releases and improvements.
+
+## Content
+
+- [Blog](https://leadsrubix.com/blog): Notes on lead management, sales operations, and CRM best practices for Indian sales teams.
+- [Case Studies](https://leadsrubix.com/case-studies): Customer outcomes by industry.
+
+## Optional
+
+- [Sitemap](https://leadsrubix.com/sitemap.xml)
+- [Robots](https://leadsrubix.com/robots.txt)

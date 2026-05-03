@@ -100,37 +100,77 @@ export default function Pricing() {
     description:
       "Simple, transparent pricing in INR. Starter ₹999/user/month, Growth ₹1,499/user/month, Enterprise custom. 7-day free trial, no credit card, cancel anytime. GST applied at checkout.",
     canonical: "https://leadsrubix.com/pricing",
-    jsonLd: {
-      "@context": "https://schema.org",
-      "@type": "Product",
-      name: "Leads Rubix CRM",
-      description:
-        "CRM for India's high-velocity sales teams — Facebook/Instagram lead webhooks, automated rotation, GPS-verified calling, Razorpay bookings.",
-      brand: { "@type": "Brand", name: "Leads Rubix" },
-      offers: [
-        {
-          "@type": "Offer",
-          name: "Starter",
-          price: "999",
-          priceCurrency: "INR",
-          url: "https://leadsrubix.com/pricing",
-          availability: "https://schema.org/InStock",
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        name: "Leads Rubix CRM",
+        description:
+          "CRM for India's high-velocity sales teams — Facebook/Instagram lead webhooks, automated rotation, GPS-verified calling, Razorpay bookings.",
+        brand: { "@type": "Brand", name: "Leads Rubix" },
+        offers: [
+          {
+            "@type": "Offer",
+            name: "Starter",
+            price: "999",
+            priceCurrency: "INR",
+            url: "https://leadsrubix.com/pricing",
+            availability: "https://schema.org/InStock",
+          },
+          {
+            "@type": "Offer",
+            name: "Growth",
+            price: "1499",
+            priceCurrency: "INR",
+            url: "https://leadsrubix.com/pricing",
+            availability: "https://schema.org/InStock",
+          },
+        ],
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "4.8",
+          reviewCount: "120",
         },
-        {
-          "@type": "Offer",
-          name: "Growth",
-          price: "1499",
-          priceCurrency: "INR",
-          url: "https://leadsrubix.com/pricing",
-          availability: "https://schema.org/InStock",
-        },
-      ],
-      aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: "4.8",
-        reviewCount: "120",
       },
-    },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "Is GST included in the listed price?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "No. Listed prices are exclusive of GST. The applicable GST is added at checkout based on your billing state per Indian tax regulations. You can supply your GSTIN for input tax credit.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What is the difference between monthly and annual billing?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Annual plans are billed upfront and save 20% versus the equivalent monthly rate. Monthly plans bill on a recurring monthly cycle and can be cancelled at any time.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Can I change plans later?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Yes. You can upgrade or downgrade at any time from the in-app billing page. Upgrades are pro-rated; downgrades take effect at the next renewal.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Do you offer refunds?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Monthly plans cancel anytime with no refund for the current cycle. Annual plans are refundable on a pro-rated basis within 30 days of purchase.",
+            },
+          },
+        ],
+      },
+    ],
   });
 
   const [billing, setBilling] = useState<"monthly" | "annual">("monthly");

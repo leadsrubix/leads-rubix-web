@@ -46,15 +46,39 @@ export default function IndustryDetail() {
     description: item?.description ?? "",
     canonical: `https://leadsrubix.com/industries/${slug}`,
     jsonLd: item
-      ? {
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: "https://leadsrubix.com/" },
-            { "@type": "ListItem", position: 2, name: "Industries", item: "https://leadsrubix.com/industries" },
-            { "@type": "ListItem", position: 3, name: item.name, item: `https://leadsrubix.com/industries/${slug}` },
-          ],
-        }
+      ? [
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: "https://leadsrubix.com/" },
+              { "@type": "ListItem", position: 2, name: "Industries", item: "https://leadsrubix.com/industries" },
+              { "@type": "ListItem", position: 3, name: item.name, item: `https://leadsrubix.com/industries/${slug}` },
+            ],
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            serviceType: `${item.name} CRM`,
+            provider: { "@type": "Organization", name: "Leads Rubix", url: "https://leadsrubix.com" },
+            areaServed: { "@type": "Country", name: "India" },
+            description: item.description,
+            url: `https://leadsrubix.com/industries/${slug}`,
+          },
+          ...(item.faq && item.faq.length > 0
+            ? [
+                {
+                  "@context": "https://schema.org",
+                  "@type": "FAQPage",
+                  mainEntity: item.faq.slice(0, 20).map((f) => ({
+                    "@type": "Question",
+                    name: f.question,
+                    acceptedAnswer: { "@type": "Answer", text: f.answer },
+                  })),
+                },
+              ]
+            : []),
+        ]
       : undefined,
   });
 
