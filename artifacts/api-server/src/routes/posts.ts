@@ -18,9 +18,13 @@ router.get("/posts", async (req, res) => {
     return;
   }
   const { page, pageSize, tag } = parsed.data;
-  const where = tag
-    ? and(eq(postsTable.status, "published"), sql`${postsTable.tags}::jsonb ? ${tag}`)
-    : eq(postsTable.status, "published");
+  // Hide scheduled posts (status=published with a future publishedAt) from
+  // the public list until their publish time has passed.
+  const visible = and(
+    eq(postsTable.status, "published"),
+    sql`(${postsTable.publishedAt} IS NULL OR ${postsTable.publishedAt} <= now())`,
+  );
+  const where = tag ? and(visible, sql`${postsTable.tags}::jsonb ? ${tag}`) : visible;
 
   const [{ count }] = await db
     .select({ count: sql<number>`count(*)::int` })
@@ -55,7 +59,12 @@ router.get("/blog/rss.xml", async (_req, res) => {
       publishedAt: postsTable.publishedAt,
     })
     .from(postsTable)
-    .where(eq(postsTable.status, "published"))
+    .where(
+      and(
+        eq(postsTable.status, "published"),
+        sql`(${postsTable.publishedAt} IS NULL OR ${postsTable.publishedAt} <= now())`,
+      ),
+    )
     .orderBy(desc(postsTable.publishedAt))
     .limit(50);
 
@@ -109,7 +118,13 @@ router.get("/posts/:slug", async (req, res) => {
   const [row] = await db
     .select()
     .from(postsTable)
-    .where(and(eq(postsTable.slug, req.params.slug!), eq(postsTable.status, "published")))
+    .where(
+      and(
+        eq(postsTable.slug, req.params.slug!),
+        eq(postsTable.status, "published"),
+        sql`(${postsTable.publishedAt} IS NULL OR ${postsTable.publishedAt} <= now())`,
+      ),
+    )
     .limit(1);
   if (!row) {
     res.status(404).json({ ok: false, error: "Post not found" });

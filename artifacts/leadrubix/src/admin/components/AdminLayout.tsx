@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "../contexts/AuthContext";
+import { CommandPalette } from "./CommandPalette";
 
 const NAV = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
@@ -124,6 +125,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       <main className="flex-1 min-w-0 pt-14 md:pt-0">
         <div className="p-4 md:p-8 max-w-7xl mx-auto w-full">{children}</div>
       </main>
+
+      <CommandPalette />
     </div>
   );
 }

@@ -1,0 +1,43 @@
+Conversion & lead-gen (highest ROI for a marketing site)
+
+A/B-testable hero — store 2-3 headline/CTA variants in the CMS and split traffic; you already have GA4 wired now, so you can measure lift.
+Exit-intent popup or scroll-triggered demo CTA on the industries pages with a calendar-style booking widget (Calendly/Cal.com embed).
+Inline lead capture inside long pages (after pricing, after case studies) — short 3-field forms convert better than "Book a demo".
+Live "Made in India" / "X teams onboarded this week" social-proof ticker pulling from your real leads count.
+SEO & content
+
+Programmatic SEO pages — one landing page per industry × city combo (e.g. "CRM for real estate in Pune"). The data is already in the CMS.
+Structured data (JSON-LD) for Organization, Product, FAQPage, and BlogPosting — big win for Google rich results.
+sitemap.xml + robots.txt generated dynamically from the posts table.
+Open Graph image generator (per blog post) using the existing og_image field — auto-render with the post title if none uploaded.
+Add a /compare/leadrubix-vs-<competitor> set of pages — these rank well for high-intent searches.
+Performance & Core Web Vitals
+
+Image optimization — convert hero/screenshot PNGs to AVIF/WebP via a build step, add width/height to prevent CLS.
+Lazy-load below-the-fold sections and the WhatsApp FAB.
+Preconnect to GTM/FB/Taboola origins so the consent-gated scripts load faster once accepted.
+Route-based code splitting for the admin bundle so it doesn't ship to public visitors.
+Trust & credibility
+
+Real customer logos strip (currently looks like placeholders on most B2B sites).
+Security & compliance page — DPDP, ISO if applicable, data residency, uptime SLA. Indian buyers ask for this.
+Public status page (or link to status.leadsrubix.com).
+G2 / Capterra / SourceForge review widgets.
+Admin / CMS quality of life
+
+Scheduled publishing for blog posts (publish_at is in schema; UI for it is missing).
+Draft preview links — share a tokenized URL with stakeholders before publishing.
+Sitewide search in the admin (leads + posts + content + audit).
+Saved views / filters for the leads table (e.g. "Hot real-estate leads from this week").
+Email digest to admins — daily/weekly summary of new leads + top traffic sources.
+Analytics depth
+
+Funnel widget on the analytics dashboard: visitor → form view → submit → demo booked.
+UTM rollup view (you already capture UTMs on lead create).
+Heatmap / session replay (Microsoft Clarity is free and DPDP-friendlier than Hotjar).
+UX polish
+
+Skeleton loaders on CMS-driven sections (right now there's a flash of default content while useContent fetches).
+Better empty states in admin tables.
+Keyboard shortcuts in admin (g l → leads, / → search).
+Reduced-motion support across animated sections.

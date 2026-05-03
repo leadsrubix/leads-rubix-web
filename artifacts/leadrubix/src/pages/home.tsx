@@ -31,6 +31,7 @@ import {
 import { Link } from "wouter";
 import { useSEO } from "@/lib/useSEO";
 import { useContent } from "@/lib/useContent";
+import { SocialProofTicker } from "@/components/marketing/SocialProofTicker";
 
 interface HomeHero {
   eyebrow: string;
@@ -275,11 +276,14 @@ export default function Home() {
           <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-[#252140]/[0.05] rounded-full blur-3xl pointer-events-none" />
           <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
             <div className="max-w-2xl relative z-10">
-              <div
-                className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#FFFFFF]/50 border border-[#252140]/20 rounded-full text-xs font-semibold tracking-widest uppercase text-[#252140] mb-8 shadow-sm"
-                data-testid="hero-eyebrow"
-              >
-                {hero.eyebrow}
+              <div className="flex items-center flex-wrap gap-3 mb-8">
+                <div
+                  className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#FFFFFF]/50 border border-[#252140]/20 rounded-full text-xs font-semibold tracking-widest uppercase text-[#252140] shadow-sm"
+                  data-testid="hero-eyebrow"
+                >
+                  {hero.eyebrow}
+                </div>
+                <SocialProofTicker />
               </div>
               <h1
                 className="font-['Fraunces'] text-6xl md:text-7xl leading-[1.1] mb-6 font-medium"

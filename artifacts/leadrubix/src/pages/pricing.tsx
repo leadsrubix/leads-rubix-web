@@ -8,6 +8,7 @@ import { useSEO } from "@/lib/useSEO";
 import { useContent } from "@/lib/useContent";
 import { RoiCalculator } from "@/components/marketing/RoiCalculator";
 import { ExitIntentModal } from "@/components/marketing/ExitIntentModal";
+import { InlineLeadForm } from "@/components/marketing/InlineLeadForm";
 
 type RawPlan = {
   name: string;
@@ -462,6 +463,19 @@ export default function Pricing() {
       <section className="py-20 bg-slate-50 border-b">
         <div className="container mx-auto px-4 max-w-4xl">
           <RoiCalculator />
+        </div>
+      </section>
+
+      {/* Inline lead capture */}
+      <section className="py-16 bg-background border-b">
+        <div className="container mx-auto px-4 max-w-3xl">
+          <InlineLeadForm
+            placement="pricing"
+            title="Not sure which plan fits? Talk to us."
+            subtitle="A 15-minute call with our India team — we'll recommend the right plan for your team size and pipeline."
+            ctaLabel="Request a callback"
+            message="Hi — I'd like help choosing a Leads Rubix plan. Please call me back."
+          />
         </div>
       </section>
 

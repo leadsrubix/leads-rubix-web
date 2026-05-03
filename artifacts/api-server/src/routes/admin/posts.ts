@@ -32,6 +32,9 @@ const UpsertSchema = z.object({
   ogImage: optionalUrl,
   tags: TagsSchema.default([]),
   status: z.enum(POST_STATUSES).default("draft"),
+  // ISO-8601 timestamp. When provided with status=published, lets editors
+  // schedule a post to go live at a future time (or back-date older posts).
+  publishedAt: z.string().datetime().nullable().optional(),
 });
 
 router.get("/", async (_req, res) => {
@@ -55,7 +58,15 @@ router.post("/", async (req, res) => {
     return;
   }
   try {
-    const publishedAt = parsed.data.status === "published" ? new Date() : null;
+    // Honor caller-provided publishedAt for scheduled/back-dated posts; fall
+    // back to "now" when publishing without an explicit timestamp.
+    const explicitPublishedAt = parsed.data.publishedAt
+      ? new Date(parsed.data.publishedAt)
+      : null;
+    const publishedAt =
+      parsed.data.status === "published"
+        ? (explicitPublishedAt ?? new Date())
+        : explicitPublishedAt;
     const [row] = await db
       .insert(postsTable)
       .values({
@@ -101,8 +112,13 @@ router.patch("/:id", async (req, res) => {
   }
   const nextStatus = parsed.data.status ?? existing.status;
   let publishedAt = existing.publishedAt;
-  if (nextStatus === "published" && !existing.publishedAt) publishedAt = new Date();
-  if (nextStatus === "draft") publishedAt = null;
+  // If the caller explicitly sent a publishedAt (even null), honor it. This
+  // is how the admin UI schedules / back-dates posts.
+  if (Object.prototype.hasOwnProperty.call(parsed.data, "publishedAt")) {
+    publishedAt = parsed.data.publishedAt ? new Date(parsed.data.publishedAt) : null;
+  }
+  if (nextStatus === "published" && !publishedAt) publishedAt = new Date();
+  if (nextStatus === "draft" && !parsed.data.publishedAt) publishedAt = null;
 
   const updates: Record<string, unknown> = {
     publishedAt,

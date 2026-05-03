@@ -12,7 +12,23 @@ export function WhatsAppFab({
   message?: string;
 }) {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  // Defer mounting until the browser is idle so the FAB never competes with
+  // the LCP image or hero JS for main-thread time.
+  useEffect(() => {
+    type IdleCallback = (cb: () => void, opts?: { timeout: number }) => number;
+    const win = window as Window & { requestIdleCallback?: IdleCallback };
+    const ric = win.requestIdleCallback;
+    if (typeof ric === "function") {
+      const handle = ric(() => setMounted(true), { timeout: 2500 });
+      return () => {
+        const cancelIdle = (window as Window & { cancelIdleCallback?: (h: number) => void })
+          .cancelIdleCallback;
+        if (typeof cancelIdle === "function") cancelIdle(handle);
+      };
+    }
+    const t = setTimeout(() => setMounted(true), 1500);
+    return () => clearTimeout(t);
+  }, []);
   if (!mounted) return null;
 
   const href = `https://wa.me/${phone.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(message)}`;

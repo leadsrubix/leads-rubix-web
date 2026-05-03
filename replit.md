@@ -14,6 +14,17 @@ I prefer to work iteratively. Please ask before making major changes. I value cl
 
 The project is structured as a pnpm workspace monorepo, with each package managing its own dependencies. Key packages include `@workspace/api-server` for the backend, `@workspace/leadrubix` for the frontend, and shared libraries.
 
+## Recent updates (v3.1 — May 2026, conversion + perf + admin polish)
+
+- **Microsoft Clarity (4th tracking pixel)** — `tracking_pixels` CMS schema gained `clarityProjectId` (alphanumeric, ≤20 chars). `TrackingPixels.tsx` injects the official Clarity snippet when **analytics** consent is granted, alongside GA4. Same consent-gating + once-per-page-load semantics as the existing pixels.
+- **Inline lead capture (`InlineLeadForm`)** — Compact 3-field (name / email / phone) form mounted under the ROI calculator on `/pricing`. Posts to `/api/contact` with a placement-tagged `source` (`inline-pricing`) so future analytics can split conversion by location. Includes honeypot + accessible labels + success state.
+- **Live social-proof ticker** — New `GET /api/stats/social-proof` returns aggregate-only lead counts (total / last30d / last7d / distinctCompanies, excluding spam). `SocialProofTicker.tsx` renders an animated "X teams enquired in the last 30 days" badge in the home hero, hidden when last30d < 5 to avoid showing weak numbers.
+- **Scheduled & back-dated posts** — Admin Post editor gained a `datetime-local` "Publish date / time" input (next to Status). `POST /admin/posts` and `PATCH /admin/posts/:id` now honor caller-provided `publishedAt` instead of always overwriting it with `now()`. Public `GET /api/posts` and `GET /api/posts/:slug` filter `WHERE publishedAt IS NULL OR publishedAt <= now()`, so future-dated posts stay hidden until their publish time arrives — no schema migration needed.
+- **Admin Cmd/Ctrl+K command palette** — New `CommandPalette` component mounted inside `AdminLayout`. Opens with Cmd/Ctrl+K or `/` (when not in a text field), supports keyboard navigation, substring filtering, and Enter-to-run. Shortcuts cover all admin sections + "New post" + "Open public site".
+- **Idle WhatsApp FAB** — `WhatsAppFab` now mounts via `requestIdleCallback` (1.5s setTimeout fallback) so the floating button never competes with the LCP image or hero JS for main-thread time.
+- **`useContentWithStatus`** — `useContent` was extended with a sibling hook that exposes `{ value, loading }` so callers can render skeletons instead of the brief "default-then-CMS" flash. Existing `useContent` API unchanged.
+- **Reduced-motion CSS** — `index.css` honors `@media (prefers-reduced-motion: reduce)` by collapsing animation/transition durations to ~0ms site-wide. Pairs with the `motion-reduce:hidden` ping dot on `SocialProofTicker`.
+
 ## Recent updates (v3.0 — May 2026, marketing pixels)
 
 - **CMS-driven tracking pixels** — New `tracking_pixels` CMS section (admin → Site content → Tracking) lets the team set GA4 (`ga4MeasurementId`, e.g. `G-XXXXXXXX`), Meta Pixel (`fbPixelId`), and Taboola (`taboolaAccountId`) IDs without a code change. Server-side Zod validator (`api-server/src/lib/content-validators.ts`) constrains each ID to a tight char/length set so values can't smuggle script payloads.

@@ -69,6 +69,14 @@ const TrackingPixels = z.object({
       "taboolaAccountId must be alphanumeric (digits, letters, _ or -)",
     )
     .default(""),
+  clarityProjectId: z
+    .string()
+    .max(20)
+    .regex(
+      /^[a-zA-Z0-9]{0,20}$/,
+      "clarityProjectId must be alphanumeric",
+    )
+    .default(""),
 });
 
 const SCHEMAS: Record<string, z.ZodTypeAny> = {

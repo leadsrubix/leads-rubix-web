@@ -211,11 +211,12 @@ export const KNOWN_SECTIONS: SectionDefinition[] = [
     key: "tracking_pixels",
     label: "Tracking — GA4 / FB Pixel / Taboola",
     description:
-      "Marketing & analytics tags fired site-wide. Pixels only load after the visitor accepts cookies in the consent banner: GA4 fires under 'analytics' consent; Facebook Pixel and Taboola fire under 'marketing' consent. Leave any field blank to disable that pixel. ga4MeasurementId looks like 'G-XXXXXXXX'. fbPixelId is the numeric ID from Meta Events Manager. taboolaAccountId is the account/publisher slug from Taboola Backstage.",
+      "Marketing & analytics tags fired site-wide. Pixels only load after the visitor accepts cookies in the consent banner: GA4 + Microsoft Clarity fire under 'analytics' consent; Facebook Pixel and Taboola fire under 'marketing' consent. Leave any field blank to disable that pixel. ga4MeasurementId looks like 'G-XXXXXXXX'. fbPixelId is the numeric ID from Meta Events Manager. taboolaAccountId is the account/publisher slug from Taboola Backstage. clarityProjectId is the short alphanumeric ID from clarity.microsoft.com.",
     defaultValue: {
       ga4MeasurementId: "",
       fbPixelId: "",
       taboolaAccountId: "",
+      clarityProjectId: "",
     },
   },
   {

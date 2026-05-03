@@ -47,6 +47,7 @@ export default function AdminPostEdit() {
     ogImage: "",
     tags: [],
     status: "draft",
+    publishedAt: null,
   });
   const [tagDraft, setTagDraft] = useState("");
   const [touchedSlug, setTouchedSlug] = useState(false);
@@ -69,6 +70,7 @@ export default function AdminPostEdit() {
           ogImage: post.ogImage ?? "",
           tags: post.tags ?? [],
           status: post.status,
+          publishedAt: post.publishedAt ?? null,
         });
         setTouchedSlug(true);
       })
@@ -109,6 +111,7 @@ export default function AdminPostEdit() {
         metaDescription: form.metaDescription?.trim() ? form.metaDescription : null,
         tags: form.tags ?? [],
         status: publishOverride ?? form.status,
+        publishedAt: form.publishedAt ?? null,
       };
       if (isNew) {
         const { post } = await adminApi.createPost(payload);
@@ -365,20 +368,57 @@ export default function AdminPostEdit() {
               </Button>
             </div>
           </div>
-          <div className="space-y-1.5">
-            <Label>Status</Label>
-            <Select
-              value={form.status}
-              onValueChange={(v) => update("status", v as "draft" | "published")}
-            >
-              <SelectTrigger className="w-48" data-testid="select-post-status">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="draft">Draft</SelectItem>
-                <SelectItem value="published">Published</SelectItem>
-              </SelectContent>
-            </Select>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="space-y-1.5">
+              <Label>Status</Label>
+              <Select
+                value={form.status}
+                onValueChange={(v) => update("status", v as "draft" | "published")}
+              >
+                <SelectTrigger className="w-full" data-testid="select-post-status">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="draft">Draft</SelectItem>
+                  <SelectItem value="published">Published</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="published-at">
+                Publish date / time{" "}
+                <span className="text-muted-foreground font-normal">
+                  ({Intl.DateTimeFormat().resolvedOptions().timeZone || "local time"})
+                </span>
+              </Label>
+              <Input
+                id="published-at"
+                type="datetime-local"
+                value={(() => {
+                  if (!form.publishedAt) return "";
+                  // Render the stored UTC instant in the editor's local tz so
+                  // the picker matches what they typed last time.
+                  const d = new Date(form.publishedAt);
+                  const pad = (n: number) => String(n).padStart(2, "0");
+                  return (
+                    `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}` +
+                    `T${pad(d.getHours())}:${pad(d.getMinutes())}`
+                  );
+                })()}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  update("publishedAt", v ? new Date(v).toISOString() : null);
+                }}
+                data-testid="input-post-published-at"
+              />
+              <p className="text-xs text-muted-foreground">
+                {form.publishedAt && new Date(form.publishedAt) > new Date()
+                  ? `Scheduled — goes live ${new Date(form.publishedAt).toLocaleString("en-IN")}.`
+                  : form.status === "published"
+                    ? "Leave blank to publish immediately on save."
+                    : "Optional — set to back-date or schedule when you publish."}
+              </p>
+            </div>
           </div>
         </CardContent>
       </Card>

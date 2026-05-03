@@ -6,12 +6,14 @@ export interface TrackingPixelsConfig {
   ga4MeasurementId: string;
   fbPixelId: string;
   taboolaAccountId: string;
+  clarityProjectId: string;
 }
 
 export const TRACKING_PIXELS_DEFAULT: TrackingPixelsConfig = {
   ga4MeasurementId: "",
   fbPixelId: "",
   taboolaAccountId: "",
+  clarityProjectId: "",
 };
 
 interface ConsentRecord {
@@ -96,6 +98,19 @@ function loadFbPixel(id: string): void {
   );
 }
 
+function loadClarity(id: string): void {
+  const safe = id.trim();
+  if (!/^[a-zA-Z0-9]{4,20}$/.test(safe)) return;
+  const safeJson = JSON.stringify(safe);
+  injectScript(
+    `clarity:${safe}`,
+    undefined,
+    `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};` +
+      `t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;` +
+      `y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script",${safeJson});`,
+  );
+}
+
 function loadTaboola(id: string): void {
   const safe = id.trim();
   if (!isValidPixelId(safe)) return;
@@ -164,9 +179,16 @@ export function TrackingPixels(): null {
   useEffect(() => {
     if (!consent) return;
     if (consent.analytics && cfg.ga4MeasurementId) loadGa4(cfg.ga4MeasurementId);
+    if (consent.analytics && cfg.clarityProjectId) loadClarity(cfg.clarityProjectId);
     if (consent.marketing && cfg.fbPixelId) loadFbPixel(cfg.fbPixelId);
     if (consent.marketing && cfg.taboolaAccountId) loadTaboola(cfg.taboolaAccountId);
-  }, [consent, cfg.ga4MeasurementId, cfg.fbPixelId, cfg.taboolaAccountId]);
+  }, [
+    consent,
+    cfg.ga4MeasurementId,
+    cfg.clarityProjectId,
+    cfg.fbPixelId,
+    cfg.taboolaAccountId,
+  ]);
 
   // SPA route change → re-fire page_view on each pixel that's already loaded.
   // The initial location render also runs this, but each pixel's own snippet

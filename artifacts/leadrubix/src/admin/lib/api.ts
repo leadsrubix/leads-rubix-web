@@ -277,6 +277,8 @@ export interface PostInput {
   ogImage?: string | null;
   tags?: string[];
   status: "draft" | "published";
+  /** ISO-8601 timestamp. Use a future time to schedule, omit to publish now. */
+  publishedAt?: string | null;
 }
 
 export interface AuditEvent {
