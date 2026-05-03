@@ -230,6 +230,11 @@ export default function Home() {
   const testimonials = testimonialsCms.length > 0 ? testimonialsCms : DEFAULT_TESTIMONIALS;
   const usingCmsTestimonials = testimonialsCms.length > 0;
   const faqCms = useContent<Array<{ question: string; answer: string }>>("faq_items", []);
+  const footerCms = useContent<{ phone?: string }>("footer_contact", {});
+  const cmsPhone = footerCms.phone?.trim() ?? "";
+  const localBusinessJsonLd = cmsPhone
+    ? { ...LOCAL_BUSINESS_JSONLD, telephone: cmsPhone }
+    : LOCAL_BUSINESS_JSONLD;
   const HOME_FAQ_FALLBACK = [
     { question: "How long is the free trial?", answer: "We offer a 7-day full-featured free trial. No credit card is required to sign up." },
     { question: "Can I cancel anytime?", answer: "Yes, our subscriptions are month-to-month. You can cancel at any time without penalty." },
@@ -248,7 +253,7 @@ export default function Home() {
     canonical: "https://leadsrubix.com/",
     jsonLd: [
       ORGANIZATION_JSONLD,
-      LOCAL_BUSINESS_JSONLD,
+      localBusinessJsonLd,
       SOFTWARE_JSONLD,
       WEBSITE_JSONLD,
       SPEAKABLE_JSONLD,

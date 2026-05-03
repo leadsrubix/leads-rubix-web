@@ -12,7 +12,12 @@ import { Mail, MapPin, Clock } from "lucide-react";
 import { useState } from "react";
 import { Link } from "wouter";
 import { useSEO } from "@/lib/useSEO";
+import { useContent } from "@/lib/useContent";
 import { annotateSource } from "@/lib/utm";
+
+interface FooterContact {
+  phone?: string;
+}
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -24,6 +29,8 @@ const formSchema = z.object({
 });
 
 export default function Contact() {
+  const footer = useContent<FooterContact>("footer_contact", {});
+  const phone = footer.phone?.trim() ?? "";
   useSEO({
     title: "Contact — Leads Rubix | Talk to our India sales team",
     description:
@@ -44,6 +51,7 @@ export default function Contact() {
         name: "Leads Rubix Technologies Pvt. Ltd.",
         url: "https://leadsrubix.com",
         email: "hello@leadsrubix.com",
+        ...(phone ? { telephone: phone } : {}),
         priceRange: "₹₹",
         address: {
           "@type": "PostalAddress",

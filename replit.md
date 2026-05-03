@@ -14,6 +14,13 @@ I prefer to work iteratively. Please ask before making major changes. I value cl
 
 The project is structured as a pnpm workspace monorepo, with each package managing its own dependencies. Key packages include `@workspace/api-server` for the backend, `@workspace/leadrubix` for the frontend, and shared libraries.
 
+## Recent updates (v3.2 — May 2026, pre-launch fixes)
+
+- **CMS-driven phone & WhatsApp** — `footer_contact` content section now carries `phone` (international format, e.g. `+91-9871633838`) and `whatsapp` (digits-only international, e.g. `919871633838`). Both validated server-side in `content-validators.ts` and editable via the admin Content tab. The home + contact `LocalBusiness` JSON-LD now reads the CMS phone via `useContent`; the floating `WhatsAppFab` reads the CMS number and hides itself entirely when blank (no more placeholder `919999999999`). Real Leads Rubix numbers seeded.
+- **Real blog content** — Removed 4 leftover E2E/smoke-test posts and seeded 3 production-ready markdown posts (round-robin lead routing, WhatsApp-first capture, GST-compliant pricing) with proper meta descriptions, tags, and back-dated `publishedAt` so the listing is paginated naturally.
+- **Lead-notification webhook** — Code path (`notify.ts` + `routes/contact.ts`) was already wired as fire-and-forget; the `LEAD_NOTIFICATION_WEBHOOK` secret will be added later by the team via the Secrets tab when their alerting endpoint is ready.
+- Tracking pixel IDs (GA4, Clarity, FB Pixel, Taboola) deferred to admin self-service via the existing `tracking_pixels` Content section.
+
 ## Recent updates (v3.1 — May 2026, conversion + perf + admin polish)
 
 - **Microsoft Clarity (4th tracking pixel)** — `tracking_pixels` CMS schema gained `clarityProjectId` (alphanumeric, ≤20 chars). `TrackingPixels.tsx` injects the official Clarity snippet when **analytics** consent is granted, alongside GA4. Same consent-gating + once-per-page-load semantics as the existing pixels.
