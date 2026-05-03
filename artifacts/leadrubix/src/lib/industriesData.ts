@@ -121,6 +121,111 @@ export const INDUSTRIES_DEFAULT: IndustriesContent = {
             "Fully. Agents check in to site visits with GPS, log notes by voice, send WhatsApp messages and update bookings — all from their phone.",
         },
       ],
+      comparison: [
+        {
+          capability: "Lead capture from Facebook & 99acres",
+          spreadsheet: "Manual copy-paste",
+          genericCrm: "Generic webhook setup",
+          leadsRubix: "Pre-built native connector",
+        },
+        {
+          capability: "Auto-route by language & project",
+          spreadsheet: "Not possible",
+          genericCrm: "Custom workflow build",
+          leadsRubix: "Built-in, drag-and-drop",
+        },
+        {
+          capability: "GPS-verified site visits",
+          spreadsheet: "Trust the agent",
+          genericCrm: "Add-on or custom code",
+          leadsRubix: "Native mobile app",
+        },
+        {
+          capability: "Token + GST invoice from CRM",
+          spreadsheet: "Reconciled in Tally next day",
+          genericCrm: "Razorpay add-on, manual GST",
+          leadsRubix: "One-click, end-to-end",
+        },
+        {
+          capability: "Channel partner attribution",
+          spreadsheet: "WhatsApp screenshots",
+          genericCrm: "Manual tagging",
+          leadsRubix: "Partner portal with audit log",
+        },
+      ],
+      timeline: [
+        {
+          week: "Week 1",
+          title: "Connect your sources",
+          bullets: [
+            "Plug in Facebook, 99acres, MagicBricks, Housing.com",
+            "Import existing leads and projects from Excel",
+            "Configure your project pipelines and inventory",
+          ],
+        },
+        {
+          week: "Week 2",
+          title: "Set up your team",
+          bullets: [
+            "Add agents, pre-sales, closing managers, channel partner team",
+            "Define routing rules by language and project",
+            "Configure SLA timers and escalation alerts",
+          ],
+        },
+        {
+          week: "Week 3",
+          title: "Train and go live",
+          bullets: [
+            "Hands-on training for sales and pre-sales",
+            "Mobile app rollout with site-visit GPS check-in",
+            "WhatsApp Business API connection and templates",
+          ],
+        },
+        {
+          week: "Week 4",
+          title: "Optimise and scale",
+          bullets: [
+            "Razorpay token + GST invoice flow live",
+            "Channel partner portal launch",
+            "Reporting dashboards customised for management",
+          ],
+        },
+      ],
+      caseStudy: {
+        company: "Mid-size Mumbai developer (3,000-unit portfolio)",
+        context:
+          "Was losing 30% of enquiries to slow first-touch. Channel-partner disputes were eating sales time. No reliable site-visit logs.",
+        metrics: [
+          { label: "Avg first-call response", before: "47 min", after: "<60 sec" },
+          { label: "Site-visit completion", before: "1.1×/lead", after: "3.2×/lead" },
+          { label: "Quarterly bookings", before: "84", after: "107 (+27%)" },
+          { label: "Channel partner disputes", before: "12/month", after: "<1/month" },
+        ],
+        summary:
+          "After 90 days on Leads Rubix, this developer doubled their site-visit rate and added 23 bookings per quarter — without adding a single agent.",
+      },
+      glossary: [
+        {
+          term: "Site visit",
+          definition:
+            "A scheduled, GPS-verified visit to the project site by an agent and prospective buyer. Tracked end-to-end with check-in, notes and outcome.",
+        },
+        {
+          term: "Channel partner",
+          definition:
+            "External brokers who refer leads in exchange for a commission. Each partner gets a portal login, lead submission interface and commission tracker.",
+        },
+        {
+          term: "Token amount",
+          definition:
+            "Initial booking payment (typically 1-2% of unit value). Collected via Razorpay link from the CRM and auto-receipted with GST.",
+        },
+        {
+          term: "Possession",
+          definition:
+            "The final stage when the buyer takes physical handover of the unit. Tracked alongside agreement and registration milestones.",
+        },
+      ],
       ctaLabel: "See real-estate playbook",
       ctaHref: "/demo",
     },
@@ -235,6 +340,111 @@ export const INDUSTRIES_DEFAULT: IndustriesContent = {
           question: "Can counsellors call from inside the CRM?",
           answer:
             "Yes — click-to-call with auto-logging and recording, plus WhatsApp templates and email cadences are all built in.",
+        },
+      ],
+      comparison: [
+        {
+          capability: "Capture from Shiksha & Collegedunia",
+          spreadsheet: "Daily CSV downloads",
+          genericCrm: "Custom integration",
+          leadsRubix: "Native, real-time",
+        },
+        {
+          capability: "Counsellor calling cadence",
+          spreadsheet: "Reminders in personal calendar",
+          genericCrm: "Workflow plus add-on",
+          leadsRubix: "Out-of-box per program",
+        },
+        {
+          capability: "Application document checklist",
+          spreadsheet: "Email back-and-forth",
+          genericCrm: "Custom build",
+          leadsRubix: "Applicant portal + status",
+        },
+        {
+          capability: "Fee link + receipt + reconciliation",
+          spreadsheet: "Manual in finance team",
+          genericCrm: "Razorpay add-on",
+          leadsRubix: "One-click, end-to-end",
+        },
+        {
+          capability: "Counsellor productivity dashboard",
+          spreadsheet: "No visibility",
+          genericCrm: "Generic reports",
+          leadsRubix: "Course-aware, role-based",
+        },
+      ],
+      timeline: [
+        {
+          week: "Week 1",
+          title: "Centralise enquiries",
+          bullets: [
+            "Connect website forms, Meta ads, Shiksha and Collegedunia",
+            "Import previous-cycle applicants for reactivation",
+            "Configure program-wise pipelines",
+          ],
+        },
+        {
+          week: "Week 2",
+          title: "Set up counsellor teams",
+          bullets: [
+            "Assign counsellors by program and campus",
+            "Build calling cadences and email/WhatsApp templates",
+            "Configure SLA timers (5 min for new enquiry)",
+          ],
+        },
+        {
+          week: "Week 3",
+          title: "Application & document workflow",
+          bullets: [
+            "Configure document checklist per program",
+            "Launch applicant portal with status tracking",
+            "Set up interview scheduler",
+          ],
+        },
+        {
+          week: "Week 4",
+          title: "Fee collection & reporting",
+          bullets: [
+            "Razorpay / PayU integration for fee links",
+            "Counsellor performance dashboards live",
+            "Funnel reporting by program and campus",
+          ],
+        },
+      ],
+      caseStudy: {
+        company: "Tier-1 management institute, Pune",
+        context:
+          "Annual intake of 6,000 enquiries with 8 counsellors. Drop-off between enquiry and first call was 40%, and finance reconciled fees manually.",
+        metrics: [
+          { label: "Avg counsellor response time", before: "2.4 hrs", after: "8 min" },
+          { label: "Enquiry-to-application rate", before: "12%", after: "29%" },
+          { label: "Applications per intake", before: "720", after: "2,140" },
+          { label: "Enrolment rate", before: "44%", after: "62%" },
+        ],
+        summary:
+          "Added 1,400 incremental applications in one cycle — without hiring additional counsellors. Cadence automation effectively replaced four FTEs.",
+      },
+      glossary: [
+        {
+          term: "Counsellor",
+          definition:
+            "Admissions team member who guides prospective students from enquiry to enrolment, typically over phone, email and WhatsApp.",
+        },
+        {
+          term: "Calling cadence",
+          definition:
+            "A pre-defined sequence of calls and messages over the first 7-14 days of an enquiry, designed to maximise response and conversion.",
+        },
+        {
+          term: "Intake",
+          definition:
+            "An admissions cycle for a given program (e.g. PGP 2026 intake). Each intake has its own pipeline, counsellor team and KPIs.",
+        },
+        {
+          term: "PQL (program-qualified lead)",
+          definition:
+            "An enquiry that meets eligibility criteria (work-ex, exam scores, qualification) for a specific program. Auto-flagged in the CRM.",
         },
       ],
       ctaLabel: "See education playbook",
@@ -352,6 +562,111 @@ export const INDUSTRIES_DEFAULT: IndustriesContent = {
             "Yes — embed the booking widget on your website, or share a link via WhatsApp. Self-booked appointments land directly in the CRM and the doctor's calendar.",
         },
       ],
+      comparison: [
+        {
+          capability: "Multi-channel patient enquiry capture",
+          spreadsheet: "Front-desk notebook",
+          genericCrm: "Manual data entry",
+          leadsRubix: "Practo + Justdial + chat native",
+        },
+        {
+          capability: "Doctor calendar sync",
+          spreadsheet: "Phone calls to confirm",
+          genericCrm: "Generic calendar add-on",
+          leadsRubix: "Native HIS / EMR integration",
+        },
+        {
+          capability: "Treatment package nurturing",
+          spreadsheet: "Counsellor's memory",
+          genericCrm: "Generic email drips",
+          leadsRubix: "Procedure-specific journeys",
+        },
+        {
+          capability: "Patient consent + audit trail",
+          spreadsheet: "Paper forms",
+          genericCrm: "Generic logging",
+          leadsRubix: "Role-based, immutable log",
+        },
+        {
+          capability: "TPA pre-authorisation tracking",
+          spreadsheet: "Email folders",
+          genericCrm: "Custom build",
+          leadsRubix: "Built-in workflow with SLAs",
+        },
+      ],
+      timeline: [
+        {
+          week: "Week 1",
+          title: "Capture every channel",
+          bullets: [
+            "Connect Practo, Justdial, website chat and call ads",
+            "Import existing patient enquiries",
+            "Set up department-wise queues",
+          ],
+        },
+        {
+          week: "Week 2",
+          title: "Doctor & appointment setup",
+          bullets: [
+            "Sync doctor calendars and slot availability",
+            "Configure WhatsApp confirmations and reminders",
+            "Build treatment-package quote templates",
+          ],
+        },
+        {
+          week: "Week 3",
+          title: "Patient journeys",
+          bullets: [
+            "Configure nurture for elective procedures",
+            "Set up TPA pre-auth workflows",
+            "Roll out role-based access for clinical data",
+          ],
+        },
+        {
+          week: "Week 4",
+          title: "Operate and measure",
+          bullets: [
+            "Self-booking widget on website",
+            "Post-visit follow-ups and review prompts",
+            "Department + doctor productivity dashboards",
+          ],
+        },
+      ],
+      caseStudy: {
+        company: "Multi-specialty clinic chain (12 centres)",
+        context:
+          "Patient enquiries scattered across phone, WhatsApp and Practo. Elective-procedure leads going cold. No-show rate at 22%.",
+        metrics: [
+          { label: "No-show rate", before: "22%", after: "10%" },
+          { label: "IVF enquiry-to-consult", before: "18%", after: "39%" },
+          { label: "Avg enquiry response", before: "1.8 hrs", after: "11 min" },
+          { label: "Package conversion rate", before: "9%", after: "19%" },
+        ],
+        summary:
+          "Doubled IVF and dental package conversions and cut no-shows by more than half — through structured nurture and automated reminders.",
+      },
+      glossary: [
+        {
+          term: "TPA pre-auth",
+          definition:
+            "Third-party administrator pre-authorisation — insurance approval before a procedure. Tracked with SLA timers in the CRM.",
+        },
+        {
+          term: "Elective procedure",
+          definition:
+            "Non-emergency, planned procedures (cosmetic, fertility, ortho) where patient education and nurturing matter most.",
+        },
+        {
+          term: "OPD vs IPD",
+          definition:
+            "Outpatient (consultation) vs inpatient (admission) departments. Each has its own pipeline, scheduler and revenue tracking.",
+        },
+        {
+          term: "PRM",
+          definition:
+            "Patient relationship manager — the person who owns a patient's journey from enquiry through follow-up and re-engagement.",
+        },
+      ],
       ctaLabel: "See healthcare playbook",
       ctaHref: "/demo",
     },
@@ -465,6 +780,111 @@ export const INDUSTRIES_DEFAULT: IndustriesContent = {
           question: "Can it re-target old service customers for new sales?",
           answer:
             "Yes — a service-to-sales nurture surfaces customers whose vehicles are 3-4 years old and seeds them into your sales pipeline automatically.",
+        },
+      ],
+      comparison: [
+        {
+          capability: "OEM portal + Cars24 + walk-in capture",
+          spreadsheet: "Manual entry by sales consultants",
+          genericCrm: "Custom integrations",
+          leadsRubix: "Native connectors",
+        },
+        {
+          capability: "Test-drive scheduling & reminders",
+          spreadsheet: "Phone confirmations day-of",
+          genericCrm: "Generic calendar",
+          leadsRubix: "Slot booking + 24h reminders",
+        },
+        {
+          capability: "Variant + accessory upsell",
+          spreadsheet: "Sales consultant judgment",
+          genericCrm: "Manual quote sheets",
+          leadsRubix: "Configurator + attach tracking",
+        },
+        {
+          capability: "Finance & exchange handoff",
+          spreadsheet: "Email chains",
+          genericCrm: "Generic tasks",
+          leadsRubix: "Native finance partner workflow",
+        },
+        {
+          capability: "Service-to-sales nurture",
+          spreadsheet: "Doesn't happen",
+          genericCrm: "Custom audience build",
+          leadsRubix: "Auto-triggered at year 3",
+        },
+      ],
+      timeline: [
+        {
+          week: "Week 1",
+          title: "Connect every lead source",
+          bullets: [
+            "OEM portal, Cars24, CarDekho integrations",
+            "Walk-in capture on showroom tablets",
+            "Import service customers for nurture",
+          ],
+        },
+        {
+          week: "Week 2",
+          title: "Sales team & test-drive setup",
+          bullets: [
+            "Add sales consultants, F&I manager, delivery team",
+            "Configure test-drive slots and reminder cadence",
+            "Build variant + accessory configurator",
+          ],
+        },
+        {
+          week: "Week 3",
+          title: "Finance, exchange, delivery",
+          bullets: [
+            "Connect bank/NBFC finance partner APIs",
+            "Used-car valuation workflow live",
+            "Delivery checklist and NPS post-handover",
+          ],
+        },
+        {
+          week: "Week 4",
+          title: "Optimise and re-target",
+          bullets: [
+            "Service-to-sales nurture for 3-year-old customers",
+            "Dealer principal dashboard with consultant scorecards",
+            "Multi-brand roll-up reports",
+          ],
+        },
+      ],
+      caseStudy: {
+        company: "Multi-brand dealership group, Gujarat",
+        context:
+          "Three brands, eight showrooms, no visibility into consultant productivity. Test-drive no-show rate at 38% and accessory attach was below 12%.",
+        metrics: [
+          { label: "Test-drive completion", before: "62%", after: "84%" },
+          { label: "Accessory attach rate", before: "11%", after: "27%" },
+          { label: "Lead-to-booking", before: "8.4%", after: "13.1%" },
+          { label: "F&I product attach", before: "44%", after: "71%" },
+        ],
+        summary:
+          "Closed 35% more test drives and added a quarter of additional accessory revenue — visible to the dealer principal in one daily dashboard.",
+      },
+      glossary: [
+        {
+          term: "F&I",
+          definition:
+            "Finance & Insurance — the post-sale workflow attaching loan and insurance products to a vehicle sale.",
+        },
+        {
+          term: "Test-drive (TD)",
+          definition:
+            "Showroom-scheduled customer drive of a chosen variant. Tracked with slot, consultant ownership and outcome.",
+        },
+        {
+          term: "Variant",
+          definition:
+            "A specific trim/configuration of a model (e.g. base, mid, top). Each lead carries a variant interest for accurate quoting.",
+        },
+        {
+          term: "Exchange (used-car)",
+          definition:
+            "Trade-in of the customer's existing vehicle. Carries valuation, photos and approval workflow inside the lead.",
         },
       ],
       ctaLabel: "See automotive playbook",
@@ -582,6 +1002,111 @@ export const INDUSTRIES_DEFAULT: IndustriesContent = {
             "Yes — partner advisors can use a co-branded portal that funnels leads into your central pipeline.",
         },
       ],
+      comparison: [
+        {
+          capability: "Audit-ready conversation logs",
+          spreadsheet: "Not possible",
+          genericCrm: "Generic notes (editable)",
+          leadsRubix: "Immutable, timestamped, exportable",
+        },
+        {
+          capability: "Aadhaar e-KYC + bureau pulls",
+          spreadsheet: "Manual document collection",
+          genericCrm: "Custom integration",
+          leadsRubix: "Native vendor integrations",
+        },
+        {
+          capability: "Multi-product cross-sell triggers",
+          spreadsheet: "Doesn't happen",
+          genericCrm: "Custom workflow build",
+          leadsRubix: "Out-of-box product graph",
+        },
+        {
+          capability: "Compliance-grade consent capture",
+          spreadsheet: "Paper / email",
+          genericCrm: "Generic forms",
+          leadsRubix: "Built-in consent ledger",
+        },
+        {
+          capability: "Renewal & default playbooks",
+          spreadsheet: "Excel reminders",
+          genericCrm: "Generic email sequences",
+          leadsRubix: "Product-specific journeys",
+        },
+      ],
+      timeline: [
+        {
+          week: "Week 1",
+          title: "Compliant lead capture",
+          bullets: [
+            "Connect aggregators (BankBazaar, PolicyBazaar, Paisabazaar)",
+            "EMI / premium calculator embeds with consent capture",
+            "Configure product-wise pipelines",
+          ],
+        },
+        {
+          week: "Week 2",
+          title: "KYC & advisor setup",
+          bullets: [
+            "Aadhaar e-KYC vendor integration",
+            "CIBIL / Experian bureau pulls",
+            "Advisor and underwriter routing rules",
+          ],
+        },
+        {
+          week: "Week 3",
+          title: "Audit and compliance posture",
+          bullets: [
+            "Immutable audit log activated for all state changes",
+            "Role-based access for advisors, underwriters, compliance",
+            "Document e-sign integration (DocuSign / Leegality)",
+          ],
+        },
+        {
+          week: "Week 4",
+          title: "Cross-sell and renewals",
+          bullets: [
+            "Cross-sell triggers across product lines",
+            "Renewal nurture cycles per product",
+            "Compliance dashboard with audit exports",
+          ],
+        },
+      ],
+      caseStudy: {
+        company: "Mid-sized NBFC, ₹2,000 Cr book",
+        context:
+          "Compliance team flagged advisor-conversation gaps in audits. KYC turnaround was averaging 9 days. Cross-sell across home-loan, insurance and investments was effectively zero.",
+        metrics: [
+          { label: "Audit-trail coverage", before: "62%", after: "100%" },
+          { label: "KYC turnaround", before: "9 days", after: "6 days" },
+          { label: "Cross-sell attach rate", before: "4%", after: "23%" },
+          { label: "Advisor productivity (loans/mo)", before: "8.2", after: "14.7" },
+        ],
+        summary:
+          "Closed every audit gap, cut KYC time by a third, and turned cross-sell from a hope into a system that adds 19% to monthly revenue.",
+      },
+      glossary: [
+        {
+          term: "KYC",
+          definition:
+            "Know-Your-Customer — mandatory identity verification for any financial product. Tracked as a checklist with SLA timers.",
+        },
+        {
+          term: "Bureau pull",
+          definition:
+            "A credit-bureau check (CIBIL, Experian) that retrieves a customer's credit report for underwriting.",
+        },
+        {
+          term: "Pre-disbursal vs post-disbursal",
+          definition:
+            "Stages of a loan lifecycle. Pre-disbursal covers KYC, sanction and documentation; post-disbursal covers EMI, renewal, default.",
+        },
+        {
+          term: "TPA / partner channel",
+          definition:
+            "Third-party advisors or partner channels (often white-labelled). They submit leads through a portal that funnels into your central pipeline.",
+        },
+      ],
       ctaLabel: "See BFSI playbook",
       ctaHref: "/demo",
     },
@@ -695,6 +1220,111 @@ export const INDUSTRIES_DEFAULT: IndustriesContent = {
           question: "Can past travellers be re-engaged automatically?",
           answer:
             "Yes — based on past trip type, season and time elapsed, customers flow into reactivation campaigns over WhatsApp and email.",
+        },
+      ],
+      comparison: [
+        {
+          capability: "Itinerary builder with day-wise plans",
+          spreadsheet: "Word documents",
+          genericCrm: "Free-text notes",
+          leadsRubix: "Drag-and-drop with rate cards",
+        },
+        {
+          capability: "Branded PDF proposals",
+          spreadsheet: "PowerPoint exports",
+          genericCrm: "Generic quote templates",
+          leadsRubix: "On-brand, one-click PDFs",
+        },
+        {
+          capability: "Quote versioning + approvals",
+          spreadsheet: "Email back-and-forth",
+          genericCrm: "Manual versioning",
+          leadsRubix: "Built-in v1/v2/v3 + workflow",
+        },
+        {
+          capability: "Supplier / DMC rate management",
+          spreadsheet: "Annual rate-card sheets",
+          genericCrm: "Not supported",
+          leadsRubix: "Seasonal rate cards inside CRM",
+        },
+        {
+          capability: "Past-traveller reactivation",
+          spreadsheet: "Bulk email blasts",
+          genericCrm: "Generic email lists",
+          leadsRubix: "Trip-type and season-aware nurture",
+        },
+      ],
+      timeline: [
+        {
+          week: "Week 1",
+          title: "Capture and centralise",
+          bullets: [
+            "Plug in website forms, Meta ads, MMT, Booking.com",
+            "Import past travellers for reactivation",
+            "Configure destination & trip-type pipelines",
+          ],
+        },
+        {
+          week: "Week 2",
+          title: "Rate cards & itinerary builder",
+          bullets: [
+            "Load supplier hotel, transfer and activity rates",
+            "Build branded PDF proposal template",
+            "Configure quote-versioning approval flow",
+          ],
+        },
+        {
+          week: "Week 3",
+          title: "Booking & operations",
+          bullets: [
+            "Razorpay / Stripe payment integration",
+            "Visa & document checklist per destination",
+            "Group / MICE workflow for corporate enquiries",
+          ],
+        },
+        {
+          week: "Week 4",
+          title: "Re-engage and grow",
+          bullets: [
+            "Post-trip review prompts on WhatsApp",
+            "Past-traveller reactivation by season",
+            "Margin and consultant-productivity dashboards",
+          ],
+        },
+      ],
+      caseStudy: {
+        company: "Boutique luxury travel agency",
+        context:
+          "Losing high-value enquiries to OTAs because itinerary turnaround was 2-3 days. Past travellers never re-targeted. Margin leakage from manual quoting.",
+        metrics: [
+          { label: "Avg quote turnaround", before: "2.4 days", after: "20 min" },
+          { label: "Itineraries per agent / day", before: "1.4", after: "3.9" },
+          { label: "Repeat-booking rate", before: "12%", after: "38%" },
+          { label: "Annual GMV", before: "₹14 Cr", after: "₹22 Cr" },
+        ],
+        summary:
+          "Annual GMV up 60% by being the first agent to send a beautiful, accurate itinerary — and then bringing back travellers who would have booked elsewhere next time.",
+      },
+      glossary: [
+        {
+          term: "DMC",
+          definition:
+            "Destination Management Company — local supplier handling on-ground arrangements (hotels, transfers, guides) at a destination.",
+        },
+        {
+          term: "Pax",
+          definition:
+            "Passengers — the count of travellers on a trip. Drives pricing, room mix and inclusion calculations.",
+        },
+        {
+          term: "FIT vs MICE",
+          definition:
+            "FIT = Free Independent Traveller (individual / family bookings). MICE = Meetings, Incentives, Conferences, Events (group / corporate).",
+        },
+        {
+          term: "Voucher",
+          definition:
+            "Confirmation document for hotel, transfer or activity. Generated by the CRM after booking and shared with the traveller.",
         },
       ],
       ctaLabel: "See travel playbook",
@@ -814,6 +1444,111 @@ export const INDUSTRIES_DEFAULT: IndustriesContent = {
             "Yes — multi-currency deals, timezone-aware scheduling, and territory routing are first-class.",
         },
       ],
+      comparison: [
+        {
+          capability: "Inbound demo routing in <30s",
+          spreadsheet: "Slack ping + manual assign",
+          genericCrm: "Round-robin only",
+          leadsRubix: "Territory + ICP + size routing",
+        },
+        {
+          capability: "Stakeholder map per opportunity",
+          spreadsheet: "Mental model",
+          genericCrm: "Free-text contacts",
+          leadsRubix: "Native buying-committee module",
+        },
+        {
+          capability: "PQL ingest from product",
+          spreadsheet: "Doesn't exist",
+          genericCrm: "Custom Segment build",
+          leadsRubix: "Built-in event ingest + rules",
+        },
+        {
+          capability: "Forecast confidence by stage",
+          spreadsheet: "Reps' gut feeling",
+          genericCrm: "Generic probability fields",
+          leadsRubix: "Per-stage confidence + variance",
+        },
+        {
+          capability: "Renewal & expansion playbooks",
+          spreadsheet: "CSM spreadsheet",
+          genericCrm: "Generic tasks",
+          leadsRubix: "Risk-scored, play-driven",
+        },
+      ],
+      timeline: [
+        {
+          week: "Week 1",
+          title: "Inbound and routing",
+          bullets: [
+            "Connect website forms, LinkedIn, content downloads",
+            "Define ICP and territory routing rules",
+            "Calendly + email integration for AEs",
+          ],
+        },
+        {
+          week: "Week 2",
+          title: "Pipeline and stakeholder map",
+          bullets: [
+            "Configure deal stages with exit criteria",
+            "Stakeholder map module enabled per opportunity",
+            "Quote, proposal and e-sign templates",
+          ],
+        },
+        {
+          week: "Week 3",
+          title: "PQL and product analytics",
+          bullets: [
+            "Segment / product analytics event ingest",
+            "PQL rules and SDR handoff workflow",
+            "Slack notifications for high-intent signals",
+          ],
+        },
+        {
+          week: "Week 4",
+          title: "Forecast and CS motion",
+          bullets: [
+            "Per-stage confidence and variance tracking",
+            "Customer success / renewal pipelines",
+            "Expansion play library activated",
+          ],
+        },
+      ],
+      caseStudy: {
+        company: "Series-B SaaS, $14M ARR",
+        context:
+          "Replacing HubSpot Sales Hub plus a tangle of Notion docs and spreadsheets. Inbound demos were taking 18+ hours to route. Renewals were reactive, never proactive.",
+        metrics: [
+          { label: "Inbound-to-demo-held", before: "31%", after: "58%" },
+          { label: "Avg deal velocity", before: "94 days", after: "59 days" },
+          { label: "Forecast accuracy", before: "±32%", after: "±9%" },
+          { label: "Net renewal rate", before: "78%", after: "92%" },
+        ],
+        summary:
+          "Pipeline visibility went from monthly guesswork to live dashboards. Renewals climbed to 92% in year one and forecast accuracy is now within ±9%.",
+      },
+      glossary: [
+        {
+          term: "ICP",
+          definition:
+            "Ideal Customer Profile — the company-level criteria (size, vertical, geography) that define your best-fit customers.",
+        },
+        {
+          term: "PQL",
+          definition:
+            "Product-Qualified Lead — a user whose in-product behaviour signals high intent. Triggers SDR handoff automatically.",
+        },
+        {
+          term: "Stakeholder map",
+          definition:
+            "A structured map of the buying committee on a deal: champion, economic buyer, technical evaluator, blocker.",
+        },
+        {
+          term: "NRR / GRR",
+          definition:
+            "Net Revenue Retention / Gross Revenue Retention — key SaaS metrics tracked at the customer-success layer.",
+        },
+      ],
       ctaLabel: "See SaaS playbook",
       ctaHref: "/demo",
     },
@@ -928,6 +1663,111 @@ export const INDUSTRIES_DEFAULT: IndustriesContent = {
           question: "What about distributor secondary sales?",
           answer:
             "Distributors report their secondary sales through a portal or mobile app. HQ sees full down-channel visibility for forecasting and incentives.",
+        },
+      ],
+      comparison: [
+        {
+          capability: "RFQ capture from IndiaMART/TradeIndia",
+          spreadsheet: "Daily email check",
+          genericCrm: "Custom webhook",
+          leadsRubix: "Native real-time integration",
+        },
+        {
+          capability: "Sample dispatch tracking",
+          spreadsheet: "WhatsApp groups",
+          genericCrm: "Generic tasks",
+          leadsRubix: "Tracked with logistics integration",
+        },
+        {
+          capability: "Multi-quarter pipeline view",
+          spreadsheet: "Excel sheets",
+          genericCrm: "Quarterly snapshots only",
+          leadsRubix: "Live, multi-quarter rollups",
+        },
+        {
+          capability: "Distributor secondary sales",
+          spreadsheet: "Monthly Excel from partners",
+          genericCrm: "Not supported",
+          leadsRubix: "Distributor portal + mobile",
+        },
+        {
+          capability: "Tender response workflow",
+          spreadsheet: "Email folders",
+          genericCrm: "Generic deals",
+          leadsRubix: "Deadline tracker + bid checklist",
+        },
+      ],
+      timeline: [
+        {
+          week: "Week 1",
+          title: "Centralise RFQs",
+          bullets: [
+            "Connect IndiaMART, TradeIndia, website RFQ forms",
+            "Import existing pipeline and product catalogue",
+            "Configure territory ownership rules",
+          ],
+        },
+        {
+          week: "Week 2",
+          title: "Field rep enablement",
+          bullets: [
+            "Mobile app with offline trip reports",
+            "Sample dispatch and follow-up cadence",
+            "Plant visit scheduler and check-in",
+          ],
+        },
+        {
+          week: "Week 3",
+          title: "Tender & contract workflow",
+          bullets: [
+            "Tender deadline tracking and bid checklists",
+            "Annual contract negotiation pipeline",
+            "Approval flows for high-value quotes",
+          ],
+        },
+        {
+          week: "Week 4",
+          title: "Distributor channel & ERP",
+          bullets: [
+            "Distributor portal + secondary sales reporting",
+            "Tally / SAP / Oracle ERP integration",
+            "GST e-invoicing and order-to-cash sync",
+          ],
+        },
+      ],
+      caseStudy: {
+        company: "Industrial fasteners manufacturer (₹450 Cr)",
+        context:
+          "Lost three field reps in 2024 — and with them, years of relationships and pipeline context. RFQ-to-quote rate was below 30%. Distributor secondary sales invisible to HQ.",
+        metrics: [
+          { label: "RFQ-to-quote rate", before: "28%", after: "61%" },
+          { label: "Pipeline retained on attrition", before: "~40%", after: "100%" },
+          { label: "Sample dispatch cycle", before: "9 days", after: "5 days" },
+          { label: "Distributor reporting accuracy", before: "Monthly Excel", after: "Live + on mobile" },
+        ],
+        summary:
+          "Lost zero deals on rep attrition because every conversation, visit and quote was in the system. RFQ-to-quote rate more than doubled.",
+      },
+      glossary: [
+        {
+          term: "RFQ",
+          definition:
+            "Request For Quotation — a buyer's structured request for pricing on specific products and quantities. The starting point of most B2B industrial deals.",
+        },
+        {
+          term: "Primary vs secondary sales",
+          definition:
+            "Primary = manufacturer to distributor. Secondary = distributor to retailer/end-customer. Both visible in the CRM.",
+        },
+        {
+          term: "Sample dispatch",
+          definition:
+            "Sending physical product samples to a prospect for testing and approval. Tracked end-to-end with logistics partners.",
+        },
+        {
+          term: "Annual rate contract (ARC)",
+          definition:
+            "A negotiated fixed-rate contract covering a financial year with periodic call-offs against it. Tracked across multiple quarters in the CRM.",
         },
       ],
       ctaLabel: "See manufacturing playbook",

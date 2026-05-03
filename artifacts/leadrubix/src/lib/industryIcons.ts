@@ -61,6 +61,37 @@ export interface IndustryHeroStat {
   label: string;
 }
 
+export interface IndustryComparisonRow {
+  capability: string;
+  spreadsheet: string;
+  genericCrm: string;
+  leadsRubix: string;
+}
+
+export interface IndustryTimelineWeek {
+  week: string;
+  title: string;
+  bullets: string[];
+}
+
+export interface IndustryCaseStudyMetric {
+  label: string;
+  before: string;
+  after: string;
+}
+
+export interface IndustryCaseStudy {
+  company: string;
+  context: string;
+  metrics: IndustryCaseStudyMetric[];
+  summary: string;
+}
+
+export interface IndustryGlossaryTerm {
+  term: string;
+  definition: string;
+}
+
 export interface IndustryItem {
   slug: string;
   name: string;
@@ -79,6 +110,10 @@ export interface IndustryItem {
   integrations?: string[];
   testimonial?: IndustryTestimonial;
   faq?: IndustryFaq[];
+  comparison?: IndustryComparisonRow[];
+  timeline?: IndustryTimelineWeek[];
+  caseStudy?: IndustryCaseStudy;
+  glossary?: IndustryGlossaryTerm[];
   ctaLabel?: string;
   ctaHref?: string;
 }

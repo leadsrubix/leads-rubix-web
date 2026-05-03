@@ -17,6 +17,11 @@ import {
   Plug,
   Users,
   Radio,
+  X,
+  Minus,
+  Calendar,
+  TrendingUp,
+  BookOpen,
 } from "lucide-react";
 import { useSEO } from "@/lib/useSEO";
 import { useContent } from "@/lib/useContent";
@@ -348,6 +353,201 @@ export default function IndustryDetail() {
         </section>
       ) : null}
 
+      {/* Comparison table */}
+      {item.comparison?.length ? (
+        <section className="py-16 md:py-20 bg-white border-b">
+          <div className="container mx-auto px-4 max-w-6xl">
+            <div className="text-center mb-12">
+              <span className="inline-block bg-[#252140]/5 text-[#252140] px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-3">
+                Why Leads Rubix
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold mb-3 text-[#252140]">
+                Leads Rubix vs spreadsheets vs generic CRM
+              </h2>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                What changes when you move from where you are today to a CRM built for {item.name.toLowerCase()}.
+              </p>
+            </div>
+            {/* Desktop table */}
+            <div className="hidden md:block overflow-x-auto rounded-2xl border border-[#252140]/10">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-slate-50 border-b border-[#252140]/10">
+                    <th className="text-left p-5 font-semibold text-[#252140] w-1/3">
+                      Capability
+                    </th>
+                    <th className="text-left p-5 font-medium text-muted-foreground">
+                      <div className="flex items-center gap-2">
+                        <Minus className="h-4 w-4 text-slate-400" />
+                        Spreadsheets
+                      </div>
+                    </th>
+                    <th className="text-left p-5 font-medium text-muted-foreground">
+                      <div className="flex items-center gap-2">
+                        <X className="h-4 w-4 text-slate-400" />
+                        Generic CRM
+                      </div>
+                    </th>
+                    <th className="text-left p-5 font-bold text-[#252140] bg-[#252140]/5">
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-[#252140]" />
+                        Leads Rubix
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {item.comparison.map((row, i) => (
+                    <tr
+                      key={i}
+                      className="border-b border-[#252140]/5 last:border-b-0 hover:bg-slate-50/50 transition-colors"
+                    >
+                      <td className="p-5 font-medium text-[#252140]">{row.capability}</td>
+                      <td className="p-5 text-muted-foreground">{row.spreadsheet}</td>
+                      <td className="p-5 text-muted-foreground">{row.genericCrm}</td>
+                      <td className="p-5 font-medium text-[#252140] bg-[#252140]/5">
+                        {row.leadsRubix}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {/* Mobile cards */}
+            <div className="md:hidden space-y-4">
+              {item.comparison.map((row, i) => (
+                <Card key={i} className="border-[#252140]/10">
+                  <CardContent className="p-5">
+                    <div className="font-bold text-[#252140] mb-3">{row.capability}</div>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex items-start gap-2">
+                        <Minus className="h-4 w-4 text-slate-400 mt-0.5 shrink-0" />
+                        <div>
+                          <span className="text-muted-foreground font-medium">
+                            Spreadsheets:
+                          </span>{" "}
+                          <span className="text-muted-foreground">{row.spreadsheet}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <X className="h-4 w-4 text-slate-400 mt-0.5 shrink-0" />
+                        <div>
+                          <span className="text-muted-foreground font-medium">
+                            Generic CRM:
+                          </span>{" "}
+                          <span className="text-muted-foreground">{row.genericCrm}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-2 pt-2 border-t border-[#252140]/10 mt-2">
+                        <CheckCircle2 className="h-4 w-4 text-[#252140] mt-0.5 shrink-0" />
+                        <div>
+                          <span className="text-[#252140] font-bold">Leads Rubix:</span>{" "}
+                          <span className="text-[#252140]">{row.leadsRubix}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Implementation timeline */}
+      {item.timeline?.length ? (
+        <section className="py-16 md:py-20 bg-slate-50 border-b">
+          <div className="container mx-auto px-4 max-w-5xl">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 bg-[#252140]/5 text-[#252140] px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-3">
+                <Calendar className="h-3.5 w-3.5" />
+                Go-live in 4 weeks
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-3 text-[#252140]">
+                Your implementation timeline
+              </h2>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                A predictable, week-by-week rollout for {item.name.toLowerCase()} teams. Most customers are fully live in under 30 days.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {item.timeline.map((w, i) => (
+                <div
+                  key={i}
+                  className="relative p-6 rounded-2xl border border-[#252140]/10 bg-white hover:border-[#252140]/30 hover:shadow-lg transition-all"
+                >
+                  <div className="text-xs font-semibold uppercase tracking-wider text-[#252140]/60 mb-2">
+                    {w.week}
+                  </div>
+                  <h3 className="text-lg font-bold text-[#252140] mb-3 leading-tight">
+                    {w.title}
+                  </h3>
+                  <ul className="space-y-2">
+                    {w.bullets.map((b, j) => (
+                      <li key={j} className="flex items-start gap-2 text-sm text-muted-foreground">
+                        <CheckCircle2 className="h-4 w-4 text-[#252140] shrink-0 mt-0.5" />
+                        <span>{b}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Case study */}
+      {item.caseStudy ? (
+        <section className="py-16 md:py-24 bg-gradient-to-br from-white to-slate-50 border-b">
+          <div className="container mx-auto px-4 max-w-5xl">
+            <div className="rounded-3xl bg-white border border-[#252140]/10 shadow-xl overflow-hidden">
+              <div className="p-8 md:p-12">
+                <div className="flex items-center gap-2 mb-4">
+                  <TrendingUp className="h-5 w-5 text-[#252140]" />
+                  <span className="text-xs font-semibold uppercase tracking-wider text-[#252140]/70">
+                    Customer story
+                  </span>
+                </div>
+                <h2 className="text-3xl md:text-4xl font-bold text-[#252140] mb-3 leading-tight">
+                  {item.caseStudy.company}
+                </h2>
+                <p className="text-base md:text-lg text-muted-foreground mb-8 leading-relaxed">
+                  {item.caseStudy.context}
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                  {item.caseStudy.metrics.map((m, i) => (
+                    <div
+                      key={i}
+                      className="rounded-xl border border-[#252140]/10 p-5 bg-slate-50/50"
+                    >
+                      <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">
+                        {m.label}
+                      </div>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-sm text-slate-400 line-through tabular-nums">
+                          {m.before}
+                        </span>
+                        <ArrowRight className="h-3.5 w-3.5 text-[#252140]/50 shrink-0" />
+                      </div>
+                      <div className="text-2xl md:text-3xl font-extrabold text-[#252140] tabular-nums mt-1">
+                        {m.after}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex items-start gap-3 p-5 rounded-xl bg-[#252140]/5 border border-[#252140]/10">
+                  <Sparkles className="h-5 w-5 text-[#252140] shrink-0 mt-0.5" />
+                  <p className="text-base text-[#252140] font-medium leading-relaxed">
+                    {item.caseStudy.summary}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       {/* Testimonial */}
       {item.testimonial ? (
         <section className="py-16 md:py-24 bg-[#252140] text-white border-b">
@@ -394,6 +594,38 @@ export default function IndustryDetail() {
                 </AccordionItem>
               ))}
             </Accordion>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Glossary - "We speak your language" */}
+      {item.glossary?.length ? (
+        <section className="py-16 md:py-20 bg-white border-b">
+          <div className="container mx-auto px-4 max-w-5xl">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="h-10 w-10 rounded-lg bg-[#252140]/5 text-[#252140] flex items-center justify-center">
+                <BookOpen size={20} />
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#252140]">
+                We speak your language
+              </h2>
+            </div>
+            <p className="text-muted-foreground mb-10 text-lg">
+              The terms your team uses every day are the terms you'll see in Leads Rubix — not generic CRM-speak.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {item.glossary.map((g, i) => (
+                <div
+                  key={i}
+                  className="p-6 rounded-xl border border-[#252140]/10 bg-slate-50/50 hover:border-[#252140]/30 transition-colors"
+                >
+                  <div className="font-bold text-[#252140] text-lg mb-2">{g.term}</div>
+                  <div className="text-sm text-muted-foreground leading-relaxed">
+                    {g.definition}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
       ) : null}
