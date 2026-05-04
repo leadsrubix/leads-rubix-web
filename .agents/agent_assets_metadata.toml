@@ -1,5 +1,4 @@
 uploads = []
-outputs = []
 
 [[generated]]
 id = "txMRKgrSiy2z-pE3T6YGY"
@@ -90,3 +89,21 @@ id = "R-ROHB_P1t1V5n3a5uCIo"
 uri = "file://artifacts/leadrubix/public/blog-covers/gst-compliant-pricing-in-crm.png"
 type = "image"
 title = "generated_image"
+
+[[outputs]]
+id = "MuzujFGX8beI1gH9OpehG"
+uri = "file://deploy/leadrubix-deploy.zip"
+type = "unspecified"
+title = "Leads Rubix — Hostinger deploy bundle (.zip)"
+
+[[outputs]]
+id = "ws3nWptGz4eilrBH1fZF7"
+uri = "file://deploy/leadrubix-deploy.tar.gz"
+type = "unspecified"
+title = "Same bundle as .tar.gz"
+
+[[outputs]]
+id = "EyDEoMd6BrvIdUvf1_n8-"
+uri = "file://deploy/HOSTINGER_SHARED.md"
+type = "text"
+title = "Hostinger Shared/Business step-by-step guide"
