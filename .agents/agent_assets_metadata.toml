@@ -94,16 +94,22 @@ title = "generated_image"
 id = "MuzujFGX8beI1gH9OpehG"
 uri = "file://deploy/leadrubix-deploy.zip"
 type = "unspecified"
-title = "Leads Rubix — Hostinger deploy bundle (.zip)"
+title = "leadrubix-deploy.zip — full deploy bundle (13 MB)"
 
 [[outputs]]
 id = "ws3nWptGz4eilrBH1fZF7"
 uri = "file://deploy/leadrubix-deploy.tar.gz"
 type = "unspecified"
-title = "Same bundle as .tar.gz"
+title = "leadrubix-deploy.tar.gz — same bundle, tar.gz format"
 
 [[outputs]]
 id = "EyDEoMd6BrvIdUvf1_n8-"
 uri = "file://deploy/HOSTINGER_SHARED.md"
 type = "text"
-title = "Hostinger Shared/Business step-by-step guide"
+title = "HOSTINGER_SHARED.md — primary guide (Hostinger Shared/Business)"
+
+[[outputs]]
+id = "wVcEmsMwemCjrD05fK2PG"
+uri = "file://deploy/HOSTINGER_VPS.md"
+type = "text"
+title = "HOSTINGER_VPS.md — alternative guide (Cloud/VPS, systemd + Nginx)"
