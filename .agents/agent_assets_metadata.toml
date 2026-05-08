@@ -113,3 +113,9 @@ id = "wVcEmsMwemCjrD05fK2PG"
 uri = "file://deploy/HOSTINGER_VPS.md"
 type = "text"
 title = "HOSTINGER_VPS.md — alternative guide (Cloud/VPS, systemd + Nginx)"
+
+[[outputs]]
+id = "aD0P8O7L_L4MjiYasvr4d"
+uri = "file://deploy/leadrubix-db.zip"
+type = "unspecified"
+title = "leadrubix-db.zip — Postgres dump (custom .dump + plain .sql inside)"
