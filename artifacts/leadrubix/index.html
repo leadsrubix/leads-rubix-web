@@ -25,10 +25,11 @@
     <meta name="twitter:description" content="Purpose-built CRM for Indian real estate. Capture leads instantly, rotate automatically, close more bookings." />
     <meta name="twitter:image" content="https://leadsrubix.com/opengraph.jpg" />
 
-    <link rel="icon" type="image/svg+xml" href="/leads-rubix-favicon.svg" />
-    <link rel="alternate icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/leads-rubix-favicon.svg" />
+    <link rel="icon" type="image/png" href="/leads-rubix-favicon.png" />
+    <link rel="shortcut icon" type="image/png" href="/leads-rubix-favicon.png" />
+    <link rel="apple-touch-icon" href="/leads-rubix-favicon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="stylesheet" href="/popup.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -74,7 +75,72 @@
   </head>
   <body>
     <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md">Skip to content</a>
+
+    <!-- Lead-capture gate (popup.js shows once per 24h, then hides itself).
+         When active, body.lr-gate-active hides #root; popup.js writes lead
+         to Google Sheets webhook configured in /popup.js. -->
+    <section id="lr-popup-overlay" class="lr-lead-gate" aria-label="Lead capture form">
+      <div id="lr-popup-card">
+        <div class="lr-card-logo-wrap" aria-label="Leads Rubix logo">
+          <img src="/leads-rubix-logo.svg" alt="Leads Rubix" class="lr-card-logo" />
+        </div>
+        <h2 id="lr-popup-title">Welcome to Leads Rubix</h2>
+        <form id="lr-lead-form" novalidate autocomplete="off">
+          <div class="lr-input-group">
+            <input id="lr-name" type="text" placeholder="Name" data-field="name" maxlength="100" autocomplete="name" />
+            <span class="lr-field-error" data-error="name"></span>
+          </div>
+          <div class="lr-input-group">
+            <div class="lr-phone-row">
+              <div class="lr-country-dropdown" id="lr-country-dropdown">
+                <button type="button" id="lr-country-toggle" class="lr-country-toggle" aria-haspopup="listbox" aria-expanded="false" aria-label="Country dial code">
+                  <span id="lr-country-value">+91</span>
+                  <span class="lr-country-caret" aria-hidden="true">▾</span>
+                </button>
+                <ul id="lr-country-menu" class="lr-country-menu" role="listbox" aria-label="Country code options"></ul>
+                <input type="hidden" data-field="dialCode" value="+91" />
+              </div>
+              <input id="lr-phone" type="tel" placeholder="Mobile No" data-field="phone" maxlength="15" autocomplete="tel" />
+            </div>
+            <span class="lr-field-error" data-error="phone"></span>
+          </div>
+          <div class="lr-input-group">
+            <input id="lr-email" type="email" placeholder="Email ID" data-field="email" maxlength="150" autocomplete="email" />
+            <span class="lr-field-error" data-error="email"></span>
+          </div>
+          <div class="lr-input-group">
+            <div class="lr-country-dropdown lr-interest-dropdown" id="lr-interest-dropdown">
+              <button type="button" id="lr-interest-toggle" class="lr-country-toggle" aria-haspopup="listbox" aria-expanded="false" aria-label="Select an option">
+                <span id="lr-interest-value" class="lr-placeholder">Select an option</span>
+                <span class="lr-country-caret" aria-hidden="true">▾</span>
+              </button>
+              <ul id="lr-interest-menu" class="lr-country-menu" role="listbox" aria-label="Interest options"></ul>
+              <input type="hidden" data-field="interest" value="" />
+            </div>
+            <span class="lr-field-error" data-error="interest"></span>
+          </div>
+          <p class="lr-privacy">By entering the website you accept our <a href="/privacy">privacy policy</a>.</p>
+          <div class="lr-checkbox-row">
+            <input type="checkbox" id="lr-consent" data-field="consent" checked />
+            <label for="lr-consent">I authorize this website and its representatives to Call, SMS, Email or WhatsApp me about its products and offers.</label>
+          </div>
+          <span class="lr-field-error" data-error="consent"></span>
+          <p id="lr-submit-error" style="display:none;"></p>
+          <button type="submit" id="lr-submit-btn">
+            <span class="lr-btn-text">ENTER WEBSITE</span>
+            <span class="lr-spinner" aria-hidden="true"></span>
+          </button>
+        </form>
+        <div id="lr-success-msg" aria-live="polite">
+          <div class="lr-check-icon">✅</div>
+          <h3>Thank you!</h3>
+          <p>Your enquiry has been submitted successfully.</p>
+        </div>
+      </div>
+    </section>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script src="/popup.js?v=1.0.1" defer></script>
   </body>
 </html>
