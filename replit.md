@@ -115,6 +115,13 @@ The project is structured as a pnpm workspace monorepo, with each package managi
   - `brand_identity.calBookingUrl` — Cal.com booking URL (demo page reads).
   - `footer_contact.whatsapp` — already used by WhatsAppFab; FAB hides if blank.
 
+## v3.7 — SEO + Logo CMS, versioned deploy snapshots (May 13, 2026)
+
+- **Versioned deploy packages**: `deploy/versions/v<N>/` keeps a frozen copy of every shipped bundle (deploy zip + DB dump in `.zip` / `.dump` / `.sql` formats) plus a `VERSION.md` describing what's in it. Restore notes inside each `VERSION.md`. **v1** = baseline at git `d713f72` (the post-rollback baseline before SEO/logo CMS work).
+- **`brand_identity.faviconUrl`**: new field in the existing brand CMS section. The `Layout` component injects `<link rel="icon">` and `<link rel="apple-touch-icon">` at runtime when set, with MIME type derived from extension (svg/ico/png/jpg). Empty string keeps the static default in `index.html`.
+- **`seo_global` content key**: new CMS section for site-wide SEO defaults — `siteName`, `titleSuffix` (auto-appended to per-page titles), `defaultDescription`, `defaultOgImage` (1200×630 fallback), `twitterHandle`, `themeColor` (also drives `<meta name="theme-color">`), `geoRegion`, `geoPlacename`, `geoPosition`. `useSEO` fetches `/api/content/seo_global` once, caches it, and reapplies on arrival so already-mounted pages pick up the values without remount.
+- **Admin Image picker**: `ContentEdit` `FieldEditor` now detects image-typed string fields by name (`logoImageUrl`, `faviconUrl`, `defaultOgImage`, `ogImage`, `coverImage`, `featuredImage`, `logo`, `image`, `imageUrl`) and renders an inline upload button + thumbnail preview that posts via the existing `/admin/uploads` presigned-URL flow. Falls back to the URL text input for paste-an-https-URL workflows.
+
 ### What's still user-blocked
 - Real customer logos (placeholder logos still in place).
 - Real G2 / SoftwareSuggest badges.

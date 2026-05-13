@@ -18,12 +18,31 @@ export const KNOWN_SECTIONS: SectionDefinition[] = [
     defaultValue: {
       brandName: "Leads Rubix",
       logoImageUrl: "",
+      faviconUrl: "",
       footerTagline:
         "The purpose-built CRM for Indian real estate sales teams. Capture, manage, and convert leads from first contact through booking.",
       bottomLine: "Made in India  ·  Built for Indian Real Estate",
       appUrl: "https://app.leadsrubix.com/",
       signInLabel: "Sign In",
       ctaLabel: "Start Free Trial",
+    },
+  },
+  {
+    key: "seo_global",
+    label: "SEO — Global defaults",
+    description:
+      "Site-wide SEO defaults applied on top of every page. Per-page <title>/description set via the page itself takes precedence; these fields are the fallback and are appended/used when a page doesn't override them. defaultOgImage is the fallback social-share image (1200×630 PNG/JPG recommended). twitterHandle is optional, e.g. @leadsrubix. themeColor sets the browser chrome color and PWA manifest theme.",
+    defaultValue: {
+      siteName: "Leads Rubix",
+      titleSuffix: " | Leads Rubix",
+      defaultDescription:
+        "Real-estate CRM built for India. Capture leads from Facebook, WhatsApp, MagicBricks & 99acres — assign, track, and close faster.",
+      defaultOgImage: "https://leadsrubix.com/opengraph.jpg",
+      twitterHandle: "",
+      themeColor: "#252140",
+      geoRegion: "IN-MH",
+      geoPlacename: "Mumbai",
+      geoPosition: "19.0760;72.8777",
     },
   },
   {

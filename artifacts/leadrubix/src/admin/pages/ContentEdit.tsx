@@ -1,14 +1,110 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useRoute } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, History, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, History, Plus, Trash2, Upload } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { adminApi } from "../lib/api";
 import { KNOWN_SECTIONS } from "../lib/contentSchemas";
+
+const IMAGE_FIELD_RE = /^(logoImageUrl|faviconUrl|defaultOgImage|ogImage|coverImage|featuredImage|logo|image|imageUrl)$/i;
+
+function ImageField({
+  fieldKey,
+  value,
+  onChange,
+}: {
+  fieldKey: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  const { toast } = useToast();
+  const [uploading, setUploading] = useState(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const label = humaniseKey(fieldKey);
+
+  async function handleFile(file: File) {
+    setUploading(true);
+    try {
+      const url = await adminApi.uploadFile(file);
+      onChange(url);
+      toast({ title: "Image uploaded", description: file.name });
+    } catch (e) {
+      toast({
+        title: "Upload failed",
+        description: e instanceof Error ? e.message : "Try again",
+        variant: "destructive",
+      });
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  return (
+    <div className="space-y-1.5">
+      <Label htmlFor={fieldKey}>{label}</Label>
+      <div className="flex gap-2 items-start">
+        {value ? (
+          <img
+            src={value}
+            alt=""
+            className="size-14 rounded border bg-slate-50 object-contain shrink-0"
+            onError={(e) => ((e.currentTarget.style.opacity = "0.3"))}
+          />
+        ) : (
+          <div className="size-14 rounded border bg-slate-50 shrink-0" />
+        )}
+        <div className="flex-1 space-y-2">
+          <Input
+            id={fieldKey}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder="https://… or upload below"
+            data-testid={`field-${fieldKey}`}
+          />
+          <div className="flex gap-2">
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              disabled={uploading}
+              onClick={() => inputRef.current?.click()}
+              data-testid={`btn-upload-${fieldKey}`}
+            >
+              <Upload className="size-3.5 mr-1.5" />
+              {uploading ? "Uploading…" : "Upload image"}
+            </Button>
+            {value ? (
+              <Button
+                type="button"
+                size="sm"
+                variant="ghost"
+                onClick={() => onChange("")}
+                data-testid={`btn-clear-${fieldKey}`}
+              >
+                Clear
+              </Button>
+            ) : null}
+          </div>
+          <input
+            ref={inputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) void handleFile(f);
+              e.target.value = "";
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function AdminContentEdit() {
   const [, params] = useRoute("/admin/content/:key");
@@ -152,6 +248,10 @@ function FieldEditor({
   onChange: (v: unknown) => void;
 }) {
   const label = humaniseKey(fieldKey);
+
+  if (typeof value === "string" && IMAGE_FIELD_RE.test(fieldKey)) {
+    return <ImageField fieldKey={fieldKey} value={value} onChange={(v) => onChange(v)} />;
+  }
 
   if (typeof value === "string") {
     const isLong = value.length > 80 || /\n/.test(value) || /(answer|body|description)/i.test(fieldKey);
