@@ -34,6 +34,7 @@ import { useContent } from "@/lib/useContent";
 import { SocialProofTicker } from "@/components/marketing/SocialProofTicker";
 import { TrustedBy } from "@/components/marketing/TrustedBy";
 import { ExitIntentModal } from "@/components/marketing/ExitIntentModal";
+import { EntryGate } from "@/components/marketing/EntryGate";
 
 interface HomeHero {
   eyebrow: string;
@@ -882,6 +883,7 @@ export default function Home() {
           </div>
         </section>
       </div>
+      <EntryGate />
       <ExitIntentModal
         storageKey="leadsrubix-exit-intent-home"
         title="Before you go — free CRM RFP template"

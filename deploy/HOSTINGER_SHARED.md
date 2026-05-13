@@ -171,7 +171,58 @@ your laptop or a separate worker, OR use Neon's built-in PITR (recommended).
 
 ---
 
-## Step 9 — IndexNow key (optional)
+## Step 9 — Google Sheets fan-out (v2+, optional)
+
+Every contact, demo, and entry-popup submission can be mirrored as a row in a
+Google Sheet — handy for sales ops who live in spreadsheets.
+
+1. Open (or create) the Google Sheet you want leads dropped into.
+2. **Extensions → Apps Script** and paste:
+
+   ```javascript
+   const SHEET_NAME = "Leads"; // tab name
+   function doPost(e) {
+     const row = JSON.parse(e.postData.contents);
+     const sh = SpreadsheetApp.getActive().getSheetByName(SHEET_NAME)
+              || SpreadsheetApp.getActive().insertSheet(SHEET_NAME);
+     if (sh.getLastRow() === 0) sh.appendRow(Object.keys(row));
+     sh.appendRow(Object.keys(row).map((k) => row[k]));
+     return ContentService.createTextOutput(JSON.stringify({ ok: true }))
+       .setMimeType(ContentService.MimeType.JSON);
+   }
+   ```
+
+3. **Deploy → New deployment → Web app** → Execute as: **Me**, Who has access:
+   **Anyone with the link**. Copy the resulting URL (it ends in `/exec`).
+4. In the Leads Rubix admin UI, open
+   **`/admin/content/integrations`**, paste the URL into
+   `googleSheetsWebhookUrl`, and **Save**.
+5. Submit a test lead from `/contact` — the row should appear in the sheet
+   within ~10 seconds.
+
+You can also paste a Slack/Zapier webhook into `slackOrZapierWebhookUrl`; that
+field overrides the `LEAD_NOTIFICATION_WEBHOOK` env var when set, so you can
+flip notifications without restarting the Node app.
+
+---
+
+## Step 10 — Logo & favicon (v2+, optional)
+
+The bundle ships with `public_html/leads-rubix-favicon.png` as the default
+brand mark. To replace it without re-uploading the SPA:
+
+1. Sign into `/admin`, open **`/admin/content/brand_identity`**.
+2. Click the upload button next to `logoImageUrl` (navbar/footer logo) and
+   `faviconUrl` (browser tab icon). Both flow through the existing object
+   storage presigned-URL upload.
+3. Save. The logo updates within ~30 s of cache TTL; hard-refresh the tab to
+   see the favicon update immediately.
+
+To revert to the static default, clear the field (empty string).
+
+---
+
+## Step 11 — IndexNow key (optional)
 
 Bing/Yandex instant indexing:
 

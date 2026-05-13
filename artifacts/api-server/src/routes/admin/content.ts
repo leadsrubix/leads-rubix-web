@@ -5,6 +5,7 @@ import { db, contentSectionsTable, contentVersionsTable } from "@workspace/db";
 import { requirePasswordOk } from "../../middlewares/auth";
 import { validateContent } from "../../lib/content-validators";
 import { writeAudit } from "../../lib/audit";
+import { invalidateIntegrationsCache } from "../../lib/notify";
 
 const router: IRouter = Router();
 router.use(requirePasswordOk);
@@ -83,6 +84,8 @@ router.put("/:key", async (req, res) => {
     entityId: key,
   });
 
+  if (key === "integrations") invalidateIntegrationsCache();
+
   res.json({ ok: true, section: row });
 });
 
@@ -126,6 +129,8 @@ router.post("/:key/restore", async (req, res) => {
     entityId: key,
     payload: { restoredFromVersionId: version.id },
   });
+
+  if (key === "integrations") invalidateIntegrationsCache();
 
   res.json({ ok: true, section: row });
 });

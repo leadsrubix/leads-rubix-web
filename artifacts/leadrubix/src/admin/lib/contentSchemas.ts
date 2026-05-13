@@ -17,14 +17,24 @@ export const KNOWN_SECTIONS: SectionDefinition[] = [
       "Logo and brand identity used in the navbar and footer. Set logoImageUrl to a full https:// URL (e.g. an uploaded image) to replace the default building icon. Leave logoImageUrl empty to use the icon. appUrl is the 'Sign In / Start Free Trial' destination.",
     defaultValue: {
       brandName: "Leads Rubix",
-      logoImageUrl: "",
-      faviconUrl: "",
+      logoImageUrl: "/leads-rubix-favicon.png",
+      faviconUrl: "/leads-rubix-favicon.png",
       footerTagline:
         "The purpose-built CRM for Indian real estate sales teams. Capture, manage, and convert leads from first contact through booking.",
       bottomLine: "Made in India  ·  Built for Indian Real Estate",
       appUrl: "https://app.leadsrubix.com/",
       signInLabel: "Sign In",
       ctaLabel: "Start Free Trial",
+    },
+  },
+  {
+    key: "integrations",
+    label: "Integrations — Webhooks & external services",
+    description:
+      "Outbound integrations the server fans out to when a new lead is captured. googleSheetsWebhookUrl: paste the Web App URL of a Google Apps Script bound to your Google Sheet (Deploy → New Deployment → Web app → Execute as: Me → Anyone with the link). Every contact-form, demo-form, and entry-popup submission will POST a JSON row {id, source, name, email, phone, company, teamSize, message, score, scoreBand, utm, landingPath, referrer, createdAt} to that URL. Leave blank to disable. slackOrZapierWebhookUrl: optional fallback (mirrors the LEAD_NOTIFICATION_WEBHOOK env var; the env var is used when this is empty).",
+    defaultValue: {
+      googleSheetsWebhookUrl: "",
+      slackOrZapierWebhookUrl: "",
     },
   },
   {

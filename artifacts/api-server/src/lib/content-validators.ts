@@ -121,6 +121,22 @@ const SCHEMAS: Record<string, z.ZodTypeAny> = {
   tracking_pixels: TrackingPixels,
   trusted_by: TrustedBy,
   trust_badges: TrustBadges,
+  integrations: z.object({
+    googleSheetsWebhookUrl: z
+      .string()
+      .max(500)
+      .refine((s) => s === "" || /^https:\/\//i.test(s), {
+        message: "Must be empty or start with https://",
+      })
+      .default(""),
+    slackOrZapierWebhookUrl: z
+      .string()
+      .max(500)
+      .refine((s) => s === "" || /^https:\/\//i.test(s), {
+        message: "Must be empty or start with https://",
+      })
+      .default(""),
+  }),
 };
 
 export function validateContent(

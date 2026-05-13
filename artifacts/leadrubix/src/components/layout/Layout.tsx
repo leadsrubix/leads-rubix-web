@@ -2,6 +2,7 @@ import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import { Announcement } from "./Announcement";
 import { ReactNode, useEffect } from "react";
+import { useLocation } from "wouter";
 import { StickyDemoCTA } from "@/components/marketing/StickyDemoCTA";
 import { WhatsAppFab } from "@/components/marketing/WhatsAppFab";
 import { CookieConsent } from "@/components/marketing/CookieConsent";
@@ -34,10 +35,21 @@ function setMetaName(name: string, content: string) {
 }
 
 export function Layout({ children }: { children: ReactNode }) {
+  const [pathname] = useLocation();
+
   useEffect(() => {
     captureUtmFromUrl();
     captureLandingContext();
   }, []);
+
+  // Scroll to top on every route change so footer/menu navigation always lands
+  // at the top of the new page instead of inheriting the scroll position from
+  // the previous page.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.location.hash) return; // honour explicit #anchor jumps
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [pathname]);
 
   const brand = useContent<BrandIdentity>("brand_identity", {});
   const seo = useContent<SeoGlobal>("seo_global", {});

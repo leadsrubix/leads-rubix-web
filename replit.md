@@ -115,6 +115,48 @@ The project is structured as a pnpm workspace monorepo, with each package managi
   - `brand_identity.calBookingUrl` — Cal.com booking URL (demo page reads).
   - `footer_contact.whatsapp` — already used by WhatsAppFab; FAB hides if blank.
 
+## v3.8 — Sheets fan-out, Entry-gate, scroll-to-top, sidebar fix (May 13, 2026)
+
+Saved as `deploy/versions/v2/` (deploy zip + DB dump in three formats + VERSION.md).
+
+- **Logo from CMS now defaults to a real asset**: `brand_identity.logoImageUrl`
+  and `faviconUrl` default to `/leads-rubix-favicon.png` (43 KB brand-purple Q
+  monogram, copied from user's `attached_assets/leads-rubix-favicon_*.png`
+  into `artifacts/leadrubix/public/`). Static `<link rel="icon">` in
+  `index.html` switched from the SVG to the PNG, theme-color set to `#252140`.
+  The Layout still injects the CMS-driven favicon at runtime when admins set
+  a custom one.
+- **Footer / nav links scroll-to-top on route change**: `Layout` now subscribes
+  to wouter's `useLocation` and calls `window.scrollTo(0, 0)` on every
+  pathname change (skips when URL has `#anchor` so in-page links still work).
+- **Entry-gate popup on the homepage**:
+  `src/components/marketing/EntryGate.tsx` — modal mounted in `home.tsx`,
+  fires on first visit, dismissal stored in `localStorage.lr_entry_gate_done_v1`.
+  Fields: name, country code (default +91) + mobile, email, "I'm a …"
+  dropdown (developer / brokerage / sales manager / agent / exploring),
+  consent checkbox, **Enter Website** button + **Skip for now** secondary.
+  Submits to `POST /api/contact` with `source: "entry_popup"` so the lead
+  shows up in `/admin/leads` and `/admin/sources`.
+- **`/demo` form & contact form fan out to Google Sheets**:
+  `lib/notify.ts` rewritten — reads `integrations.googleSheetsWebhookUrl`
+  from CMS (60 s in-memory cache, force-invalidated on save in
+  `routes/admin/content.ts`), POSTs a flat JSON row designed for
+  `sheet.appendRow` in Google Apps Script. `slackOrZapierWebhookUrl` (also
+  CMS-driven) overrides the `LEAD_NOTIFICATION_WEBHOOK` env var when set.
+- **`integrations` content key** added to `contentSchemas.ts` so admins can
+  paste/update both webhook URLs from `/admin/content/integrations` without
+  redeploying.
+- **`API_BASE_URL` constant** in `src/admin/lib/api.ts` —
+  defaults to `https://api.leadsrubix.com`; override at build time with
+  `VITE_API_BASE_URL=""` for same-origin dev. Production split-domain setup
+  works out-of-the-box.
+- **Double-sidebar bug on `/admin/sources` and `/admin/security`**: both pages
+  were wrapping themselves in `<AdminLayout>` while `RequireAuth` already
+  wraps. Removed the inner wrapper; ran the dev `lg:` breakpoint sweep.
+- **Apps Script paste-ready snippet** + step-by-step admin setup added to
+  `deploy/HOSTINGER_SHARED.md` (new Step 9 — Google Sheets fan-out, Step 10 —
+  Logo & favicon). Older steps renumbered (IndexNow is now Step 11).
+
 ## v3.7 — SEO + Logo CMS, versioned deploy snapshots (May 13, 2026)
 
 - **Versioned deploy packages**: `deploy/versions/v<N>/` keeps a frozen copy of every shipped bundle (deploy zip + DB dump in `.zip` / `.dump` / `.sql` formats) plus a `VERSION.md` describing what's in it. Restore notes inside each `VERSION.md`. **v1** = baseline at git `d713f72` (the post-rollback baseline before SEO/logo CMS work).

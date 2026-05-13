@@ -1,7 +1,16 @@
 export type ApiResult<T> = { ok: true } & T;
 export type ApiError = { ok: false; error: string; code?: string };
 
-const BASE = "/api";
+// Production: API lives on https://api.leadsrubix.com (separate subdomain on
+// Hostinger Shared via .htaccess proxy). Local dev: leave VITE_API_BASE_URL
+// empty in `.env.development` to use the same-origin /api path through the
+// shared proxy. Set to a full URL like "https://api.leadsrubix.com" in
+// `.env.production` to call the production API directly.
+export const API_BASE_URL: string =
+  ((import.meta as unknown as { env?: Record<string, string | undefined> }).env
+    ?.VITE_API_BASE_URL as string | undefined) ?? "https://api.leadsrubix.com";
+
+const BASE = API_BASE_URL ? `${API_BASE_URL.replace(/\/$/, "")}/api` : "/api";
 
 export async function api<T = unknown>(
   path: string,

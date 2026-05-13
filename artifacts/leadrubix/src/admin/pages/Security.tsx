@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import AdminLayout from "../components/AdminLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -85,8 +84,7 @@ export default function AdminSecurity() {
   }
 
   return (
-    <AdminLayout>
-      <div className="space-y-6 max-w-2xl">
+    <div className="space-y-6 max-w-2xl">
         <div>
           <h1 className="text-2xl font-semibold">Account security</h1>
           <p className="text-sm text-muted-foreground">
@@ -215,7 +213,6 @@ export default function AdminSecurity() {
             ) : null}
           </CardContent>
         </Card>
-      </div>
-    </AdminLayout>
+    </div>
   );
 }

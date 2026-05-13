@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
-import AdminLayout from "../components/AdminLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Inbox } from "lucide-react";
 
@@ -43,7 +42,7 @@ export default function AdminSources() {
   const max = data && data.rows.length > 0 ? Math.max(...data.rows.map((r) => r.total)) : 0;
 
   return (
-    <AdminLayout>
+    <>
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Lead sources</h1>
@@ -173,6 +172,6 @@ export default function AdminSources() {
           </CardContent>
         </Card>
       ) : null}
-    </AdminLayout>
+    </>
   );
 }
