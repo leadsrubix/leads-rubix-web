@@ -16,7 +16,7 @@ export interface BrandIdentity {
 
 export const DEFAULT_BRAND: BrandIdentity = {
   brandName: "Leads Rubix",
-  logoImageUrl: "",
+  logoImageUrl: "/leads-rubix-favicon.svg",
   footerTagline:
     "The purpose-built CRM for India's high-velocity sales teams — across real estate, education, healthcare, BFSI, automotive, travel, SaaS and manufacturing. Capture, manage and convert leads from first contact to closed-won.",
   bottomLine: "Made in India  ·  Built for India's high-velocity sales teams",

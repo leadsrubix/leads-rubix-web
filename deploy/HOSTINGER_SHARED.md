@@ -115,6 +115,22 @@ want manual schema control, clone the repo and run
 
 ---
 
+## Step 5b — (Optional) Build the SPA with a hard-coded API URL
+
+If your Hostinger plan does **not** include `mod_proxy` (cheaper Premium tier),
+the `.htaccess` `/api/*` proxy won't work. In that case, rebuild the SPA from
+source so it talks to `https://api.leadsrubix.com` directly via CORS:
+
+```bash
+cd ~/your-source-checkout
+echo 'VITE_API_BASE_URL=https://api.leadsrubix.com' > artifacts/leadrubix/.env.production.local
+pnpm --filter @workspace/leadrubix run build
+```
+
+Upload the new `artifacts/leadrubix/dist/public/*` to `public_html/` and
+delete the proxy block from `.htaccess`. Make sure `ALLOWED_ORIGIN` on the
+API matches your main domain so CORS preflights succeed.
+
 ## Step 6 — Verify
 
 Open a browser and check:

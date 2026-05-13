@@ -1,7 +1,13 @@
 export type ApiResult<T> = { ok: true } & T;
 export type ApiError = { ok: false; error: string; code?: string };
 
-const BASE = "/api";
+// API base URL. Defaults to "/api" (same-origin) which works in dev and on
+// any deploy where the web tier reverse-proxies /api to the Node app. To
+// point the SPA at an external API host (e.g. Hostinger Shared without
+// mod_proxy), set VITE_API_BASE_URL=https://api.leadsrubix.com at build
+// time. The value MUST NOT end with /api — that suffix is appended below.
+const RAW_API_BASE = (import.meta.env.VITE_API_BASE_URL ?? "").trim().replace(/\/$/, "");
+const BASE = RAW_API_BASE ? `${RAW_API_BASE}/api` : "/api";
 
 export async function api<T = unknown>(
   path: string,
