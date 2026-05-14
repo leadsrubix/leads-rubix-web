@@ -206,23 +206,48 @@ export const adminApi = {
       { method: "POST", body: JSON.stringify(meta) },
     ),
 
-  // Upload helper: requests a presigned URL, PUTs the file directly to GCS,
-  // returns the server-side path (e.g. /api/objects/uploads/<id>) suitable
-  // for storing in posts.coverImage.
+  // Upload helper: tries the Replit object-storage presigned-URL flow first
+  // (works in dev / on Replit). On any failure (e.g. Hostinger production
+  // where the sidecar doesn't exist) falls back to the direct multipart-style
+  // endpoint that writes to the api-server's local disk and serves the file
+  // back via GET /api/local-uploads/:filename. Returned URL is always a path
+  // suitable for storing in posts.coverImage / brand_identity.logoImageUrl.
   uploadFile: async (file: File): Promise<string> => {
-    const { uploadURL, objectPath } = await adminApi.requestUpload({
-      name: file.name,
-      size: file.size,
-      contentType: file.type || "application/octet-stream",
-    });
-    const put = await fetch(uploadURL, {
-      method: "PUT",
-      headers: { "Content-Type": file.type || "application/octet-stream" },
-      body: file,
-    });
-    if (!put.ok) throw new Error(`Upload failed (${put.status})`);
-    // objectPath is "/objects/uploads/<id>"; serve via "/api/objects/uploads/<id>"
-    return `/api${objectPath}`;
+    try {
+      const { uploadURL, objectPath } = await adminApi.requestUpload({
+        name: file.name,
+        size: file.size,
+        contentType: file.type || "application/octet-stream",
+      });
+      const put = await fetch(uploadURL, {
+        method: "PUT",
+        headers: { "Content-Type": file.type || "application/octet-stream" },
+        body: file,
+      });
+      if (!put.ok) throw new Error(`Upload failed (${put.status})`);
+      return `/api${objectPath}`;
+    } catch (presignErr) {
+      // Fallback: direct upload to the api-server's local-disk store.
+      const directUrl = `${BASE}/admin/uploads/direct`;
+      const direct = await fetch(directUrl, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": file.type || "application/octet-stream",
+          "X-Filename": encodeURIComponent(file.name).slice(0, 200),
+        },
+        body: file,
+      });
+      if (!direct.ok) {
+        const body = await direct.json().catch(() => ({})) as { error?: string };
+        const presignMsg = presignErr instanceof Error ? presignErr.message : String(presignErr);
+        throw new Error(
+          body?.error ?? `Upload failed (${direct.status}; presign also failed: ${presignMsg})`,
+        );
+      }
+      const payload = (await direct.json()) as { url: string };
+      return payload.url;
+    }
   },
 };
 

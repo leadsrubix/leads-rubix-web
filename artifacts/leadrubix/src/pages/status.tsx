@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Layout } from "@/components/layout/Layout";
+import { apiFetch } from "@/lib/apiUrl";
 import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle2, AlertTriangle, AlertOctagon, Activity } from "lucide-react";
 import { useSEO } from "@/lib/useSEO";
@@ -111,7 +112,7 @@ export default function StatusPage() {
     const t0 = performance.now();
     const ctrl = new AbortController();
     const timeout = window.setTimeout(() => ctrl.abort(), 5000);
-    fetch("/api/healthz", { signal: ctrl.signal, cache: "no-store" })
+    apiFetch("/api/healthz", { signal: ctrl.signal, cache: "no-store" })
       .then((r) => {
         if (cancelled) return;
         const ms = Math.max(0, Math.round(performance.now() - t0));

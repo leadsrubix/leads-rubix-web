@@ -14,10 +14,12 @@ export const KNOWN_SECTIONS: SectionDefinition[] = [
     key: "brand_identity",
     label: "Brand — Logo & identity",
     description:
-      "Logo and brand identity used in the navbar and footer. Set logoImageUrl to a full https:// URL (e.g. an uploaded image) to replace the default building icon. Leave logoImageUrl empty to use the icon. appUrl is the 'Sign In / Start Free Trial' destination.",
+      "Logo and brand identity used in the navbar and footer. Upload separate light-mode and dark-mode logos using the image pickers below — the site automatically swaps them based on the active theme (the footer always uses the dark-mode logo). logoImageUrl is the legacy fallback used when a theme-specific logo is empty. faviconUrl is the browser tab icon. appUrl is the 'Sign In / Start Free Trial' destination.",
     defaultValue: {
       brandName: "Leads Rubix",
       logoImageUrl: "/leads-rubix-favicon.png",
+      logoLightUrl: "/leads-rubix-favicon.png",
+      logoDarkUrl: "/leads-rubix-favicon.png",
       faviconUrl: "/leads-rubix-favicon.png",
       footerTagline:
         "The purpose-built CRM for Indian real estate sales teams. Capture, manage, and convert leads from first contact through booking.",

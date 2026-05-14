@@ -164,6 +164,65 @@ Saved as `deploy/versions/v2/` (deploy zip + DB dump in three formats + VERSION.
 - **`seo_global` content key**: new CMS section for site-wide SEO defaults — `siteName`, `titleSuffix` (auto-appended to per-page titles), `defaultDescription`, `defaultOgImage` (1200×630 fallback), `twitterHandle`, `themeColor` (also drives `<meta name="theme-color">`), `geoRegion`, `geoPlacename`, `geoPosition`. `useSEO` fetches `/api/content/seo_global` once, caches it, and reapplies on arrival so already-mounted pages pick up the values without remount.
 - **Admin Image picker**: `ContentEdit` `FieldEditor` now detects image-typed string fields by name (`logoImageUrl`, `faviconUrl`, `defaultOgImage`, `ogImage`, `coverImage`, `featuredImage`, `logo`, `image`, `imageUrl`) and renders an inline upload button + thumbnail preview that posts via the existing `/admin/uploads` presigned-URL flow. Falls back to the URL text input for paste-an-https-URL workflows.
 
+## v3.9 — Split-domain API wiring, EntryGate v2, dual-logo, Hostinger uploads (May 14, 2026)
+
+Fixes a batch of 10 user-reported issues that surfaced once the marketing site
+went live on `leadsrubix.com` (static) with the API on `api.leadsrubix.com`.
+
+- **Split-domain API base URL**: new `src/lib/apiUrl.ts` exposes `apiUrl()` /
+  `apiFetch()` that prepend `VITE_API_BASE_URL` (default
+  `https://api.leadsrubix.com`) and force `credentials: "include"` so session
+  cookies survive cross-origin. Migrated every public-site `fetch("/api/…")`
+  call through it: `useContent`, `Sources` admin page, `/demo`, `/contact`,
+  `/data-request`, `/status`, `not-found`, `InlineLeadForm`,
+  `SocialProofTicker`. This eliminates the public 404s on
+  `/api/content/{home_announcement,brand_identity,industries,footer_contact,…}`
+  and on `/api/admin/leads/by-source` that the live site was hitting.
+- **EntryGate v2**: removed the `Skip for now` button (mandatory submit).
+  Storage key changed to `lr_entry_gate_submitted_at_v2` storing a timestamp;
+  the gate **re-shows after 24 h** instead of being suppressed forever.
+  `interest` dropdown reduced to `["Digital Service", "Job Interview"]`. Added
+  full ISO country-dial-code list (~245 entries) in
+  `src/lib/countryDialCodes.ts`, default `+91`. The popup now submits to a new
+  server route (below) that fans out **only** to Google Sheets — no DB write,
+  no client-side webhook URL leak.
+- **`POST /api/sheets-submit`** (`routes/sheets-submit.ts`): public, IP
+  rate-limited (sliding-window 30/h, in-memory — fine for single-instance
+  Hostinger). Reads `integrations.googleSheetsWebhookUrl` from the CMS
+  server-side, validates it through the existing `isAllowedWebhookUrl` SSRF
+  guard (now exported from `lib/notify.ts`), forwards a flat JSON row with an
+  8 KB request cap and 10 s timeout. **Redirects use `redirect: "manual"`**
+  with re-validation of every `Location` header (≤5 hops) so a 30x bounce to
+  an internal host can't bypass SSRF.
+- **Hostinger image-upload fallback**: the Replit object-storage sidecar
+  (`http://127.0.0.1:1106`) doesn't exist on Hostinger, so the admin's
+  presigned-PUT path was failing with `Could not generate upload URL`. New
+  `routes/local-uploads.ts` mounts `POST /api/admin/uploads/direct` (raw bytes,
+  `X-Filename` header, 20 MB cap, image-MIME allowlist, **`requireSameOrigin`
+  + `requirePasswordOk`** so it has CSRF parity with the rest of `/admin`)
+  and `GET /api/local-uploads/:filename` serving from `LOCAL_UPLOAD_DIR`
+  (default `./uploads-local`) with immutable cache. `admin/lib/api.ts`
+  `uploadFile()` tries presigned first and on **any** failure falls through
+  to the direct route — works on both Replit and Hostinger.
+- **Dual-logo + theme switching**: `brand_identity` schema gains
+  `logoLightUrl` / `logoDarkUrl` (default `/leads-rubix-favicon.png`).
+  `Brand.tsx` is now logo-image-only (the brand-text span is removed from
+  navbar **and** footer per request) and uses `useTheme()` to pick the right
+  variant; the footer always renders the dark logo regardless of theme.
+  `ContentEdit`'s `IMAGE_FIELD_RE` was extended to detect the new field names
+  so admins get the inline image-picker.
+- **`/admin/sources` & `/admin/security` double-sidebar**: confirmed already
+  removed in v3.8; the 404 reported on `/api/admin/leads/by-source` was the
+  same split-domain symptom and is fixed by the `apiFetch` migration above.
+- **`/demo` form** now persists to DB correctly — no backend change needed,
+  only the `apiFetch` rewrite so the request reaches the API server.
+
+### Architect-flagged hardening applied this batch
+- SSRF redirect-follow bypass on `/api/sheets-submit` → `redirect:"manual"` +
+  per-hop `isAllowedWebhookUrl` re-validation.
+- CSRF parity gap on `/api/admin/uploads/direct` → added `requireSameOrigin`.
+- Six remaining public `fetch("/api/…")` callers migrated to `apiFetch`.
+
 ### What's still user-blocked
 - Real customer logos (placeholder logos still in place).
 - Real G2 / SoftwareSuggest badges.

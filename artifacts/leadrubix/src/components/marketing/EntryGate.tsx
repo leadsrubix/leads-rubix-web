@@ -3,18 +3,16 @@ import { Link } from "wouter";
 import { useBrand } from "@/components/layout/Brand";
 import { buildLeadContext } from "@/lib/utm";
 import { trackEvent } from "@/lib/ab";
+import { apiFetch } from "@/lib/apiUrl";
+import { COUNTRY_DIAL_CODES } from "@/lib/countryDialCodes";
 
-const STORAGE_KEY = "lr_entry_gate_done_v1";
+// Stores the unix-ms timestamp of the last successful submission. We re-show
+// the popup if more than RESHOW_AFTER_MS has elapsed since then so the user
+// gets prompted again on a fresh visit a day later.
+const STORAGE_KEY = "lr_entry_gate_submitted_at_v2";
+const RESHOW_AFTER_MS = 24 * 60 * 60 * 1000; // 24h
 
-const INTEREST_OPTIONS = [
-  "I'm a real-estate developer",
-  "I run a brokerage / channel partner",
-  "I'm a sales / lead manager",
-  "I'm a solo property agent",
-  "Just exploring",
-];
-
-const COUNTRY_CODES = ["+91", "+1", "+44", "+61", "+971", "+65", "+92"];
+const INTEREST_OPTIONS = ["Digital Service", "Job Interview"];
 
 interface EntryGateProps {
   /** Restrict gate to a list of paths (default: any page that mounts it). */
@@ -37,13 +35,16 @@ export function EntryGate({ paths }: EntryGateProps) {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (paths && !paths.includes(window.location.pathname)) return;
-    let dismissed = false;
+    let lastSubmitted = 0;
     try {
-      dismissed = localStorage.getItem(STORAGE_KEY) === "1";
+      const raw = localStorage.getItem(STORAGE_KEY);
+      lastSubmitted = raw ? Number(raw) : 0;
+      if (Number.isNaN(lastSubmitted)) lastSubmitted = 0;
     } catch {
       /* ignore */
     }
-    if (!dismissed) {
+    const stillSuppressed = lastSubmitted && Date.now() - lastSubmitted < RESHOW_AFTER_MS;
+    if (!stillSuppressed) {
       setOpen(true);
       document.body.classList.add("lr-no-scroll");
     }
@@ -52,15 +53,14 @@ export function EntryGate({ paths }: EntryGateProps) {
     };
   }, [paths]);
 
-  function close(skip = false) {
+  function close() {
     setOpen(false);
     document.body.classList.remove("lr-no-scroll");
     try {
-      localStorage.setItem(STORAGE_KEY, "1");
+      localStorage.setItem(STORAGE_KEY, String(Date.now()));
     } catch {
       /* ignore */
     }
-    if (skip) trackEvent("entry_gate_skip");
   }
 
   async function onSubmit(e: FormEvent) {
@@ -70,27 +70,34 @@ export function EntryGate({ paths }: EntryGateProps) {
       setError("Please accept the consent to continue.");
       return;
     }
+    if (!interest) {
+      setError("Please select an option.");
+      return;
+    }
     setError(null);
     setSubmitting(true);
     trackEvent("form_submit", { form_placement: "entry_gate" });
     const ctx = buildLeadContext();
     try {
-      const res = await fetch("/api/contact", {
+      // Submits directly to the configured Google Sheet via the server's
+      // /api/sheets-submit relay (the Sheets URL stays private; we don't
+      // persist this row in the leads DB).
+      const res = await apiFetch("/api/sheets-submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "same-origin",
         body: JSON.stringify({
-          name: name.trim(),
-          email: email.trim() || `noemail+${Date.now()}@leadsrubix.local`,
-          company: interest || "Not specified",
-          phone: `${country} ${mobile.trim()}`,
-          message: `Entry-gate signup. Interest: ${interest || "n/a"}.`,
           source: "entry_popup",
-          teamSize: undefined,
+          name: name.trim(),
+          email: email.trim(),
+          phone: `${country} ${mobile.trim()}`,
+          interest,
+          countryCode: country,
+          mobile: mobile.trim(),
+          consent,
           utm: ctx.utm,
-          referrer: ctx.referrer ?? undefined,
-          landingPath: ctx.landingPath ?? undefined,
-          website: "",
+          referrer: ctx.referrer ?? null,
+          landingPath: ctx.landingPath ?? null,
+          submittedAt: new Date().toISOString(),
         }),
       });
       if (!res.ok) {
@@ -98,7 +105,7 @@ export function EntryGate({ paths }: EntryGateProps) {
         throw new Error(body?.error ?? `Request failed (${res.status})`);
       }
       trackEvent("form_submit_success", { form_placement: "entry_gate" });
-      close(false);
+      close();
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Could not submit. Please try again.";
       setError(msg);
@@ -110,6 +117,8 @@ export function EntryGate({ paths }: EntryGateProps) {
 
   if (!open) return null;
 
+  const logoUrl = brand.logoImageUrl?.trim() || "/leads-rubix-favicon.png";
+
   return (
     <div
       className="fixed inset-0 z-[120] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
@@ -120,17 +129,12 @@ export function EntryGate({ paths }: EntryGateProps) {
     >
       <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-6 sm:p-8 my-auto">
         <div className="flex flex-col items-center text-center">
-          {brand.logoImageUrl ? (
-            <img
-              src={brand.logoImageUrl}
-              alt={brand.brandName}
-              className="size-12 rounded-md object-contain"
-              data-testid="entry-gate-logo"
-            />
-          ) : null}
-          <div className="mt-2 text-xs font-semibold tracking-[0.18em] text-[#252140] uppercase">
-            {brand.brandName ?? "Leads Rubix"}
-          </div>
+          <img
+            src={logoUrl}
+            alt={brand.brandName}
+            className="size-12 rounded-md object-contain"
+            data-testid="entry-gate-logo"
+          />
           <h2 id="entry-gate-title" className="mt-3 text-base font-medium text-slate-900">
             Welcome to {brand.brandName ?? "Leads Rubix"}
           </h2>
@@ -150,13 +154,13 @@ export function EntryGate({ paths }: EntryGateProps) {
             <select
               value={country}
               onChange={(e) => setCountry(e.target.value)}
-              className="px-2 py-2.5 rounded-md border border-slate-300 text-sm bg-white"
+              className="px-2 py-2.5 rounded-md border border-slate-300 text-sm bg-white max-w-[8rem]"
               aria-label="Country code"
               data-testid="entry-gate-country"
             >
-              {COUNTRY_CODES.map((c) => (
-                <option key={c} value={c}>
-                  {c}
+              {COUNTRY_DIAL_CODES.map((c) => (
+                <option key={`${c.code}-${c.dial}`} value={c.dial}>
+                  {c.dial} {c.code}
                 </option>
               ))}
             </select>
@@ -164,7 +168,7 @@ export function EntryGate({ paths }: EntryGateProps) {
               type="tel"
               required
               inputMode="numeric"
-              pattern="[0-9]{10,15}"
+              pattern="[0-9]{6,15}"
               placeholder="Mobile No"
               value={mobile}
               onChange={(e) => setMobile(e.target.value.replace(/[^\d]/g, ""))}
@@ -197,11 +201,7 @@ export function EntryGate({ paths }: EntryGateProps) {
 
           <p className="text-xs text-center text-slate-600 mt-3">
             By entering the website you accept our{" "}
-            <Link
-              href="/privacy"
-              className="font-semibold text-[#252140] underline"
-              onClick={() => close(true)}
-            >
+            <Link href="/privacy" className="font-semibold text-[#252140] underline">
               privacy policy
             </Link>
             .
@@ -233,15 +233,6 @@ export function EntryGate({ paths }: EntryGateProps) {
             data-testid="entry-gate-submit"
           >
             {submitting ? "Submitting…" : "Enter Website"}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => close(true)}
-            className="w-full mt-1 text-xs text-slate-500 hover:text-slate-700 py-1"
-            data-testid="entry-gate-skip"
-          >
-            Skip for now
           </button>
         </form>
       </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Users } from "lucide-react";
+import { apiFetch } from "@/lib/apiUrl";
 
 interface SocialProofResponse {
   ok: boolean;
@@ -19,7 +20,7 @@ export function SocialProofTicker({ className = "" }: { className?: string }) {
 
   useEffect(() => {
     let cancelled = false;
-    fetch("/api/stats/social-proof", { credentials: "same-origin" })
+    apiFetch("/api/stats/social-proof")
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         if (!cancelled && d?.ok) setData(d);

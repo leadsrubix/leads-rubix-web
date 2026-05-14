@@ -1,4 +1,5 @@
 import { Layout } from "@/components/layout/Layout";
+import { apiFetch } from "@/lib/apiUrl";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -47,7 +48,7 @@ export default function DataRequest() {
   async function onSubmit(values: z.infer<typeof schema>) {
     setSubmitting(true);
     try {
-      const res = await fetch("/api/privacy/data-request", {
+      const res = await apiFetch("/api/privacy/data-request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),

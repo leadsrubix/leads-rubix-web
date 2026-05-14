@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { apiFetch } from "./apiUrl";
 
 const cache = new Map<string, unknown>();
 
@@ -31,7 +32,7 @@ export function useContentWithStatus<T>(
       return;
     }
     setLoading(true);
-    fetch(`/api/content/${encodeURIComponent(key)}`, { credentials: "same-origin" })
+    apiFetch(`/api/content/${encodeURIComponent(key)}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         if (!active) return;

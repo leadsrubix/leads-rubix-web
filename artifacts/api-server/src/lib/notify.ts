@@ -129,7 +129,7 @@ function buildSheetsRow(lead: LeadPayload) {
 // could otherwise force the server to call internal infrastructure. Reject
 // anything that isn't https://, has credentials, or resolves to a private
 // host literal (loopback / RFC1918 / link-local / 0.0.0.0).
-function isAllowedWebhookUrl(raw: string): boolean {
+export function isAllowedWebhookUrl(raw: string): boolean {
   let u: URL;
   try {
     u = new URL(raw);

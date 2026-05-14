@@ -86,7 +86,8 @@ export default function Demo() {
   async function onSubmit(values: z.infer<typeof demoSchema>) {
     setSubmitting(true);
     try {
-      const res = await fetch("/api/contact", {
+      const { apiFetch } = await import("@/lib/apiUrl");
+      const res = await apiFetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

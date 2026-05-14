@@ -23,11 +23,8 @@ export default function AdminSources() {
 
   useEffect(() => {
     let cancelled = false;
-    fetch("/api/admin/leads/by-source", { credentials: "same-origin" })
-      .then(async (r) => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        return (await r.json()) as Resp;
-      })
+    import("../lib/api")
+      .then(({ api }) => api<Resp>("/admin/leads/by-source"))
       .then((d) => {
         if (!cancelled) setData(d);
       })

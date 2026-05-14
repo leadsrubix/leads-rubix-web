@@ -10,7 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { adminApi } from "../lib/api";
 import { KNOWN_SECTIONS } from "../lib/contentSchemas";
 
-const IMAGE_FIELD_RE = /^(logoImageUrl|faviconUrl|defaultOgImage|ogImage|coverImage|featuredImage|logo|image|imageUrl)$/i;
+const IMAGE_FIELD_RE = /^(logoImageUrl|logoLightUrl|logoDarkUrl|faviconUrl|defaultOgImage|ogImage|coverImage|featuredImage|logo|image|imageUrl)$/i;
 
 function ImageField({
   fieldKey,

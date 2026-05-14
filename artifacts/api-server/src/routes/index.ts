@@ -9,6 +9,8 @@ import telemetryRouter from "./telemetry";
 import ogRouter from "./og";
 import dataRequestRouter from "./data-request";
 import calWebhookRouter from "./cal-webhook";
+import sheetsSubmitRouter from "./sheets-submit";
+import localUploadsRouter from "./local-uploads";
 import adminRouter from "./admin";
 
 const router: IRouter = Router();
@@ -23,6 +25,8 @@ router.use(telemetryRouter);
 router.use(ogRouter);
 router.use(dataRequestRouter);
 router.use(calWebhookRouter);
+router.use(sheetsSubmitRouter);
+router.use(localUploadsRouter);
 router.use("/admin", adminRouter);
 
 export default router;

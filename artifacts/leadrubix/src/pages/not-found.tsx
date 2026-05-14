@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Layout } from "@/components/layout/Layout";
+import { apiFetch } from "@/lib/apiUrl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useSEO } from "@/lib/useSEO";
@@ -46,7 +47,7 @@ export default function NotFound() {
   // silently is fine — the page works without it.
   useEffect(() => {
     let alive = true;
-    fetch("/api/posts?limit=4")
+    apiFetch("/api/posts?limit=4")
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
         if (!alive || !data) return;
