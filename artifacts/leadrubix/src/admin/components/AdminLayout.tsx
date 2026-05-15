@@ -131,8 +131,10 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         />
       ) : null}
 
-      <main className="flex-1 min-w-0 pt-14 md:pt-0">
-        <div className="p-4 md:p-8 max-w-7xl mx-auto w-full">{children}</div>
+      <main className="flex-1 min-w-0 h-screen overflow-hidden flex flex-col pt-14 md:pt-0">
+        <div className="flex-1 overflow-y-auto p-4 md:p-8">
+          <div className="max-w-7xl mx-auto w-full">{children}</div>
+        </div>
       </main>
 
       <CommandPalette />
