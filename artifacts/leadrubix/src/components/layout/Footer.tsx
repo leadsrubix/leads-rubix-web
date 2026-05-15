@@ -34,19 +34,19 @@ interface FooterLinks {
 }
 
 const DEFAULT_CONTACT: FooterContact = {
-  legalEntity: "Leads Rubix Technologies Pvt. Ltd.",
-  addressLine: "Registered office: Mumbai, Maharashtra, India",
-  supportEmail: "support@leadsrubix.com",
-  salesEmail: "hello@leadsrubix.com",
+  legalEntity: "Powered by Digital Rubix",
+  addressLine: "Second Floor, C-25, C Block, Sector 58, Noida, Uttar Pradesh 201301",
+  supportEmail: "info@leadsrubix.com",
+  salesEmail: "",
   hours: "",
 };
 
 const DEFAULT_SOCIAL: SocialLinks = {
   linkedin: "https://www.linkedin.com/company/leads-rubix",
-  facebook: "",
-  instagram: "",
-  twitter: "",
-  youtube: "",
+  facebook: "https://www.facebook.com/leadsrubix",
+  instagram: "https://www.instagram.com/leadsrubix",
+  twitter: "https://x.com/leadsrubix",
+  youtube: "https://www.youtube.com/@leadsrubix",
 };
 
 const DEFAULT_FOOTER_LINKS: FooterLinks = {

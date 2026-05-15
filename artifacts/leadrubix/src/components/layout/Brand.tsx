@@ -1,6 +1,7 @@
 import { Building2 } from "lucide-react";
 import { useContent } from "@/lib/useContent";
 import { useTheme } from "@/lib/useTheme";
+import { apiUrl } from "@/lib/apiUrl";
 
 export interface BrandIdentity {
   brandName: string;
@@ -55,12 +56,22 @@ function pickLogoUrl(brand: BrandIdentity, isDark: boolean): string {
   );
 }
 
+function resolveLogoUrl(url: string): string {
+  const v = url.trim();
+  if (!v) return "/leads-rubix-favicon.png";
+  if (v.startsWith("/api/")) return apiUrl(v);
+  return v;
+}
+
 export function LogoMark({ brand, variant = "navbar", testId }: LogoProps) {
   const { theme } = useTheme();
-  // The footer always sits on a dark background in this design, so use the
-  // dark-mode logo there regardless of the page-level theme.
+  // Footer should always use the dark logo variant.
   const isDark = variant === "footer" ? true : theme === "dark";
-  const url = pickLogoUrl(brand, isDark);
+  const url = resolveLogoUrl(pickLogoUrl(brand, isDark));
+  const logoClassName =
+    variant === "footer"
+      ? "h-11 md:h-12 w-auto max-w-[240px] object-contain"
+      : "h-10 md:h-11 w-auto max-w-[220px] object-contain";
 
   return (
     <span className="flex items-center" data-testid={testId}>
@@ -68,8 +79,7 @@ export function LogoMark({ brand, variant = "navbar", testId }: LogoProps) {
         <img
           src={url}
           alt={brand.brandName}
-          className="h-9 w-auto object-contain"
-          style={{ maxHeight: 40 }}
+          className={logoClassName}
         />
       ) : (
         <Building2 size={28} className={variant === "footer" ? "text-white" : "text-[#252140]"} />

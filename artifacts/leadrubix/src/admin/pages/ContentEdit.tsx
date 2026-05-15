@@ -9,6 +9,7 @@ import { ArrowLeft, History, Plus, Trash2, Upload } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { adminApi } from "../lib/api";
 import { KNOWN_SECTIONS } from "../lib/contentSchemas";
+import { apiUrl } from "@/lib/apiUrl";
 
 const IMAGE_FIELD_RE = /^(logoImageUrl|logoLightUrl|logoDarkUrl|faviconUrl|defaultOgImage|ogImage|coverImage|featuredImage|logo|image|imageUrl)$/i;
 
@@ -49,7 +50,7 @@ function ImageField({
       <div className="flex gap-2 items-start">
         {value ? (
           <img
-            src={value}
+            src={value.startsWith("/api/") ? apiUrl(value) : value}
             alt=""
             className="size-14 rounded border bg-slate-50 object-contain shrink-0"
             onError={(e) => ((e.currentTarget.style.opacity = "0.3"))}

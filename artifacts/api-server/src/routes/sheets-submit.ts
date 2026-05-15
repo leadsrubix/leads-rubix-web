@@ -95,57 +95,95 @@ router.post("/sheets-submit", rateLimiter, async (req, res) => {
 
   // Add a bit of envelope context the Apps Script can use without depending
   // on the form sending it explicitly.
+  // Phone is prefixed with a tab character so Google Sheets does not treat
+  // "+91 ..." as a formula and show #ERROR!
+  const rawData = parsed.data as Record<string, unknown>;
+  const phone = String(rawData.mobile ?? rawData.phone ?? "").trim();
+  const countryCode = String(rawData.countryCode ?? rawData.countrycode ?? "").trim();
+  const landingPath = String(rawData.landingPath ?? "").trim();
+  const rawWebsite = String(rawData.website ?? "").trim();
+  const referrer = String(rawData.referrer ?? "").trim();
+  const hostHeader = String(req.headers.host ?? "").trim();
+
+  let website = rawWebsite || landingPath;
+  if (website.startsWith("/")) {
+    website = referrer || hostHeader;
+  }
+  try {
+    if (website) {
+      const withProtocol = /^https?:\/\//i.test(website) ? website : `https://${website}`;
+      website = new URL(withProtocol).hostname;
+    }
+  } catch {
+    website = hostHeader || "leadsrubix.com";
+  }
+  const contactFor = String(rawData.interest ?? rawData.contactfor ?? rawData.contactFor ?? "").trim();
+  const forwarded = String(req.headers["x-forwarded-for"] ?? "");
+  const ip = (forwarded.split(",")[0] ?? req.ip ?? req.socket.remoteAddress ?? "").toString().trim();
   const payload = {
-    ...parsed.data,
+    ...rawData,
+    // Overwrite phone fields with tab-prefixed string so Sheets renders as text
+    mobile: phone ? "\t" + phone : "",
+    phone: phone ? "\t" + phone : "",
+    // Backward-compatible aliases for existing Apps Script mappings.
+    countryCode,
+    countrycode: countryCode,
+    landingPath,
+    website,
+    interest: contactFor,
+    contactfor: contactFor,
+    contactFor,
+    ip,
     receivedAt: new Date().toISOString(),
     userAgent: String(req.headers["user-agent"] ?? "").slice(0, 300),
   };
 
-  try {
-    // redirect:"manual" — the configured URL was vetted, but a 30x to a
-    // different host could bypass the SSRF check. Re-validate every hop.
-    let attempt = 0;
-    let currentUrl = webhookUrl;
-    let upstream: globalThis.Response;
-    /* eslint-disable no-constant-condition */
-    while (true) {
-      upstream = await fetch(currentUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        redirect: "manual",
-        signal: AbortSignal.timeout(10_000),
-      });
-      if (upstream.status >= 300 && upstream.status < 400) {
-        const loc = upstream.headers.get("location") ?? "";
-        const next = loc ? new URL(loc, currentUrl).toString() : "";
-        if (!next || !isAllowedWebhookUrl(next)) {
-          req.log.warn({ from: currentUrl }, "sheets-submit: redirect target rejected");
-          res.status(502).json({ ok: false, error: "Sheets webhook redirect rejected" });
-          return;
-        }
-        currentUrl = next;
-        attempt += 1;
-        if (attempt > 5) {
-          res.status(502).json({ ok: false, error: "Too many redirects" });
-          return;
-        }
-        continue;
-      }
-      break;
-    }
-    if (!upstream.ok) {
-      req.log.warn({ status: upstream.status }, "sheets-submit: upstream non-2xx");
-      res.status(502).json({ ok: false, error: "Sheets webhook rejected the submission" });
-      return;
-    }
-  } catch (err) {
-    req.log.error({ err }, "sheets-submit: upstream fetch failed");
-    res.status(502).json({ ok: false, error: "Could not reach Google Sheets" });
-    return;
-  }
-
+  // Respond to the client immediately so Hostinger's LiteSpeed proxy
+  // (which has a short upstream timeout) does not 502 while we wait for
+  // the Google Apps Script webhook — which can take several seconds.
   res.json({ ok: true });
+
+  // Fire-and-forget: send to Google Sheets in the background.
+  (async () => {
+    try {
+      // redirect:"manual" — the configured URL was vetted, but a 30x to a
+      // different host could bypass the SSRF check. Re-validate every hop.
+      let attempt = 0;
+      let currentUrl = webhookUrl;
+      let upstream: globalThis.Response;
+      /* eslint-disable no-constant-condition */
+      while (true) {
+        upstream = await fetch(currentUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+          redirect: "manual",
+          signal: AbortSignal.timeout(30_000),
+        });
+        if (upstream.status >= 300 && upstream.status < 400) {
+          const loc = upstream.headers.get("location") ?? "";
+          const next = loc ? new URL(loc, currentUrl).toString() : "";
+          if (!next || !isAllowedWebhookUrl(next)) {
+            req.log.warn({ from: currentUrl }, "sheets-submit: redirect target rejected");
+            return;
+          }
+          currentUrl = next;
+          attempt += 1;
+          if (attempt > 5) {
+            req.log.warn("sheets-submit: too many redirects");
+            return;
+          }
+          continue;
+        }
+        break;
+      }
+      if (!upstream.ok) {
+        req.log.warn({ status: upstream.status }, "sheets-submit: upstream non-2xx");
+      }
+    } catch (err) {
+      req.log.error({ err }, "sheets-submit: upstream fetch failed");
+    }
+  })();
 });
 
 export default router;

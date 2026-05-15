@@ -6,15 +6,18 @@ import * as z from "zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { annotateSource } from "@/lib/utm";
 import { trackEvent } from "@/lib/ab";
+import { COUNTRY_DIAL_CODES } from "@/lib/countryDialCodes";
 import { CheckCircle2 } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(2, "Required"),
   email: z.string().email("Invalid email"),
-  phone: z.string().min(10, "10+ digits"),
+  countryCode: z.string().default("+91"),
+  mobile: z.string().min(6, "6+ digits"),
   website: z.string().max(0).optional(),
 });
 
@@ -53,7 +56,7 @@ export function InlineLeadForm({
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { name: "", email: "", phone: "", website: "" },
+    defaultValues: { name: "", email: "", countryCode: "+91", mobile: "", website: "" },
   });
 
   async function onSubmit(values: FormValues) {
@@ -67,7 +70,9 @@ export function InlineLeadForm({
       const body = {
         name: values.name,
         email: values.email,
-        phone: values.phone,
+        phone: `${values.countryCode} ${values.mobile}`,
+        countryCode: values.countryCode,
+        mobile: values.mobile,
         company: "(inline form)",
         message: finalMsg,
         source: annotateSource(`inline-${placement}`),
@@ -129,7 +134,7 @@ export function InlineLeadForm({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-1 md:grid-cols-3 gap-3"
+          className="grid grid-cols-1 md:grid-cols-4 gap-3"
           noValidate
         >
           <FormField
@@ -171,17 +176,44 @@ export function InlineLeadForm({
           />
           <FormField
             control={form.control}
-            name="phone"
+            name="countryCode"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="sr-only">Phone</FormLabel>
+                <FormLabel className="sr-only">Country code</FormLabel>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger data-testid={`input-inline-${placement}-country`}>
+                      <SelectValue placeholder="Code" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="max-h-72">
+                    {COUNTRY_DIAL_CODES.map((c) => (
+                      <SelectItem key={`${c.code}-${c.dial}`} value={c.dial}>
+                        {c.dial} {c.code}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="mobile"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="sr-only">Mobile number</FormLabel>
                 <FormControl>
                   <Input
                     type="tel"
-                    placeholder="+91 ..."
+                    inputMode="numeric"
+                    pattern="[0-9]{6,15}"
+                    placeholder="Mobile No"
                     autoComplete="tel"
                     {...field}
-                    data-testid={`input-inline-${placement}-phone`}
+                    onChange={(e) => field.onChange(e.target.value.replace(/[^\d]/g, ""))}
+                    data-testid={`input-inline-${placement}-mobile`}
                   />
                 </FormControl>
                 <FormMessage />
@@ -199,7 +231,7 @@ export function InlineLeadForm({
               </FormItem>
             )}
           />
-          <div className="md:col-span-3 flex justify-end">
+          <div className="md:col-span-4 flex justify-end">
             <Button
               type="submit"
               size="lg"

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -15,23 +16,44 @@ import { Link } from "wouter";
 import { useSEO } from "@/lib/useSEO";
 import { useContent } from "@/lib/useContent";
 import { annotateSource, buildLeadContext } from "@/lib/utm";
+import { COUNTRY_DIAL_CODES } from "@/lib/countryDialCodes";
 
 interface FooterContact {
+  legalEntity?: string;
+  addressLine?: string;
+  supportEmail?: string;
+  salesEmail?: string;
+  hours?: string;
   phone?: string;
 }
+
+const DEFAULT_CONTACT: FooterContact = {
+  legalEntity: "Powered by Digital Rubix",
+  addressLine: "Second Floor, C-25, C Block, Sector 58, Noida, Uttar Pradesh 201301",
+  supportEmail: "info@leadsrubix.com",
+  salesEmail: "",
+  hours: "",
+  phone: "",
+};
 
 const formSchema = z.object({
   name: z.string().min(2, "Name is required"),
   email: z.string().email("Invalid email address"),
   company: z.string().min(2, "Company name is required"),
-  phone: z.string().min(10, "Valid phone number is required"),
+  countryCode: z.string().default("+91"),
+  mobile: z.string().min(6, "Valid phone number is required"),
   message: z.string().min(10, "Please share a few details"),
   website: z.string().max(0).optional(),
 });
 
 export default function Contact() {
-  const footer = useContent<FooterContact>("footer_contact", {});
+  const footer = useContent<FooterContact>("footer_contact", DEFAULT_CONTACT);
   const phone = footer.phone?.trim() ?? "";
+  const supportEmail = footer.supportEmail?.trim() || DEFAULT_CONTACT.supportEmail!;
+  const salesEmail = footer.salesEmail?.trim() || DEFAULT_CONTACT.salesEmail!;
+  const legalEntity = footer.legalEntity?.trim() || DEFAULT_CONTACT.legalEntity!;
+  const addressLine = footer.addressLine?.trim() || DEFAULT_CONTACT.addressLine!;
+  const supportHours = footer.hours?.trim() || DEFAULT_CONTACT.hours!;
   useSEO({
     title: "Contact — Leads Rubix | Talk to our India sales team",
     description:
@@ -81,7 +103,7 @@ export default function Contact() {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { name: "", email: "", company: "", phone: "", message: "", website: "" },
+    defaultValues: { name: "", email: "", company: "", countryCode: "+91", mobile: "", message: "", website: "" },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -175,12 +197,43 @@ export default function Contact() {
                         />
                         <FormField
                           control={form.control}
-                          name="phone"
+                          name="countryCode"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Phone (with country code)</FormLabel>
+                              <FormLabel>Country Code</FormLabel>
+                              <Select onValueChange={field.onChange} value={field.value}>
+                                <FormControl>
+                                  <SelectTrigger className="h-10" data-testid="select-contact-country"><SelectValue placeholder="Country" /></SelectTrigger>
+                                </FormControl>
+                                <SelectContent className="max-h-72">
+                                  {COUNTRY_DIAL_CODES.map((c) => (
+                                    <SelectItem key={`${c.code}-${c.dial}`} value={c.dial}>
+                                      {c.dial} {c.code}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="mobile"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Mobile Number</FormLabel>
                               <FormControl>
-                                <Input type="tel" placeholder="+91 ..." autoComplete="tel" {...field} data-testid="input-contact-phone" />
+                                <Input
+                                  type="tel"
+                                  inputMode="numeric"
+                                  pattern="[0-9]{6,15}"
+                                  placeholder="Mobile No"
+                                  autoComplete="tel"
+                                  {...field}
+                                  onChange={(e) => field.onChange(e.target.value.replace(/[^\d]/g, ""))}
+                                  data-testid="input-contact-mobile"
+                                />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -236,21 +289,21 @@ export default function Contact() {
                         <Mail className="h-5 w-5 mt-0.5 text-primary" />
                         <div>
                           <p className="font-medium text-foreground">Sales</p>
-                          <a href="mailto:hello@leadsrubix.com" className="hover:text-primary">hello@leadsrubix.com</a>
+                          <a href={`mailto:${salesEmail}`} className="hover:text-primary">{salesEmail}</a>
                         </div>
                       </div>
                       <div className="flex items-start gap-3">
                         <Mail className="h-5 w-5 mt-0.5 text-primary" />
                         <div>
                           <p className="font-medium text-foreground">Support</p>
-                          <a href="mailto:support@leadsrubix.com" className="hover:text-primary">support@leadsrubix.com</a>
+                          <a href={`mailto:${supportEmail}`} className="hover:text-primary">{supportEmail}</a>
                         </div>
                       </div>
                       <div className="flex items-start gap-3">
                         <MapPin className="h-5 w-5 mt-0.5 text-primary" />
                         <div>
                           <p className="font-medium text-foreground">Registered office</p>
-                          <p>Leads Rubix Technologies Pvt. Ltd.<br />Mumbai, Maharashtra, India</p>
+                          <p>{legalEntity}<br />{addressLine}</p>
                         </div>
                       </div>
                     </div>
@@ -258,8 +311,7 @@ export default function Contact() {
                   <div>
                     <h3 className="text-lg font-bold mb-4 flex items-center gap-2"><Clock className="h-4 w-4 text-primary" /> Support hours</h3>
                     <p className="text-muted-foreground">
-                      Monday – Saturday<br />
-                      10:00 AM – 7:00 PM IST
+                      {supportHours}
                     </p>
                     <p className="text-muted-foreground text-sm mt-3">We typically reply within one business day.</p>
                   </div>

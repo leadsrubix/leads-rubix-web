@@ -10,9 +10,9 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { LogoMark, useBrand } from "./Brand";
+import { LogoMark, useBrand, DEFAULT_BRAND, type BrandIdentity } from "./Brand";
 import { ThemeToggle } from "./ThemeToggle";
-import { useContent } from "@/lib/useContent";
+import { useContent, useContentWithStatus } from "@/lib/useContent";
 import {
   DEFAULT_INDUSTRIES,
   getIndustryIcon,
@@ -21,7 +21,7 @@ import {
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const brand = useBrand();
+  const { value: brand, loading: brandLoading } = useContentWithStatus<BrandIdentity>("brand_identity", DEFAULT_BRAND);
   const industries = useContent<IndustriesContent>("industries", DEFAULT_INDUSTRIES);
   const industryItems = industries.items ?? [];
   const appUrl = brand.appUrl?.trim() || "https://app.leadsrubix.com/";
@@ -40,7 +40,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-[#252140]/10 bg-white/85 backdrop-blur-md">
       <div className="container mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
         <Link href="/" data-testid="link-logo">
-          <LogoMark brand={brand} variant="navbar" />
+          {!brandLoading && <LogoMark brand={brand} variant="navbar" />}
         </Link>
 
         {/* Desktop Nav */}

@@ -1,10 +1,13 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { Link } from "wouter";
-import { useBrand } from "@/components/layout/Brand";
+import { DEFAULT_BRAND, type BrandIdentity } from "@/components/layout/Brand";
+import { useContentWithStatus } from "@/lib/useContent";
+import { useTheme } from "@/lib/useTheme";
 import { buildLeadContext } from "@/lib/utm";
 import { trackEvent } from "@/lib/ab";
-import { apiFetch } from "@/lib/apiUrl";
+import { apiFetch, apiUrl } from "@/lib/apiUrl";
 import { COUNTRY_DIAL_CODES } from "@/lib/countryDialCodes";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 // Stores the unix-ms timestamp of the last successful submission. We re-show
 // the popup if more than RESHOW_AFTER_MS has elapsed since then so the user
@@ -20,7 +23,8 @@ interface EntryGateProps {
 }
 
 export function EntryGate({ paths }: EntryGateProps) {
-  const brand = useBrand();
+  const { value: brand, loading: brandLoading } = useContentWithStatus<BrandIdentity>("brand_identity", DEFAULT_BRAND);
+  const { theme } = useTheme();
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -117,7 +121,13 @@ export function EntryGate({ paths }: EntryGateProps) {
 
   if (!open) return null;
 
-  const logoUrl = brand.logoImageUrl?.trim() || "/leads-rubix-favicon.png";
+  const rawLogoUrl = brandLoading
+    ? ""
+    : theme === "dark"
+      ? (brand.logoDarkUrl?.trim() ?? "")
+      : (brand.logoLightUrl?.trim() ?? "");
+  const logoUrl = rawLogoUrl.startsWith("/api/") ? apiUrl(rawLogoUrl) : rawLogoUrl;
+
 
   return (
     <div
@@ -129,15 +139,20 @@ export function EntryGate({ paths }: EntryGateProps) {
     >
       <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-6 sm:p-8 my-auto">
         <div className="flex flex-col items-center text-center">
-          <img
-            src={logoUrl}
-            alt={brand.brandName}
-            className="size-12 rounded-md object-contain"
-            data-testid="entry-gate-logo"
-          />
-          <h2 id="entry-gate-title" className="mt-3 text-base font-medium text-slate-900">
-            Welcome to {brand.brandName ?? "Leads Rubix"}
+          {logoUrl && (
+            <img
+              src={logoUrl}
+              alt={brand.brandName}
+              className="h-12 sm:h-14 w-auto max-w-[180px] object-contain"
+              data-testid="entry-gate-logo"
+            />
+          )}
+          <h2 id="entry-gate-title" className="mt-3 text-sm font-semibold text-slate-900">
+            We'd love to know you better.
           </h2>
+          <p className="text-xs text-slate-600 mt-1">
+            Please complete the form below to continue exploring our website.
+          </p>
         </div>
 
         <form onSubmit={onSubmit} className="mt-5 space-y-3" noValidate>
@@ -151,19 +166,22 @@ export function EntryGate({ paths }: EntryGateProps) {
             data-testid="entry-gate-name"
           />
           <div className="flex gap-2">
-            <select
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-              className="px-2 py-2.5 rounded-md border border-slate-300 text-sm bg-white max-w-[8rem]"
-              aria-label="Country code"
-              data-testid="entry-gate-country"
-            >
-              {COUNTRY_DIAL_CODES.map((c) => (
-                <option key={`${c.code}-${c.dial}`} value={c.dial}>
-                  {c.dial} {c.code}
-                </option>
-              ))}
-            </select>
+            <Select value={country} onValueChange={setCountry}>
+              <SelectTrigger
+                className="h-[46px] max-w-[8rem] bg-white border-slate-300 text-sm"
+                aria-label="Country code"
+                data-testid="entry-gate-country"
+              >
+                <SelectValue placeholder="Country" />
+              </SelectTrigger>
+              <SelectContent className="z-[130] max-h-72">
+                {COUNTRY_DIAL_CODES.map((c) => (
+                  <SelectItem key={`${c.code}-${c.dial}`} value={c.dial}>
+                    {c.dial} {c.code}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <input
               type="tel"
               required
@@ -184,20 +202,21 @@ export function EntryGate({ paths }: EntryGateProps) {
             className="w-full px-4 py-2.5 rounded-md border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#252140]/30"
             data-testid="entry-gate-email"
           />
-          <select
-            required
-            value={interest}
-            onChange={(e) => setInterest(e.target.value)}
-            className="w-full px-3 py-2.5 rounded-md border border-slate-300 text-sm bg-white"
-            data-testid="entry-gate-interest"
-          >
-            <option value="">Select an option</option>
-            {INTEREST_OPTIONS.map((o) => (
-              <option key={o} value={o}>
-                {o}
-              </option>
-            ))}
-          </select>
+          <Select value={interest} onValueChange={setInterest}>
+            <SelectTrigger
+              className="h-[46px] w-full bg-white border-slate-300 text-sm"
+              data-testid="entry-gate-interest"
+            >
+              <SelectValue placeholder="Select an option" />
+            </SelectTrigger>
+            <SelectContent className="z-[130]">
+              {INTEREST_OPTIONS.map((o) => (
+                <SelectItem key={o} value={o}>
+                  {o}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
 
           <p className="text-xs text-center text-slate-600 mt-3">
             By entering the website you accept our{" "}
@@ -232,7 +251,7 @@ export function EntryGate({ paths }: EntryGateProps) {
             className="w-full mt-2 rounded-full bg-[#252140] text-white py-3 text-sm font-semibold tracking-wider uppercase disabled:opacity-60"
             data-testid="entry-gate-submit"
           >
-            {submitting ? "Submitting…" : "Enter Website"}
+            {submitting ? "Submitting…" : "Visit Website"}
           </button>
         </form>
       </div>

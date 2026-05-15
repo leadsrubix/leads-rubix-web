@@ -18,7 +18,12 @@ import {
   Globe, 
   ArrowRight,
   Blocks,
-  FileDown
+  FileDown,
+  Building,
+  Home,
+  Phone,
+  Search,
+  Briefcase
 } from "lucide-react";
 import { useSEO } from "@/lib/useSEO";
 
@@ -36,10 +41,17 @@ export default function Integrations() {
       items: [
         { name: "Facebook Lead Ads", icon: Facebook, status: "live", desc: "Direct webhook endpoint integration" },
         { name: "Instagram Lead Ads", icon: Instagram, status: "live", desc: "Unified social media pipeline" },
+        { name: "99 Acres", icon: Building, status: "live", desc: "Real estate property leads from 99Acres" },
+        { name: "MagicBricks", icon: Building, status: "live", desc: "Residential & commercial property leads" },
+        { name: "Housing.com", icon: Home, status: "live", desc: "Property marketplace lead integration" },
+        { name: "JustDial", icon: Phone, status: "live", desc: "Local business directory leads" },
+        { name: "Sulekha", icon: Search, status: "live", desc: "Service provider lead marketplace" },
+        { name: "Website", icon: Globe, status: "live", desc: "Leads from contact forms on your website" },
         { name: "CSV Import", icon: FileDown, status: "live", desc: "Bulk import thousands of leads at once" },
-        { name: "Webhook API", icon: Globe, status: "live", desc: "Custom endpoints for any source" },
+        { name: "Webhook API", icon: Blocks, status: "live", desc: "Custom endpoints for any source" },
         { name: "LinkedIn Lead Ads", icon: Linkedin, status: "coming soon", desc: "Professional network capture" },
         { name: "WhatsApp Business", icon: MessageSquare, status: "coming soon", desc: "Direct chat integration" },
+
       ]
     },
     {

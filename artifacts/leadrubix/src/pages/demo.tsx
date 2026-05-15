@@ -15,6 +15,7 @@ import { Link } from "wouter";
 import { useSEO } from "@/lib/useSEO";
 import { annotateSource, buildLeadContext } from "@/lib/utm";
 import { useBrand } from "@/components/layout/Brand";
+import { COUNTRY_DIAL_CODES } from "@/lib/countryDialCodes";
 
 const INDUSTRY_LABELS: Record<string, string> = {
   "real-estate": "real estate",
@@ -39,7 +40,8 @@ const demoSchema = z.object({
   name: z.string().min(2, "Name is required"),
   email: z.string().email("Invalid email address"),
   company: z.string().min(2, "Company name is required"),
-  phone: z.string().min(10, "Valid phone number is required"),
+  countryCode: z.string().default("+91"),
+  mobile: z.string().min(6, "Valid phone number is required"),
   teamSize: z.string().min(1, "Please select a team size"),
   message: z.string().min(10, "Tell us a bit about your sales process"),
   website: z.string().max(0).optional(),
@@ -73,7 +75,7 @@ export default function Demo() {
 
   const form = useForm<z.infer<typeof demoSchema>>({
     resolver: zodResolver(demoSchema),
-    defaultValues: { name: "", email: "", company: "", phone: "", teamSize: "", message: defaultMessage, website: "" },
+    defaultValues: { name: "", email: "", company: "", countryCode: "+91", mobile: "", teamSize: "", message: defaultMessage, website: "" },
   });
 
   useEffect(() => {
@@ -220,10 +222,39 @@ export default function Demo() {
                                 <FormMessage />
                               </FormItem>
                             )} />
-                            <FormField control={form.control} name="phone" render={({ field }) => (
+                            <FormField control={form.control} name="countryCode" render={({ field }) => (
                               <FormItem>
-                                <FormLabel>Phone (with country code)</FormLabel>
-                                <FormControl><Input type="tel" placeholder="+91 ..." autoComplete="tel" {...field} data-testid="input-demo-phone" /></FormControl>
+                                <FormLabel>Country Code</FormLabel>
+                                <Select onValueChange={field.onChange} value={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger className="h-10" data-testid="select-demo-country"><SelectValue placeholder="Country" /></SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent className="max-h-72">
+                                    {COUNTRY_DIAL_CODES.map((c) => (
+                                      <SelectItem key={`${c.code}-${c.dial}`} value={c.dial}>
+                                        {c.dial} {c.code}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                                <FormMessage />
+                              </FormItem>
+                            )} />
+                            <FormField control={form.control} name="mobile" render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Mobile Number</FormLabel>
+                                <FormControl>
+                                  <Input
+                                    type="tel"
+                                    inputMode="numeric"
+                                    pattern="[0-9]{6,15}"
+                                    placeholder="Mobile No"
+                                    autoComplete="tel"
+                                    {...field}
+                                    onChange={(e) => field.onChange(e.target.value.replace(/[^\d]/g, ""))}
+                                    data-testid="input-demo-mobile"
+                                  />
+                                </FormControl>
                                 <FormMessage />
                               </FormItem>
                             )} />
