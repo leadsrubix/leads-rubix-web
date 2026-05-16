@@ -57,7 +57,7 @@ export default function Contact() {
   useSEO({
     title: "Contact — Leads Rubix | Talk to our India sales team",
     description:
-      "Get in touch with Leads Rubix. Email hello@leadsrubix.com, write to support, or send a message — our India team typically responds within one business day.",
+      "Get in touch with Leads Rubix. Email info@leadsrubix.com, write to support, or send a message — our India team typically responds within one business day.",
     canonical: "https://leadsrubix.com/contact",
     jsonLd: [
       {
@@ -73,7 +73,7 @@ export default function Contact() {
         "@id": "https://leadsrubix.com/#localbusiness",
         name: "Leads Rubix Technologies Pvt. Ltd.",
         url: "https://leadsrubix.com",
-        email: "hello@leadsrubix.com",
+        email: "info@leadsrubix.com",
         ...(phone ? { telephone: phone } : {}),
         priceRange: "₹₹",
         address: {
@@ -109,11 +109,13 @@ export default function Contact() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setSubmitting(true);
     try {
+      const { countryCode, mobile, ...rest } = values;
       const res = await apiFetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...values,
+          ...rest,
+          phone: `${countryCode}${mobile}`,
           source: annotateSource("contact-page"),
           ...buildLeadContext(),
         }),
@@ -127,7 +129,7 @@ export default function Contact() {
     } catch (err) {
       toast({
         title: "Couldn't send your message",
-        description: "Please email hello@leadsrubix.com directly and we'll respond shortly.",
+        description: "Please email info@leadsrubix.com directly and we'll respond shortly.",
         variant: "destructive",
       });
     } finally {

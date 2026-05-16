@@ -10,6 +10,11 @@ function formatINR(n: number): string {
   return `₹${v.toLocaleString("en-IN")}`;
 }
 
+function clampNumber(value: number, min: number, max: number): number {
+  if (!Number.isFinite(value)) return min;
+  return Math.min(max, Math.max(min, value));
+}
+
 export function RoiCalculator() {
   const [leads, setLeads] = useState<number>(500);
   const [conversion, setConversion] = useState<number>(8);
@@ -145,7 +150,10 @@ function Field({
           min={min}
           max={max}
           step={step}
-          onChange={(e) => onChange(Number(e.target.value))}
+          onChange={(e) => {
+            const next = clampNumber(Number(e.target.value), min, max);
+            onChange(next);
+          }}
           className="w-full bg-transparent outline-none text-lg font-semibold tabular-nums"
           data-testid={`input-${testId}`}
         />
@@ -191,12 +199,14 @@ function Stat({
         ? "bg-muted/40 border-border text-foreground"
         : "bg-card border-border text-foreground";
   return (
-    <div className={`rounded-xl border p-5 ${cls}`} data-testid={testId}>
+    <div className={`rounded-xl border p-5 min-w-0 ${cls}`} data-testid={testId}>
       <div className="text-xs font-semibold uppercase tracking-wider opacity-80 mb-2 flex items-center gap-1.5">
         {icon}
         {label}
       </div>
-      <div className="text-2xl md:text-3xl font-extrabold tabular-nums">{value}</div>
+      <div className="font-extrabold tabular-nums leading-tight break-words text-[clamp(1.4rem,2.8vw,2.15rem)]">
+        {value}
+      </div>
     </div>
   );
 }

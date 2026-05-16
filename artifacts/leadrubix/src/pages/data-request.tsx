@@ -63,7 +63,7 @@ export default function DataRequest() {
     } catch {
       toast({
         title: "Couldn't send your request",
-        description: "Please email privacy@leadsrubix.com directly.",
+        description: "Please email info@leadsrubix.com directly.",
         variant: "destructive",
       });
     } finally {
@@ -188,8 +188,8 @@ export default function DataRequest() {
           <div className="mt-8 p-6 rounded-xl bg-slate-50 border">
             <h3 className="font-semibold mb-2">Other ways to reach us</h3>
             <ul className="space-y-1 text-sm text-muted-foreground">
-              <li>Email our Data Protection Officer: <a href="mailto:privacy@leadsrubix.com" className="text-primary hover:underline">privacy@leadsrubix.com</a></li>
-              <li>Postal: Leads Rubix Software Pvt. Ltd., India (full address on the <a href="/contact" className="text-primary hover:underline">contact page</a>)</li>
+              <li>Email our Data Protection Officer: <a href="mailto:info@leadsrubix.com" className="text-primary hover:underline">info@leadsrubix.com</a></li>
+              <li>Postal: Powered by Digital Rubix (full address on the <a href="/contact" className="text-primary hover:underline">contact page</a>)</li>
             </ul>
           </div>
         </div>

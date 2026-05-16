@@ -57,7 +57,7 @@ export default function Cookies() {
 
           <h2>6. Contact</h2>
           <p>
-            If you have questions about our use of cookies, please contact us at: <strong>privacy@leadsrubix.com</strong>
+            If you have questions about our use of cookies, please contact us at: <strong>info@leadsrubix.com</strong>
           </p>
         </div>
       </div>

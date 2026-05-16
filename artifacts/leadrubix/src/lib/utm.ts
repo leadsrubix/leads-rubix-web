@@ -110,13 +110,15 @@ export function getReferrer(): string | null {
 /** Build a structured payload to send to /api/contact. */
 export function buildLeadContext(): {
   utm: UtmRecord;
-  referrer: string | null;
-  landingPath: string | null;
+  referrer?: string;
+  landingPath?: string;
 } {
+  const referrer = getReferrer();
+  const landingPath = getLandingPath();
   return {
     utm: getUtm(),
-    referrer: getReferrer(),
-    landingPath: getLandingPath(),
+    ...(referrer != null ? { referrer } : {}),
+    ...(landingPath != null ? { landingPath } : {}),
   };
 }
 

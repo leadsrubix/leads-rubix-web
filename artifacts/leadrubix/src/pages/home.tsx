@@ -34,7 +34,6 @@ import { useContent } from "@/lib/useContent";
 import { SocialProofTicker } from "@/components/marketing/SocialProofTicker";
 import { TrustedBy } from "@/components/marketing/TrustedBy";
 import { ExitIntentModal } from "@/components/marketing/ExitIntentModal";
-import { EntryGate } from "@/components/marketing/EntryGate";
 
 interface HomeHero {
   eyebrow: string;
@@ -178,7 +177,7 @@ const LOCAL_BUSINESS_JSONLD = {
   name: "Leads Rubix Technologies Pvt. Ltd.",
   url: "https://leadsrubix.com",
   image: "https://leadsrubix.com/opengraph.jpg",
-  email: "hello@leadsrubix.com",
+  email: "info@leadsrubix.com",
   priceRange: "₹₹",
   address: {
     "@type": "PostalAddress",
@@ -883,7 +882,6 @@ export default function Home() {
           </div>
         </section>
       </div>
-      <EntryGate />
       <ExitIntentModal
         storageKey="leadsrubix-exit-intent-home"
         title="Before you go — free CRM RFP template"

@@ -7,6 +7,7 @@ import { StickyDemoCTA } from "@/components/marketing/StickyDemoCTA";
 import { WhatsAppFab } from "@/components/marketing/WhatsAppFab";
 import { CookieConsent } from "@/components/marketing/CookieConsent";
 import { TrackingPixels } from "@/components/marketing/TrackingPixels";
+import { EntryGate } from "@/components/marketing/EntryGate";
 import { captureUtmFromUrl, captureLandingContext } from "@/lib/utm";
 import { useContent } from "@/lib/useContent";
 
@@ -86,6 +87,7 @@ export function Layout({ children }: { children: ReactNode }) {
       <main id="main-content" className="flex-1">
         {children}
       </main>
+      <EntryGate />
       <Footer />
       <StickyDemoCTA />
       <WhatsAppFab />

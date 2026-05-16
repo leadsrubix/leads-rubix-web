@@ -70,9 +70,7 @@ export function InlineLeadForm({
       const body = {
         name: values.name,
         email: values.email,
-        phone: `${values.countryCode} ${values.mobile}`,
-        countryCode: values.countryCode,
-        mobile: values.mobile,
+        phone: `${values.countryCode}${values.mobile}`,
         company: "(inline form)",
         message: finalMsg,
         source: annotateSource(`inline-${placement}`),
@@ -95,7 +93,7 @@ export function InlineLeadForm({
       trackEvent("form_submit_error", { form_placement: placement });
       toast({
         title: "Couldn't submit",
-        description: "Please email hello@leadsrubix.com and we'll respond shortly.",
+        description: "Please email info@leadsrubix.com and we'll respond shortly.",
         variant: "destructive",
       });
     } finally {

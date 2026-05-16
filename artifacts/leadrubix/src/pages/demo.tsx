@@ -89,11 +89,13 @@ export default function Demo() {
     setSubmitting(true);
     try {
       const { apiFetch } = await import("@/lib/apiUrl");
+      const { countryCode, mobile, ...rest } = values;
       const res = await apiFetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...values,
+          ...rest,
+          phone: `${countryCode}${mobile}`,
           source: annotateSource(industrySlug ? `demo-page-${industrySlug}` : "demo-page"),
           ...buildLeadContext(),
         }),
@@ -108,7 +110,7 @@ export default function Demo() {
     } catch {
       toast({
         title: "Couldn't send your request",
-        description: "Please email hello@leadsrubix.com and we'll set up the demo.",
+        description: "Please email info@leadsrubix.com and we'll set up the demo.",
         variant: "destructive",
       });
     } finally {

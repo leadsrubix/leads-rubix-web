@@ -72,7 +72,7 @@ export default function Privacy() {
           <p>In compliance with the Digital Personal Data Protection Act, 2023, you may contact our Grievance Officer for any data-related concerns, requests, or complaints:</p>
           <ul>
             <li><strong>Designation:</strong> Grievance Officer / Data Protection Officer, Leads Rubix Technologies Pvt. Ltd.</li>
-            <li><strong>Email:</strong> grievance@leadsrubix.com</li>
+            <li><strong>Email:</strong> info@leadsrubix.com</li>
             <li><strong>Postal address:</strong> Grievance Officer, Leads Rubix Technologies Pvt. Ltd., Mumbai, Maharashtra, India</li>
             <li><strong>Acknowledgement SLA:</strong> within 3 business days</li>
             <li><strong>Resolution SLA:</strong> within 30 days from receipt of a verifiable request, in line with the DPDP Act</li>
@@ -80,7 +80,7 @@ export default function Privacy() {
           <p>If you are not satisfied with our response, you may approach the Data Protection Board of India.</p>
 
           <h2>8. Contact Us</h2>
-          <p>For general questions about this Privacy Policy or our data practices, please contact us at <strong>privacy@leadsrubix.com</strong>.</p>
+          <p>For general questions about this Privacy Policy or our data practices, please contact us at <strong>info@leadsrubix.com</strong>.</p>
         </div>
       </div>
     </Layout>
